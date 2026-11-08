@@ -50,7 +50,7 @@ function SelectField({
   const selected = options.find((option) => option.value === value);
   return (
     <div className="grid gap-2">
-      <span className="text-[10px] font-bold tracking-[0.16em] text-muted">{label}</span>
+      <span className="text-[12px] font-bold tracking-[0.16em] text-muted">{label}</span>
       <div className="relative">
         <button
           type="button"
@@ -211,14 +211,14 @@ export function VehicleFitmentSearch() {
     <section className="mx-auto max-w-[1440px] px-5 pb-20 pt-12 md:px-10 md:pb-28 md:pt-16">
       <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(300px,0.72fr)] lg:items-end">
         <div>
-          <p className="text-[10px] font-bold tracking-[0.2em] text-muted">BMW WHEEL FITMENT / VEHICLE SEARCH</p>
+          <p className="text-[12px] font-bold tracking-[0.2em] text-muted">BMW WHEEL FITMENT / VEHICLE SEARCH</p>
           <h1 className="mt-4 max-w-4xl text-4xl leading-[1.02] sm:text-5xl lg:text-6xl">FIND THE RIGHT WHEELS FOR YOUR BMW.</h1>
           <p className="mt-6 max-w-2xl text-sm font-light leading-7 text-body">
             Start with your exact vehicle. Compare factory wheel specifications, approved and aftermarket fitments, and plus or minus sizing options in one place.
           </p>
         </div>
         <div className="border-l border-line-strong pl-5">
-          <p className="text-[10px] font-bold tracking-[0.16em] text-muted">FITMENT STARTS WITH THE DETAILS</p>
+          <p className="text-[12px] font-bold tracking-[0.16em] text-muted">FITMENT STARTS WITH THE DETAILS</p>
           <p className="mt-2 text-sm font-light leading-6 text-body">The same BMW model can use different wheels across model years, chassis generations, engines and regional specifications.</p>
         </div>
       </div>
@@ -229,7 +229,7 @@ export function VehicleFitmentSearch() {
             <div className="flex items-center gap-3">
               <span className="flex h-9 w-9 items-center justify-center bg-ink text-white"><CarFront size={17} /></span>
               <div>
-                <p className="text-[10px] font-bold tracking-[0.16em] text-muted">01 / VEHICLE DETAILS</p>
+                <p className="text-[12px] font-bold tracking-[0.16em] text-muted">01 / VEHICLE DETAILS</p>
                 <h2 className="mt-1 text-lg">SELECT YOUR BMW</h2>
               </div>
             </div>
@@ -238,7 +238,7 @@ export function VehicleFitmentSearch() {
             <form onSubmit={submit}>
               <div className="grid gap-x-5 gap-y-6 sm:grid-cols-2">
                 <label className="grid gap-2">
-                  <span className="text-[10px] font-bold tracking-[0.16em] text-muted">MAKE</span>
+                  <span className="text-[12px] font-bold tracking-[0.16em] text-muted">MAKE</span>
                   <span className="flex h-12 items-center justify-between border border-line bg-surface px-4 text-sm font-bold text-ink">
                     BMW <Check size={15} className="text-ink" />
                   </span>
@@ -263,7 +263,7 @@ export function VehicleFitmentSearch() {
                   {submitting ? <LoaderCircle className="animate-spin" size={15} /> : <Search size={15} />}
                   FIND WHEEL SPECIFICATIONS <ArrowRight size={15} />
                 </Button>
-                <button type="button" onClick={resetVehicle} className="text-[10px] font-bold tracking-[0.12em] text-muted underline underline-offset-4 hover:text-ink">RESET VEHICLE</button>
+                <button type="button" onClick={resetVehicle} className="text-[12px] font-bold tracking-[0.12em] text-muted underline underline-offset-4 hover:text-ink">RESET VEHICLE</button>
               </div>
             </form>
           </div>
@@ -273,13 +273,13 @@ export function VehicleFitmentSearch() {
           <div className="flex items-center gap-3">
             <span className="flex h-9 w-9 items-center justify-center border border-white/30 text-white"><Sparkles size={17} /></span>
             <div>
-              <p className="text-[10px] font-bold tracking-[0.16em] text-white/50">02 / ALTERNATIVE SEARCH</p>
+              <p className="text-[12px] font-bold tracking-[0.16em] text-white/50">02 / ALTERNATIVE SEARCH</p>
               <h2 className="mt-1 text-lg text-white">AI VEHICLE MATCH</h2>
             </div>
           </div>
           <p className="mt-6 text-sm font-light leading-7 text-white/70">Describe your BMW in your own words. AI extracts the likely model, year, chassis and trim. Review the candidate before requesting real fitment data.</p>
           <form onSubmit={identifyVehicle} className="mt-6 grid gap-3">
-            <label htmlFor="ai-vehicle-description" className="text-[10px] font-bold tracking-[0.14em] text-white/60">DESCRIBE YOUR VEHICLE</label>
+            <label htmlFor="ai-vehicle-description" className="text-[12px] font-bold tracking-[0.14em] text-white/60">DESCRIBE YOUR VEHICLE</label>
             <textarea
               id="ai-vehicle-description"
               value={aiDescription}
@@ -297,7 +297,7 @@ export function VehicleFitmentSearch() {
           {aiError && <p role="alert" className="mt-4 border-l-2 border-white bg-white/10 px-3 py-3 text-xs font-light text-white">{aiError}</p>}
           {aiCandidate && (
             <div className="mt-5 border border-white/25 bg-white/5 p-4">
-              <p className="text-[10px] font-bold tracking-[0.14em] text-white/55">AI VEHICLE CANDIDATE · {aiCandidate.confidence.toUpperCase()} CONFIDENCE</p>
+              <p className="text-[12px] font-bold tracking-[0.14em] text-white/55">AI VEHICLE CANDIDATE · {aiCandidate.confidence.toUpperCase()} CONFIDENCE</p>
               {aiCandidate.clarification ? (
                 <p className="mt-3 text-sm font-light leading-6 text-white">{aiCandidate.clarification}</p>
               ) : (
@@ -312,7 +312,7 @@ export function VehicleFitmentSearch() {
               )}
             </div>
           )}
-          <p className="mt-auto pt-6 text-[10px] font-light leading-5 text-white/45">AI identifies a candidate only. Wheel-Size fitment data is requested after you confirm the vehicle.</p>
+          <p className="mt-auto pt-6 text-[12px] font-light leading-5 text-white/45">AI identifies a candidate only. Wheel-Size fitment data is requested after you confirm the vehicle.</p>
         </div>
       </div>
       <div className="mt-8 grid gap-5 border-t border-line pt-6 sm:grid-cols-3">
