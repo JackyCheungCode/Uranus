@@ -92,7 +92,7 @@ export async function GET(request: NextRequest) {
       const retry = await requestFitment(broader);
       if (retry.response.ok && hasFitmentRows(retry.payload)) {
         payload = retry.payload;
-        fallbackMessage = "No exact trim match was found. Showing all modifications for this BMW model, year, generation and region.";
+        fallbackMessage = "No exact trim match was found. Showing broader modification results for the same BMW model, year and selected region.";
       }
     }
     if (!hasFitmentRows(payload) && generation) {
