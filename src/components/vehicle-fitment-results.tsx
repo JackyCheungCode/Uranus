@@ -121,7 +121,7 @@ export function VehicleFitmentResults({ model, year, generation, modification, r
     <section className="w-full">
       <div className="flex flex-wrap items-end justify-between gap-4 border-b border-ink pb-5">
         <div>
-          <p className="text-[10px] font-bold tracking-[0.18em] text-muted">FITMENT DATA / LIVE QUERY</p>
+          <p className="text-[12px] font-bold tracking-[0.18em] text-muted">FITMENT DATA / LIVE QUERY</p>
           <h2 className="mt-2 text-2xl md:text-3xl">{vehicleName || `BMW ${model || ""}`} {year}</h2>
           <p className="mt-2 text-xs font-light text-muted">{generation || "GENERATION NOT SPECIFIED"} · {modification || "ALL MODIFICATIONS"} · {region.toUpperCase()} MARKET</p>
         </div>
@@ -143,7 +143,7 @@ export function VehicleFitmentResults({ model, year, generation, modification, r
               ["TORQUE", technical.tightening_torque ?? technical.torque, " Nm"],
             ].map(([label, value, suffix]) => (
               <div key={String(label)} className="bg-surface px-4 py-3">
-                <p className="text-[9px] font-bold tracking-[0.14em] text-muted">{label}</p>
+                <p className="text-[11px] font-bold tracking-[0.14em] text-muted">{label}</p>
                 <p className="mt-1 text-sm font-bold text-ink">{display(value)}{value ? suffix ?? "" : ""}</p>
               </div>
             ))}
@@ -151,15 +151,15 @@ export function VehicleFitmentResults({ model, year, generation, modification, r
 
           <div className="mt-10 flex flex-wrap items-end justify-between gap-3 border-b border-ink pb-3">
             <div>
-              <p className="text-[10px] font-bold tracking-[0.16em] text-muted">01 / SPECIFICATION COMPARISON</p>
+              <p className="text-[12px] font-bold tracking-[0.16em] text-muted">01 / SPECIFICATION COMPARISON</p>
               <h3 className="mt-1 text-xl">WHEEL & TIRE FITMENT DATA</h3>
             </div>
-            <p className="text-[10px] font-light text-muted">SELECT A ROW TO BUILD YOUR PRODUCT MATCH</p>
+            <p className="text-[12px] font-light text-muted">SELECT A ROW TO BUILD YOUR PRODUCT MATCH</p>
           </div>
           <div className="mt-3 overflow-x-auto">
             <table className="w-full min-w-[920px] border-collapse text-left">
               <thead>
-                <tr className="border-b border-line bg-surface text-[9px] font-bold tracking-[0.12em] text-muted">
+                <tr className="border-b border-line bg-surface text-[11px] font-bold tracking-[0.12em] text-muted">
                   <th className="px-3 py-3">TYPE / OPTION</th>
                   <th className="px-3 py-3">FRONT RIM</th>
                   <th className="px-3 py-3">FRONT TIRE</th>
@@ -179,9 +179,9 @@ export function VehicleFitmentResults({ model, year, generation, modification, r
                     <tr key={item.id} className={`border-b border-line text-xs ${active ? "bg-surface-strong" : "bg-white"}`}>
                       <td className="whitespace-nowrap px-3 py-3">
                         <span className="font-bold text-ink">{item.source}</span>
-                        <span className="ml-2 text-[10px] font-light text-muted">{String(item.index + 1).padStart(2, "0")}</span>
-                        {item.wheel.is_runflat_tires && <span className="ml-2 text-[9px] text-muted">RFT</span>}
-                        {item.wheel.is_extra_load_tires && <span className="ml-1 text-[9px] text-muted">XL</span>}
+                        <span className="ml-2 text-[12px] font-light text-muted">{String(item.index + 1).padStart(2, "0")}</span>
+                        {item.wheel.is_runflat_tires && <span className="ml-2 text-[11px] text-muted">RFT</span>}
+                        {item.wheel.is_extra_load_tires && <span className="ml-1 text-[11px] text-muted">XL</span>}
                       </td>
                       <td className="whitespace-nowrap px-3 py-3 font-bold text-ink">{front.rim}</td>
                       <td className="whitespace-nowrap px-3 py-3 font-light text-body">{front.tire}</td>
@@ -204,33 +204,33 @@ export function VehicleFitmentResults({ model, year, generation, modification, r
 
           <section className="mt-10">
             <div className="flex flex-wrap items-end justify-between gap-3 border-b border-ink pb-3">
-              <div><p className="text-[10px] font-bold tracking-[0.16em] text-muted">02 / ALTERNATIVE DIAMETERS</p><h3 className="mt-1 text-xl">PLUS / MINUS SIZING</h3></div>
-              <button type="button" onClick={() => setShowSizing((value) => !value)} className="flex items-center gap-2 text-[10px] font-bold tracking-[0.1em] text-muted hover:text-ink"><SlidersHorizontal size={14} /> {showSizing ? "COLLAPSE" : "EXPAND"}</button>
+              <div><p className="text-[12px] font-bold tracking-[0.16em] text-muted">02 / ALTERNATIVE DIAMETERS</p><h3 className="mt-1 text-xl">PLUS / MINUS SIZING</h3></div>
+              <button type="button" onClick={() => setShowSizing((value) => !value)} className="flex items-center gap-2 text-[12px] font-bold tracking-[0.1em] text-muted hover:text-ink"><SlidersHorizontal size={14} /> {showSizing ? "COLLAPSE" : "EXPAND"}</button>
             </div>
             {showSizing && (
               <div className="mt-3 overflow-x-auto">
                 <table className="w-full min-w-[580px] border-collapse text-left">
-                  <thead><tr className="border-b border-line bg-surface text-[9px] font-bold tracking-[0.12em] text-muted"><th className="px-3 py-3">SIZING STEP</th><th className="px-3 py-3">RIM</th><th className="px-3 py-3">TIRE</th><th className="px-3 py-3">OUTER DIAMETER DELTA</th></tr></thead>
+                  <thead><tr className="border-b border-line bg-surface text-[11px] font-bold tracking-[0.12em] text-muted"><th className="px-3 py-3">SIZING STEP</th><th className="px-3 py-3">RIM</th><th className="px-3 py-3">TIRE</th><th className="px-3 py-3">OUTER DIAMETER DELTA</th></tr></thead>
                   <tbody>
                     {upsteps.map((item) => <tr key={item.id} className="border-b border-line text-xs"><td className="px-3 py-3 font-bold text-ink">{item.step === 0 ? "OE BASELINE" : item.step > 0 ? `PLUS ${item.step}` : `MINUS ${Math.abs(item.step)}`}</td><td className="px-3 py-3 font-bold text-ink">{item.rim}</td><td className="px-3 py-3 font-light text-body">{item.tire}</td><td className="px-3 py-3 font-light text-body">{item.diameterDelta}</td></tr>)}
                     {!upsteps.length && <tr><td colSpan={4} className="px-3 py-6 text-sm font-light text-muted">No plus/minus candidates returned for the selected OEM tire.</td></tr>}
                   </tbody>
                 </table>
                 {record(payload).upstepsError && <p className="mt-3 text-xs font-light text-muted">{display(record(payload).upstepsError)}</p>}
-                <p className="mt-3 text-[10px] font-light leading-5 text-muted">SIZE CANDIDATES ARE GEOMETRY REFERENCES ONLY. THEY DO NOT CONFIRM BRAKE, SUSPENSION OR FENDER CLEARANCE.</p>
+                <p className="mt-3 text-[12px] font-light leading-5 text-muted">SIZE CANDIDATES ARE GEOMETRY REFERENCES ONLY. THEY DO NOT CONFIRM BRAKE, SUSPENSION OR FENDER CLEARANCE.</p>
               </div>
             )}
           </section>
 
           <section className="mt-10 border-t-2 border-ink pt-5">
             <div className="flex flex-wrap items-end justify-between gap-3">
-              <div><p className="text-[10px] font-bold tracking-[0.16em] text-muted">03 / CUSTOMER CONFIGURATION</p><h3 className="mt-1 text-xl">YOUR SELECTED WHEEL SETUP</h3></div>
-              {selected && <span className="text-[10px] font-bold tracking-[0.12em] text-muted">{selected.source} OPTION {String(selected.index + 1).padStart(2, "0")}</span>}
+              <div><p className="text-[12px] font-bold tracking-[0.16em] text-muted">03 / CUSTOMER CONFIGURATION</p><h3 className="mt-1 text-xl">YOUR SELECTED WHEEL SETUP</h3></div>
+              {selected && <span className="text-[12px] font-bold tracking-[0.12em] text-muted">{selected.source} OPTION {String(selected.index + 1).padStart(2, "0")}</span>}
             </div>
             {selected && selectedFront && selectedRear ? (
               <div className="mt-4 overflow-x-auto">
                 <table className="w-full min-w-[520px] border-collapse text-left">
-                  <thead><tr className="border-b border-line bg-surface text-[9px] font-bold tracking-[0.12em] text-muted"><th className="px-3 py-3">AXLE</th><th className="px-3 py-3">RIM SIZE</th><th className="px-3 py-3">WIDTH</th><th className="px-3 py-3">OFFSET</th><th className="px-3 py-3">TIRE</th></tr></thead>
+                  <thead><tr className="border-b border-line bg-surface text-[11px] font-bold tracking-[0.12em] text-muted"><th className="px-3 py-3">AXLE</th><th className="px-3 py-3">RIM SIZE</th><th className="px-3 py-3">WIDTH</th><th className="px-3 py-3">OFFSET</th><th className="px-3 py-3">TIRE</th></tr></thead>
                   <tbody>
                     <tr className="border-b border-line text-xs"><td className="px-3 py-3 font-bold text-ink">FRONT</td><td className="px-3 py-3 font-bold text-ink">{selectedFront.rim}</td><td className="px-3 py-3">{selectedFront.width}</td><td className="px-3 py-3">{selectedFront.offset === "—" ? "—" : `ET${selectedFront.offset}`}</td><td className="px-3 py-3">{selectedFront.tire}</td></tr>
                     {hasRear && <tr className="border-b border-line text-xs"><td className="px-3 py-3 font-bold text-ink">REAR</td><td className="px-3 py-3 font-bold text-ink">{selectedRear.rim}</td><td className="px-3 py-3">{selectedRear.width}</td><td className="px-3 py-3">{selectedRear.offset === "—" ? "—" : `ET${selectedRear.offset}`}</td><td className="px-3 py-3">{selectedRear.tire}</td></tr>}
@@ -242,8 +242,8 @@ export function VehicleFitmentResults({ model, year, generation, modification, r
 
           <section className="mt-8 border-t border-line pt-5">
             <div className="flex flex-wrap items-end justify-between gap-3">
-              <div><p className="text-[10px] font-bold tracking-[0.16em] text-muted">04 / AUTOMATIC PRODUCT MATCH</p><h3 className="mt-1 text-xl">WHEEL PRODUCT RECOMMENDATIONS</h3></div>
-              <span className="text-[9px] font-bold tracking-[0.12em] text-muted">CATALOG INTEGRATION PENDING</span>
+              <div><p className="text-[12px] font-bold tracking-[0.16em] text-muted">04 / AUTOMATIC PRODUCT MATCH</p><h3 className="mt-1 text-xl">WHEEL PRODUCT RECOMMENDATIONS</h3></div>
+              <span className="text-[11px] font-bold tracking-[0.12em] text-muted">CATALOG INTEGRATION PENDING</span>
             </div>
             <div className="mt-4 grid gap-4 border-y border-line bg-surface px-4 py-4 md:grid-cols-[1fr_auto] md:items-center">
               <div>
@@ -252,9 +252,9 @@ export function VehicleFitmentResults({ model, year, generation, modification, r
                   {selected ? "The selected front / rear rim width and ET values are now the matching criteria for the product catalog. Product results will appear here when the store wheel inventory is connected." : "Choose an OEM or aftermarket fitment row to define the target wheel size and offset."}
                 </p>
               </div>
-              <div className="text-[10px] font-bold tracking-[0.1em] text-muted">{selected ? "SIZE + J + ET" : "AWAITING SELECTION"}</div>
+              <div className="text-[12px] font-bold tracking-[0.1em] text-muted">{selected ? "SIZE + J + ET" : "AWAITING SELECTION"}</div>
             </div>
-            <p className="mt-3 text-[10px] font-light leading-5 text-muted">PRODUCT MATCHING WILL USE FRONT / REAR DIAMETER, WIDTH (J), OFFSET (ET), PCD, CENTER BORE AND AVAILABLE LOAD RATING. NO PRODUCT OR STOCK CLAIM IS SHOWN UNTIL THE REAL STORE CATALOG IS CONNECTED.</p>
+            <p className="mt-3 text-[12px] font-light leading-5 text-muted">PRODUCT MATCHING WILL USE FRONT / REAR DIAMETER, WIDTH (J), OFFSET (ET), PCD, CENTER BORE AND AVAILABLE LOAD RATING. NO PRODUCT OR STOCK CLAIM IS SHOWN UNTIL THE REAL STORE CATALOG IS CONNECTED.</p>
           </section>
 
           <section className="mt-8 border-t border-line pt-5">
