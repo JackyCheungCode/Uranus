@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
-import { ArrowLeft, CarFront, CircleAlert, LoaderCircle, ShieldCheck } from "lucide-react";
+import { AlertTriangle, Check, LoaderCircle, Search, SlidersHorizontal } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 type Props = {
   model?: string;
@@ -11,112 +11,59 @@ type Props = {
   modification?: string;
   region?: string;
 };
-
 type AnyRecord = Record<string, any>;
+type FitmentRow = { id: string; vehicle: AnyRecord; wheel: AnyRecord; source: "OEM" | "AFTERMARKET"; index: number };
 
 function record(value: unknown): AnyRecord {
   return value && typeof value === "object" && !Array.isArray(value) ? value as AnyRecord : {};
 }
-
-function text(value: unknown): string {
+function display(value: unknown): string {
   return value === null || value === undefined || value === "" ? "—" : String(value);
 }
-
-function listFrom(payload: unknown): AnyRecord[] {
+function rowsFrom(payload: unknown): AnyRecord[] {
   const root = record(payload);
   const data = root.data ?? root.results ?? payload;
   return Array.isArray(data) ? data.map(record) : data && typeof data === "object" ? [record(data)] : [];
 }
-
-function wheelRows(vehicle: AnyRecord): AnyRecord[] {
+function wheelsFrom(vehicle: AnyRecord): AnyRecord[] {
   const raw = vehicle.wheels ?? vehicle.wheel ?? vehicle.fitments ?? [];
-  if (Array.isArray(raw)) return raw.map(record);
-  if (raw && typeof raw === "object") return [record(raw)];
-  return [];
+  return Array.isArray(raw) ? raw.map(record) : raw && typeof raw === "object" ? [record(raw)] : [];
 }
-
-function axisSpec(wheel: AnyRecord, axis: "front" | "rear") {
-  const item = record(wheel[axis]);
+function axis(wheel: AnyRecord, side: "front" | "rear") {
+  const item = record(wheel[side]);
   return {
-    rim: text(item.rim ?? item.rim_full ?? item.rim_size),
-    tire: text(item.tire_full ?? item.tire),
-    diameter: text(item.rim_diameter),
-    width: text(item.rim_width),
-    offset: text(item.rim_offset),
+    rim: display(item.rim_full ?? item.rim ?? item.rim_designation ?? item.rim_size),
+    tire: display(item.tire_full ?? item.tire ?? item.tire_designation),
+    width: display(item.rim_width),
+    offset: display(item.rim_offset),
+    diameter: display(item.rim_diameter),
   };
 }
-
-function WheelSizeUpsteps({ payload }: { payload: unknown }) {
-  const rows = listFrom(payload);
-  const grouped = new Map<string, AnyRecord[]>();
-  for (const option of rows) {
-    const step = Number(option.step ?? 0);
-    const label = step === 0 ? "OE BASELINE" : step > 0 ? `PLUS ${step}` : `MINUS ${Math.abs(step)}`;
-    grouped.set(label, [...(grouped.get(label) ?? []), option]);
-  }
-  if (!rows.length) return <p className="py-5 text-sm font-light text-muted">No plus/minus candidates were returned for this OEM tire and wheel combination.</p>;
-  return (
-    <div className="grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-3">
-      {Array.from(grouped.entries()).map(([label, options]) => (
-        <div key={label} className="bg-white p-4">
-          <p className="text-[10px] font-bold tracking-[0.14em] text-muted">{label}</p>
-          <p className="mt-1 text-xl font-bold text-ink">{options.length} OPTIONS</p>
-          <div className="mt-3 space-y-3">
-            {options.slice(0, 5).map((option, index) => {
-              const rim = record(option.rim);
-              const tire = record(option.tire);
-              const difference = record(option.difference);
-              return (
-                <div key={index} className="border-t border-line pt-2">
-                  <p className="text-sm font-bold text-ink">{text(rim.designation ?? option.rim_designation)}</p>
-                  <p className="mt-1 text-xs font-light text-body">{text(tire.designation ?? option.tire_designation)}</p>
-                  <p className="mt-1 text-[10px] font-light text-muted">
-                    {difference.od_percent !== undefined ? `OUTER DIAMETER ${text(difference.od_percent)}%` : ""}
-                    {option.is_oe ? " · ORIGINAL EQUIPMENT" : ""}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+function sourceLabel(vehicle: AnyRecord, wheel: AnyRecord) {
+  return wheel.is_stock === true || vehicle.is_stock === true ? "OEM" : "AFTERMARKET";
 }
-
-function WheelFitmentCard({ wheel, label }: { wheel: AnyRecord; label: string }) {
-  const front = axisSpec(wheel, "front");
-  const rear = axisSpec(wheel, "rear");
-  const hasRear = rear.rim !== "—" || rear.tire !== "—";
-  return (
-    <div className="border-t border-line py-5">
-      <div className="mb-4 flex items-center justify-between gap-4">
-        <p className="text-xs font-bold tracking-[0.1em] text-ink">{label}</p>
-        <span className="text-[10px] font-light text-muted">{wheel.is_runflat_tires ? "RUN-FLAT" : ""}{wheel.is_extra_load_tires ? " · XL" : ""}</span>
-      </div>
-      <div className={`grid gap-4 ${hasRear ? "sm:grid-cols-2" : "sm:grid-cols-1"}`}>
-        <div className="bg-surface p-4">
-          <p className="text-[10px] font-bold tracking-[0.14em] text-muted">FRONT</p>
-          <p className="mt-2 text-lg font-bold text-ink">{front.rim}</p>
-          <p className="mt-1 text-sm font-light text-body">{front.tire}</p>
-          <p className="mt-3 text-[10px] font-light text-muted">WIDTH {front.width} · OFFSET ET{front.offset}</p>
-        </div>
-        {hasRear && <div className="bg-surface p-4">
-          <p className="text-[10px] font-bold tracking-[0.14em] text-muted">REAR</p>
-          <p className="mt-2 text-lg font-bold text-ink">{rear.rim}</p>
-          <p className="mt-1 text-sm font-light text-body">{rear.tire}</p>
-          <p className="mt-3 text-[10px] font-light text-muted">WIDTH {rear.width} · OFFSET ET{rear.offset}</p>
-        </div>}
-      </div>
-      {text(wheel.notes) !== "—" && <p className="mt-3 text-xs font-light leading-5 text-muted">{text(wheel.notes)}</p>}
-    </div>
-  );
+function sizingRows(payload: unknown) {
+  return rowsFrom(payload).map((item, index) => {
+    const rim = record(item.rim);
+    const tire = record(item.tire);
+    const diff = record(item.difference);
+    return {
+      id: String(item.id ?? index),
+      step: Number(item.step ?? 0),
+      rim: display(rim.designation ?? item.rim_designation),
+      tire: display(tire.designation ?? item.tire_designation),
+      diameterDelta: diff.od_percent === undefined ? "—" : `${display(diff.od_percent)}%`,
+      raw: item,
+    };
+  });
 }
 
 export function VehicleFitmentResults({ model, year, generation, modification, region = "usdm" }: Props) {
   const [payload, setPayload] = useState<unknown>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedId, setSelectedId] = useState("");
+  const [showSizing, setShowSizing] = useState(true);
   const query = useMemo(() => {
     const params = new URLSearchParams();
     if (model) params.set("model", model);
@@ -130,6 +77,9 @@ export function VehicleFitmentResults({ model, year, generation, modification, r
   useEffect(() => {
     let active = true;
     setLoading(true);
+    setError("");
+    setPayload(null);
+    setSelectedId("");
     fetch(`/api/vehicle-fitment/search?${query}`)
       .then(async (response) => {
         const result = await response.json();
@@ -142,82 +92,181 @@ export function VehicleFitmentResults({ model, year, generation, modification, r
     return () => { active = false; };
   }, [query]);
 
-  const vehicles = useMemo(() => listFrom(payload), [payload]);
-  const fitments = useMemo(() => vehicles.flatMap((vehicle) => wheelRows(vehicle).map((wheel) => ({ vehicle, wheel }))), [vehicles]);
-  const oem = fitments.filter(({ wheel }) => wheel.is_stock === true);
-  const aftermarket = fitments.filter(({ wheel }) => wheel.is_stock === false);
-  const primaryVehicle = vehicles[0] ?? {};
-  const vehicleName = [record(primaryVehicle.make).name, record(primaryVehicle.model).name, record(primaryVehicle.generation).name, primaryVehicle.name ?? primaryVehicle.trim].filter(Boolean).join(" ");
-  const technical = record(primaryVehicle.technical);
-  const primaryOemTire = oem[0] ? axisSpec(oem[0].wheel, "front").tire : "";
+  const vehicles = useMemo(() => rowsFrom(payload), [payload]);
+  const fitments = useMemo<FitmentRow[]>(() => vehicles.flatMap((vehicle, vehicleIndex) =>
+    wheelsFrom(vehicle).map((wheel, wheelIndex) => ({
+      id: `${vehicleIndex}-${wheelIndex}`,
+      vehicle,
+      wheel,
+      source: sourceLabel(vehicle, wheel) as FitmentRow["source"],
+      index: wheelIndex,
+    }))
+  ), [vehicles]);
+  const oem = fitments.filter((item) => item.source === "OEM");
+  const aftermarket = fitments.filter((item) => item.source === "AFTERMARKET");
+  const selected = fitments.find((item) => item.id === selectedId) ?? oem[0] ?? aftermarket[0] ?? null;
+  const primary = vehicles[0] ?? {};
+  const technical = record(primary.technical);
+  const vehicleName = [record(primary.make).name, record(primary.model).name, record(primary.generation).name, primary.name ?? primary.trim].filter(Boolean).join(" ");
+  const upsteps = useMemo(() => sizingRows(record(payload).upsteps), [payload]);
+  const selectedFront = selected ? axis(selected.wheel, "front") : null;
+  const selectedRear = selected ? axis(selected.wheel, "rear") : null;
+  const hasRear = !!selectedRear && (selectedRear.rim !== "—" || selectedRear.tire !== "—");
+
+  function choose(id: string) {
+    setSelectedId(id);
+  }
 
   return (
-    <section className="mx-auto max-w-[1440px] px-5 py-10 md:px-10 md:py-14">
-      <Link href="/vehicle-fitment" className="inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.14em] text-muted hover:text-ink"><ArrowLeft size={14} /> CHANGE VEHICLE</Link>
-      <div className="mt-8 grid gap-px bg-line lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="flex min-h-[260px] flex-col justify-between bg-ink p-6 text-white md:p-8">
-          <div>
-            <p className="text-[10px] font-bold tracking-[0.18em] text-white/50">VEHICLE IMAGE / PLACEHOLDER</p>
-            <div className="mt-5 flex aspect-[16/7] items-center justify-center border border-white/20 bg-white/5">
-              <CarFront size={76} strokeWidth={0.8} className="text-white/40" />
-            </div>
-          </div>
-          <div className="mt-6">
-            <p className="text-[10px] font-bold tracking-[0.16em] text-white/50">{text(region).toUpperCase()} MARKET · BMW</p>
-            <h1 className="mt-2 text-2xl text-white sm:text-3xl">{vehicleName || `BMW ${model || ""}`}</h1>
-            <p className="mt-2 text-xs font-light text-white/60">{year} · {generation || "GENERATION NOT SPECIFIED"} · {modification || "ALL MODIFICATIONS"}</p>
-          </div>
+    <section className="w-full">
+      <div className="flex flex-wrap items-end justify-between gap-4 border-b border-ink pb-5">
+        <div>
+          <p className="text-[10px] font-bold tracking-[0.18em] text-muted">FITMENT DATA / LIVE QUERY</p>
+          <h2 className="mt-2 text-2xl md:text-3xl">{vehicleName || `BMW ${model || ""}`} {year}</h2>
+          <p className="mt-2 text-xs font-light text-muted">{generation || "GENERATION NOT SPECIFIED"} · {modification || "ALL MODIFICATIONS"} · {region.toUpperCase()} MARKET</p>
         </div>
-        <div className="bg-white p-6 md:p-8">
-          <p className="text-[10px] font-bold tracking-[0.16em] text-muted">VEHICLE MOUNTING DATA</p>
-          {loading ? <div className="flex min-h-40 items-center gap-3 text-sm font-light text-muted"><LoaderCircle size={18} className="animate-spin" /> RETRIEVING FACTORY AND AFTERMARKET FITMENT...</div> :
-            error ? <div role="alert" className="mt-6 flex gap-3 border-l-2 border-ink bg-surface p-4 text-sm font-light"><CircleAlert size={18} />{error}</div> :
-            <div className="mt-5 grid gap-4 sm:grid-cols-2">
-              <div><p className="text-[10px] font-bold tracking-[0.12em] text-muted">BOLT PATTERN / PCD</p><p className="mt-1 text-xl font-bold text-ink">{text(technical.bolt_pattern ?? technical.pcd)}</p></div>
-              <div><p className="text-[10px] font-bold tracking-[0.12em] text-muted">CENTER BORE</p><p className="mt-1 text-xl font-bold text-ink">{text(technical.centre_bore ?? technical.center_bore)}{technical.centre_bore || technical.center_bore ? " mm" : ""}</p></div>
-              <div><p className="text-[10px] font-bold tracking-[0.12em] text-muted">WHEEL FASTENER</p><p className="mt-1 text-sm font-light text-ink">{text(technical.wheel_fasteners ?? technical.thread_size)}</p></div>
-              <div><p className="text-[10px] font-bold tracking-[0.12em] text-muted">TORQUE</p><p className="mt-1 text-sm font-light text-ink">{text(technical.tightening_torque ?? technical.torque)}{technical.tightening_torque || technical.torque ? " Nm" : ""}</p></div>
-            </div>}
+        <div className="flex items-center gap-3 text-xs font-light text-muted">
+          {loading ? <><LoaderCircle size={15} className="animate-spin" /> RETRIEVING WHEEL-SIZE DATA</> : error ? "QUERY NEEDS ATTENTION" : `${fitments.length} FITMENT RECORDS · ${upsteps.length} SIZE CANDIDATES`}
         </div>
       </div>
 
+      {loading && <div className="flex min-h-36 items-center gap-3 py-8 text-sm font-light text-muted"><LoaderCircle size={18} className="animate-spin" /> RETRIEVING OEM, AFTERMARKET AND SIZE ALTERNATIVES...</div>}
+      {error && <div role="alert" className="mt-6 flex items-start gap-3 border-l-2 border-ink bg-surface px-4 py-4 text-sm font-light text-ink"><AlertTriangle size={18} />{error}</div>}
+
       {!loading && !error && (
-        <div className="mt-10 space-y-10">
-          <section>
-            <div className="flex flex-wrap items-end justify-between gap-4 border-b border-ink pb-4">
-              <div><p className="text-[10px] font-bold tracking-[0.16em] text-muted">01 / ORIGINAL EQUIPMENT</p><h2 className="mt-2 text-2xl">OEM FACTORY SPECS</h2></div>
-              <p className="text-xs font-light text-muted">{oem.length} FACTORY FITMENT{ oem.length === 1 ? "" : "S"}</p>
-            </div>
-            {oem.length ? oem.map(({ wheel }, index) => <WheelFitmentCard key={index} wheel={wheel} label={`FACTORY OPTION ${String(index + 1).padStart(2, "0")}`} />) : <p className="py-6 text-sm font-light text-muted">No OEM wheel records were returned for this exact selection.</p>}
-          </section>
+        <>
+          <div className="mt-6 grid grid-cols-2 gap-px bg-line md:grid-cols-4">
+            {[
+              ["BOLT PATTERN / PCD", technical.bolt_pattern ?? technical.pcd],
+              ["CENTER BORE", technical.centre_bore ?? technical.center_bore, " mm"],
+              ["FASTENER", technical.wheel_fasteners ?? technical.thread_size],
+              ["TORQUE", technical.tightening_torque ?? technical.torque, " Nm"],
+            ].map(([label, value, suffix]) => (
+              <div key={String(label)} className="bg-surface px-4 py-3">
+                <p className="text-[9px] font-bold tracking-[0.14em] text-muted">{label}</p>
+                <p className="mt-1 text-sm font-bold text-ink">{display(value)}{value ? suffix ?? "" : ""}</p>
+              </div>
+            ))}
+          </div>
 
-          <section>
-            <div className="flex flex-wrap items-end justify-between gap-4 border-b border-ink pb-4">
-              <div><p className="text-[10px] font-bold tracking-[0.16em] text-muted">02 / OPTIONAL & ALTERNATIVE SIZES</p><h2 className="mt-2 text-2xl">AFTERMARKET FITMENT</h2></div>
-              <p className="text-xs font-light text-muted">{aftermarket.length} ADDITIONAL FITMENT{aftermarket.length === 1 ? "" : "S"}</p>
-            </div>
-            {aftermarket.length ? aftermarket.map(({ wheel }, index) => <WheelFitmentCard key={index} wheel={wheel} label={`ALTERNATIVE OPTION ${String(index + 1).padStart(2, "0")}`} />) : <p className="py-6 text-sm font-light text-muted">No additional fitments were returned for this exact vehicle selection.</p>}
-          </section>
-
-          <section>
-            <div className="border-b border-ink pb-4">
-              <p className="text-[10px] font-bold tracking-[0.16em] text-muted">03 / DIAMETER ALTERNATIVES</p>
-              <h2 className="mt-2 text-2xl">PLUS / MINUS SIZING</h2>
-              <p className="mt-2 max-w-3xl text-xs font-light leading-6 text-muted">Preliminary tire-size candidates calculated from the selected OEM tire diameter. These are geometry screens, not confirmed wheel clearance or safety approvals.</p>
-            </div>
-            <div className="mt-5">
-              {payload && <WheelSizeUpsteps payload={record(payload).upsteps} />}\n              {record(payload).upstepsError && <p className="mt-3 text-xs font-light text-muted">{text(record(payload).upstepsError)}</p>}
-            </div>
-          </section>
-
-          <section className="grid gap-4 border border-line bg-surface p-5 md:grid-cols-[auto_1fr] md:items-start md:p-6">
-            <ShieldCheck size={22} className="text-ink" />
+          <div className="mt-10 flex flex-wrap items-end justify-between gap-3 border-b border-ink pb-3">
             <div>
-              <h3 className="text-sm">FITMENT ENGINEERING CHECK</h3>
-              <p className="mt-2 text-xs font-light leading-6 text-muted">Before purchase or installation, each candidate still needs wheel width and ET verification, brake-caliper clearance, suspension and fender clearance, tire outside-diameter comparison, and load / speed-rating validation. Database fitment alone is not a physical clearance guarantee.</p>
+              <p className="text-[10px] font-bold tracking-[0.16em] text-muted">01 / SPECIFICATION COMPARISON</p>
+              <h3 className="mt-1 text-xl">WHEEL & TIRE FITMENT DATA</h3>
+            </div>
+            <p className="text-[10px] font-light text-muted">SELECT A ROW TO BUILD YOUR PRODUCT MATCH</p>
+          </div>
+          <div className="mt-3 overflow-x-auto">
+            <table className="w-full min-w-[920px] border-collapse text-left">
+              <thead>
+                <tr className="border-b border-line bg-surface text-[9px] font-bold tracking-[0.12em] text-muted">
+                  <th className="px-3 py-3">TYPE / OPTION</th>
+                  <th className="px-3 py-3">FRONT RIM</th>
+                  <th className="px-3 py-3">FRONT TIRE</th>
+                  <th className="px-3 py-3">FRONT ET</th>
+                  <th className="px-3 py-3">REAR RIM</th>
+                  <th className="px-3 py-3">REAR TIRE</th>
+                  <th className="px-3 py-3">REAR ET</th>
+                  <th className="px-3 py-3">ACTION</th>
+                </tr>
+              </thead>
+              <tbody>
+                {fitments.map((item) => {
+                  const front = axis(item.wheel, "front");
+                  const rear = axis(item.wheel, "rear");
+                  const active = selected?.id === item.id;
+                  return (
+                    <tr key={item.id} className={`border-b border-line text-xs ${active ? "bg-surface-strong" : "bg-white"}`}>
+                      <td className="whitespace-nowrap px-3 py-3">
+                        <span className="font-bold text-ink">{item.source}</span>
+                        <span className="ml-2 text-[10px] font-light text-muted">{String(item.index + 1).padStart(2, "0")}</span>
+                        {item.wheel.is_runflat_tires && <span className="ml-2 text-[9px] text-muted">RFT</span>}
+                        {item.wheel.is_extra_load_tires && <span className="ml-1 text-[9px] text-muted">XL</span>}
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-3 font-bold text-ink">{front.rim}</td>
+                      <td className="whitespace-nowrap px-3 py-3 font-light text-body">{front.tire}</td>
+                      <td className="px-3 py-3 font-light text-body">{front.offset === "—" ? "—" : `ET${front.offset}`}</td>
+                      <td className="whitespace-nowrap px-3 py-3 font-bold text-ink">{rear.rim}</td>
+                      <td className="whitespace-nowrap px-3 py-3 font-light text-body">{rear.tire}</td>
+                      <td className="px-3 py-3 font-light text-body">{rear.offset === "—" ? "—" : `ET${rear.offset}`}</td>
+                      <td className="px-3 py-2">
+                        <Button type="button" size="compact" variant={active ? "primary" : "secondary"} onClick={() => choose(item.id)}>
+                          {active ? <><Check size={13} /> SELECTED</> : "SELECT"}
+                        </Button>
+                      </td>
+                    </tr>
+                  );
+                })}
+                {!fitments.length && <tr><td colSpan={8} className="px-3 py-8 text-center text-sm font-light text-muted">No wheel records were returned for this exact vehicle selection.</td></tr>}
+              </tbody>
+            </table>
+          </div>
+
+          <section className="mt-10">
+            <div className="flex flex-wrap items-end justify-between gap-3 border-b border-ink pb-3">
+              <div><p className="text-[10px] font-bold tracking-[0.16em] text-muted">02 / ALTERNATIVE DIAMETERS</p><h3 className="mt-1 text-xl">PLUS / MINUS SIZING</h3></div>
+              <button type="button" onClick={() => setShowSizing((value) => !value)} className="flex items-center gap-2 text-[10px] font-bold tracking-[0.1em] text-muted hover:text-ink"><SlidersHorizontal size={14} /> {showSizing ? "COLLAPSE" : "EXPAND"}</button>
+            </div>
+            {showSizing && (
+              <div className="mt-3 overflow-x-auto">
+                <table className="w-full min-w-[580px] border-collapse text-left">
+                  <thead><tr className="border-b border-line bg-surface text-[9px] font-bold tracking-[0.12em] text-muted"><th className="px-3 py-3">SIZING STEP</th><th className="px-3 py-3">RIM</th><th className="px-3 py-3">TIRE</th><th className="px-3 py-3">OUTER DIAMETER DELTA</th></tr></thead>
+                  <tbody>
+                    {upsteps.map((item) => <tr key={item.id} className="border-b border-line text-xs"><td className="px-3 py-3 font-bold text-ink">{item.step === 0 ? "OE BASELINE" : item.step > 0 ? `PLUS ${item.step}` : `MINUS ${Math.abs(item.step)}`}</td><td className="px-3 py-3 font-bold text-ink">{item.rim}</td><td className="px-3 py-3 font-light text-body">{item.tire}</td><td className="px-3 py-3 font-light text-body">{item.diameterDelta}</td></tr>)}
+                    {!upsteps.length && <tr><td colSpan={4} className="px-3 py-6 text-sm font-light text-muted">No plus/minus candidates returned for the selected OEM tire.</td></tr>}
+                  </tbody>
+                </table>
+                {record(payload).upstepsError && <p className="mt-3 text-xs font-light text-muted">{display(record(payload).upstepsError)}</p>}
+                <p className="mt-3 text-[10px] font-light leading-5 text-muted">SIZE CANDIDATES ARE GEOMETRY REFERENCES ONLY. THEY DO NOT CONFIRM BRAKE, SUSPENSION OR FENDER CLEARANCE.</p>
+              </div>
+            )}
+          </section>
+
+          <section className="mt-10 border-t-2 border-ink pt-5">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div><p className="text-[10px] font-bold tracking-[0.16em] text-muted">03 / CUSTOMER CONFIGURATION</p><h3 className="mt-1 text-xl">YOUR SELECTED WHEEL SETUP</h3></div>
+              {selected && <span className="text-[10px] font-bold tracking-[0.12em] text-muted">{selected.source} OPTION {String(selected.index + 1).padStart(2, "0")}</span>}
+            </div>
+            {selected && selectedFront && selectedRear ? (
+              <div className="mt-4 overflow-x-auto">
+                <table className="w-full min-w-[520px] border-collapse text-left">
+                  <thead><tr className="border-b border-line bg-surface text-[9px] font-bold tracking-[0.12em] text-muted"><th className="px-3 py-3">AXLE</th><th className="px-3 py-3">RIM SIZE</th><th className="px-3 py-3">WIDTH</th><th className="px-3 py-3">OFFSET</th><th className="px-3 py-3">TIRE</th></tr></thead>
+                  <tbody>
+                    <tr className="border-b border-line text-xs"><td className="px-3 py-3 font-bold text-ink">FRONT</td><td className="px-3 py-3 font-bold text-ink">{selectedFront.rim}</td><td className="px-3 py-3">{selectedFront.width}</td><td className="px-3 py-3">{selectedFront.offset === "—" ? "—" : `ET${selectedFront.offset}`}</td><td className="px-3 py-3">{selectedFront.tire}</td></tr>
+                    {hasRear && <tr className="border-b border-line text-xs"><td className="px-3 py-3 font-bold text-ink">REAR</td><td className="px-3 py-3 font-bold text-ink">{selectedRear.rim}</td><td className="px-3 py-3">{selectedRear.width}</td><td className="px-3 py-3">{selectedRear.offset === "—" ? "—" : `ET${selectedRear.offset}`}</td><td className="px-3 py-3">{selectedRear.tire}</td></tr>}
+                  </tbody>
+                </table>
+              </div>
+            ) : <p className="mt-4 text-sm font-light text-muted">Select a fitment row above to build a product specification.</p>}
+          </section>
+
+          <section className="mt-8 border-t border-line pt-5">
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div><p className="text-[10px] font-bold tracking-[0.16em] text-muted">04 / AUTOMATIC PRODUCT MATCH</p><h3 className="mt-1 text-xl">WHEEL PRODUCT RECOMMENDATIONS</h3></div>
+              <span className="text-[9px] font-bold tracking-[0.12em] text-muted">CATALOG INTEGRATION PENDING</span>
+            </div>
+            <div className="mt-4 grid gap-4 border-y border-line bg-surface px-4 py-4 md:grid-cols-[1fr_auto] md:items-center">
+              <div>
+                <p className="text-sm font-bold text-ink">{selected ? "MATCH SPECIFICATION READY" : "SELECT A FITMENT FIRST"}</p>
+                <p className="mt-1 text-xs font-light leading-6 text-muted">
+                  {selected ? "The selected front / rear rim width and ET values are now the matching criteria for the product catalog. Product results will appear here when the store wheel inventory is connected." : "Choose an OEM or aftermarket fitment row to define the target wheel size and offset."}
+                </p>
+              </div>
+              <div className="text-[10px] font-bold tracking-[0.1em] text-muted">{selected ? "SIZE + J + ET" : "AWAITING SELECTION"}</div>
+            </div>
+            <p className="mt-3 text-[10px] font-light leading-5 text-muted">PRODUCT MATCHING WILL USE FRONT / REAR DIAMETER, WIDTH (J), OFFSET (ET), PCD, CENTER BORE AND AVAILABLE LOAD RATING. NO PRODUCT OR STOCK CLAIM IS SHOWN UNTIL THE REAL STORE CATALOG IS CONNECTED.</p>
+          </section>
+
+          <section className="mt-8 border-t border-line pt-5">
+            <div className="flex items-start gap-3">
+              <AlertTriangle size={18} className="mt-0.5 shrink-0 text-ink" />
+              <div>
+                <h3 className="text-sm">FITMENT ENGINEERING CHECK</h3>
+                <p className="mt-2 text-xs font-light leading-6 text-muted">Before purchase or installation, verify wheel width and ET, brake-caliper clearance, suspension and fender clearance, tire outside diameter, and load / speed ratings. Database fitment and geometric sizing candidates are not physical clearance guarantees or safety certifications.</p>
+              </div>
             </div>
           </section>
-        </div>
+        </>
       )}
     </section>
   );
