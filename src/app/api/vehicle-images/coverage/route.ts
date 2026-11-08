@@ -12,9 +12,13 @@ function readText(value: unknown): string | undefined {
   return typeof value === "string" || typeof value === "number" ? String(value) : undefined;
 }
 
+function isHttpUrl(value: unknown): value is string {
+  return typeof value === "string" && (value.startsWith("http://") || value.startsWith("https://"));
+}
+
 function findAnyUrl(value: unknown, depth = 0): string | undefined {
-  if (depth > 5) return undefined;
-  if (typeof value === "string" && (value.startsWith("http://") || value.startsWith("https://"))) return value;
+  if (depth > 8) return undefined;
+  if (isHttpUrl(value)) return value;
   if (Array.isArray(value)) {
     for (const item of value) {
       const nested = findAnyUrl(item, depth + 1);
@@ -25,8 +29,7 @@ function findAnyUrl(value: unknown, depth = 0): string | undefined {
   const record = asRecord(value);
   if (!record) return undefined;
   for (const key of ["url", "src", "href", "original", "large", "full"]) {
-    const candidate = record[key];
-    if (typeof candidate === "string" && (candidate.startsWith("http://") || candidate.startsWith("https://"))) return candidate;
+    if (isHttpUrl(record[key])) return record[key];
   }
   for (const candidate of Object.values(record)) {
     const nested = findAnyUrl(candidate, depth + 1);
@@ -35,22 +38,63 @@ function findAnyUrl(value: unknown, depth = 0): string | undefined {
   return undefined;
 }
 
-function findImageUrl(value: unknown): string | undefined {
+// Image metadata is not guaranteed to sit on the generation object's first level.
+// Walk nested vehicle/media objects as well (for example: vehicle.image).
+function findImageUrl(value: unknown, depth = 0): string | undefined {
+  if (depth > 8) return undefined;
+  if (Array.isArray(value)) {
+    for (const item of value) {
+      const nested = findImageUrl(item, depth + 1);
+      if (nested) return nested;
+    }
+    return undefined;
+  }
   const record = asRecord(value);
   if (!record) return undefined;
+
   for (const [key, candidate] of Object.entries(record)) {
-    if (/image|photo|picture|photography|thumbnail/i.test(key)) {
+    if (/image|photo|picture|photography|thumbnail|media/i.test(key)) {
       const url = findAnyUrl(candidate);
       if (url) return url;
     }
   }
+  for (const candidate of Object.values(record)) {
+    const nested = findImageUrl(candidate, depth + 1);
+    if (nested) return nested;
+  }
   return undefined;
 }
 
-function normalizeGenerations(payload: unknown) {
+function findImageFieldPaths(value: unknown, path = "$", depth = 0): string[] {
+  if (depth > 8) return [];
+  if (Array.isArray(value)) {
+    return value.slice(0, 10).flatMap((item, index) => findImageFieldPaths(item, `${path}[${index}]`, depth + 1));
+  }
+  const record = asRecord(value);
+  if (!record) return [];
+  return Object.entries(record).flatMap(([key, child]) => {
+    const childPath = `${path}.${key}`;
+    const matches = /image|photo|picture|photography|thumbnail|media/i.test(key) ? [childPath] : [];
+    return [...matches, ...findImageFieldPaths(child, childPath, depth + 1)];
+  }).slice(0, 20);
+}
+
+function getGenerationCandidates(payload: unknown): unknown[] {
+  if (Array.isArray(payload)) return payload;
   const root = asRecord(payload);
-  const data = root?.data;
-  const candidates = Array.isArray(data) ? data : Array.isArray(root?.results) ? root.results : [];
+  if (!root) return [];
+  const data = root.data;
+  const dataRecord = asRecord(data);
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(root.results)) return root.results;
+  if (Array.isArray(root.generations)) return root.generations;
+  if (Array.isArray(dataRecord?.results)) return dataRecord.results;
+  if (Array.isArray(dataRecord?.generations)) return dataRecord.generations;
+  return [];
+}
+
+function normalizeGenerations(payload: unknown) {
+  const candidates = getGenerationCandidates(payload);
   return candidates.map((candidate, index) => {
     const record = asRecord(candidate) || {};
     const years = readText(record.year_range) || [
@@ -62,6 +106,7 @@ function normalizeGenerations(payload: unknown) {
       slug: readText(record.slug),
       years,
       imageUrl: findImageUrl(record),
+      imageFields: findImageFieldPaths(record),
     };
   });
 }
@@ -104,10 +149,16 @@ export async function GET(request: NextRequest) {
     }
 
     const generations = normalizeGenerations(payload);
+    const root = asRecord(payload);
     return NextResponse.json({
       model,
       region,
       generations,
+      diagnostics: {
+        responseKeys: root ? Object.keys(root) : Array.isArray(payload) ? ["<array>"] : ["<non-object>"],
+        generationCount: generations.length,
+        imageFieldPaths: generations.flatMap((generation) => generation.imageFields.map((field) => `${generation.name}:${field}`)).slice(0, 30),
+      },
       message: generations.length ? undefined : "No generation records were returned for this model and region.",
     });
   } catch (error) {
