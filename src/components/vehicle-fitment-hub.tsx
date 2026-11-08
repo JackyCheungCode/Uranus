@@ -123,7 +123,7 @@ function ReverseResults({ result, mode, baseQuery, onLoadMore, loadingMore, hasM
                         {generationRows.map((generation, generationIndex) => {
                           const generationSlug = String(generation.slug ?? "");
                           const modelValue = asRecord(row.model);
-                          const modelSlug = String(modelValue.slug ?? row.model_slug ?? "");
+                          const modelSlug = String(modelValue.slug ?? row.model_slug ?? (typeof row.model === "string" ? row.model.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") : ""));
                           const generationKey = `${key}:${generationSlug || generationIndex}`;
                           const details = modifications[generationKey] ?? [];
                           const isLoadingGeneration = loadingGeneration.includes(generationKey);
