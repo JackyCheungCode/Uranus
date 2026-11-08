@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   if (!apiKey) return NextResponse.json({ error: "Wheel-Size API is not configured on the server." }, { status: 503 });
 
   const params = request.nextUrl.searchParams;
-  const mode = params.get("mode");
+  const mode = params.get("search_type");
   if (mode !== "rim" && mode !== "tire") return NextResponse.json({ error: "Choose a rim or tire search." }, { status: 400 });
 
   const regions = params.getAll("region").map((value) => value.toLowerCase()).filter((value) => REGIONS.has(value));
