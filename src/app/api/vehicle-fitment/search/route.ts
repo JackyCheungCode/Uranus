@@ -23,7 +23,7 @@ function firstOeWheel(payload: unknown): RecordValue | null {
 
 function numeric(value: unknown): string | undefined {
   if (typeof value === "number" && Number.isFinite(value)) return String(value);
-  if (typeof value === "string" && /^-?\\d+(?:\\.\\d+)?$/.test(value)) return value;
+  if (typeof value === "string" && /^-?\d+(?:\.\d+)?$/.test(value)) return value;
   return undefined;
 }
 
@@ -70,7 +70,7 @@ export async function GET(request: NextRequest) {
     if (oeWheel) {
       const front = asRecord(oeWheel.front);
       const tire = String(front.tire_full ?? front.tire ?? "");
-      const match = tire.match(/(\\d{3})\\/(\\d{2})R(\\d{2})/i);
+      const match = tire.match(/(\d{3})\/(\d{2})R(\d{2})/i);
       if (match) {
         const sizing = new URL("https://api.wheel-size.com/v2/upsteps/");
         sizing.searchParams.set("section_width", match[1]);
