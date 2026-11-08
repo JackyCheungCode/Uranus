@@ -4,7 +4,7 @@ import { useEffect, useState, type FormEvent } from "react";
 import { VehicleFitmentResults } from "@/components/vehicle-fitment-results";
 import { ArrowRight, CarFront, Check, ChevronDown, LoaderCircle, Search, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+
 
 type CatalogOption = { value: string; label: string; detail?: string };
 type VehicleCandidate = {
@@ -46,26 +46,45 @@ function SelectField({
   label: string; value: string; options: CatalogOption[]; placeholder: string;
   disabled?: boolean; loading?: boolean; onChange: (value: string) => void;
 }) {
+  const [open, setOpen] = useState(false);
+  const selected = options.find((option) => option.value === value);
   return (
-    <label className="grid gap-2">
+    <div className="grid gap-2">
       <span className="text-[10px] font-bold tracking-[0.16em] text-muted">{label}</span>
-      <span className="relative block">
-        <select
-          value={value}
+      <div className="relative">
+        <button
+          type="button"
+          role="combobox"
+          aria-expanded={open}
+          aria-haspopup="listbox"
           disabled={disabled || loading}
-          onChange={(event) => onChange(event.target.value)}
-          className="h-12 w-full appearance-none border border-line-strong bg-white px-4 pr-10 text-sm font-light text-ink outline-none focus:border-brand focus:ring-1 focus:ring-brand disabled:bg-surface disabled:text-muted"
+          onClick={() => setOpen((current) => !current)}
+          onKeyDown={(event) => { if (event.key === "Escape") setOpen(false); }}
+          className="flex h-12 w-full items-center justify-between border border-line-strong bg-white px-4 text-left text-sm font-light text-ink outline-none hover:border-ink focus-visible:outline focus-visible:outline-1 focus-visible:outline-ink disabled:bg-surface disabled:text-muted"
         >
-          <option value="">{loading ? "LOADING..." : placeholder}</option>
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>{option.label}{option.detail ? ` · ${option.detail}` : ""}</option>
-          ))}
-        </select>
-        <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-muted">
-          {loading ? <LoaderCircle className="animate-spin" size={15} /> : <ChevronDown size={15} />}
-        </span>
-      </span>
-    </label>
+          <span className={selected ? "text-ink" : "text-muted"}>{loading ? "LOADING..." : selected ? `${selected.label}${selected.detail ? ` · ${selected.detail}` : ""}` : placeholder}</span>
+          {loading ? <LoaderCircle className="animate-spin text-muted" size={15} /> : <ChevronDown className="text-muted" size={15} />}
+        </button>
+        {open && !disabled && !loading && (
+          <div role="listbox" aria-label={label} className="absolute z-30 mt-px max-h-64 w-full overflow-y-auto border border-line-strong bg-white">
+            {options.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                role="option"
+                aria-selected={option.value === value}
+                onClick={() => { onChange(option.value); setOpen(false); }}
+                className={`flex min-h-11 w-full items-center justify-between border-b border-line px-4 py-2 text-left text-sm font-light last:border-b-0 hover:bg-surface focus-visible:bg-surface focus-visible:outline-none ${option.value === value ? "font-bold text-ink" : "text-body"}`}
+              >
+                <span>{option.label}{option.detail ? ` · ${option.detail}` : ""}</span>
+                {option.value === value && <Check size={14} />}
+              </button>
+            ))}
+            {!options.length && <p className="px-4 py-3 text-xs font-light text-muted">NO OPTIONS AVAILABLE</p>}
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -198,15 +217,15 @@ export function VehicleFitmentSearch() {
             Start with your exact vehicle. Compare factory wheel specifications, approved and aftermarket fitments, and plus or minus sizing options in one place.
           </p>
         </div>
-        <div className="border-l-2 border-brand pl-5">
+        <div className="border-l border-line-strong pl-5">
           <p className="text-[10px] font-bold tracking-[0.16em] text-muted">FITMENT STARTS WITH THE DETAILS</p>
           <p className="mt-2 text-sm font-light leading-6 text-body">The same BMW model can use different wheels across model years, chassis generations, engines and regional specifications.</p>
         </div>
       </div>
 
-      <div className="mt-12 grid gap-px bg-line lg:grid-cols-[minmax(0,1.45fr)_minmax(280px,0.75fr)]">
-        <Card className="border-0">
-          <CardHeader className="border-b border-line bg-surface px-6 py-5 md:px-8">
+      <div className="mt-12 grid border-y border-line lg:grid-cols-[minmax(0,1.45fr)_minmax(280px,0.75fr)]">
+        <section className="min-w-0 bg-white">
+          <div className="border-b border-line bg-surface px-6 py-5 md:px-8">
             <div className="flex items-center gap-3">
               <span className="flex h-9 w-9 items-center justify-center bg-ink text-white"><CarFront size={17} /></span>
               <div>
@@ -214,14 +233,14 @@ export function VehicleFitmentSearch() {
                 <h2 className="mt-1 text-lg">SELECT YOUR BMW</h2>
               </div>
             </div>
-          </CardHeader>
-          <CardContent className="px-6 py-7 md:px-8 md:py-8">
+          </div>
+          <div className="px-6 py-7 md:px-8 md:py-8">
             <form onSubmit={submit}>
               <div className="grid gap-x-5 gap-y-6 sm:grid-cols-2">
                 <label className="grid gap-2">
                   <span className="text-[10px] font-bold tracking-[0.16em] text-muted">MAKE</span>
                   <span className="flex h-12 items-center justify-between border border-line bg-surface px-4 text-sm font-bold text-ink">
-                    BMW <Check size={15} className="text-brand" />
+                    BMW <Check size={15} className="text-ink" />
                   </span>
                 </label>
                 <SelectField label="MODEL" value={model} options={models} placeholder="SELECT MODEL" loading={loading.models} onChange={(value) => { setModel(value); setError(""); }} />
@@ -230,19 +249,13 @@ export function VehicleFitmentSearch() {
                 <div className="sm:col-span-2">
                   <SelectField label="MODIFICATION / TRIM" value={modification} options={modifications} placeholder="SELECT ENGINE / TRIM (OPTIONAL)" disabled={!model || !year} loading={loading.modifications} onChange={(value) => { setModification(value); setError(""); }} />
                 </div>
-                <label className="grid gap-2">
-                  <span className="text-[10px] font-bold tracking-[0.16em] text-muted">MARKET / REGION</span>
-                  <span className="relative block">
-                    <select value={region} onChange={(event) => { setRegion(event.target.value); resetVehicle(); setAiCandidate(null); setAiError(""); }} className="h-12 w-full appearance-none border border-line-strong bg-white px-4 pr-10 text-sm font-light text-ink outline-none focus:border-brand focus:ring-1 focus:ring-brand">
-                      <option value="usdm">UNITED STATES (USDM)</option>
-                      <option value="cdm">CANADA (CDM)</option>
-                      <option value="eudm">EUROPE (EUDM)</option>
-                      <option value="jdm">JAPAN (JDM)</option>
-                      <option value="audm">AUSTRALIA (AUDM)</option>
-                    </select>
-                    <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-muted" size={15} />
-                  </span>
-                </label>
+                <SelectField label="MARKET / REGION" value={region} options={[
+                  { value: "usdm", label: "UNITED STATES (USDM)" },
+                  { value: "cdm", label: "CANADA (CDM)" },
+                  { value: "eudm", label: "EUROPE (EUDM)" },
+                  { value: "jdm", label: "JAPAN (JDM)" },
+                  { value: "audm", label: "AUSTRALIA (AUDM)" },
+                ]} placeholder="SELECT MARKET" onChange={(value) => { setRegion(value); resetVehicle(); setAiCandidate(null); setAiError(""); }} />
               </div>
               {error && <p role="alert" className="mt-5 border-l-2 border-ink bg-surface px-4 py-3 text-xs font-light text-ink">{error}</p>}
               <div className="mt-8 flex flex-wrap items-center gap-4 border-t border-line pt-6">
@@ -253,10 +266,10 @@ export function VehicleFitmentSearch() {
                 <button type="button" onClick={resetVehicle} className="text-[10px] font-bold tracking-[0.12em] text-muted underline underline-offset-4 hover:text-ink">RESET VEHICLE</button>
               </div>
             </form>
-          </CardContent>
-        </Card>
+          </div>
+        </section>
 
-        <div className="flex flex-col bg-ink p-6 text-white md:p-8">
+        <div className="flex flex-col bg-[#1a2129] p-6 text-white md:p-8">
           <div className="flex items-center gap-3">
             <span className="flex h-9 w-9 items-center justify-center border border-white/30 text-white"><Sparkles size={17} /></span>
             <div>
@@ -309,7 +322,7 @@ export function VehicleFitmentSearch() {
           ["PLUS / MINUS SIZING", "Diameter-up and winter-down sizing candidates based on the OE setup."],
         ].map(([title, description], index) => (
           <div key={title} className="flex gap-4">
-            <span className="text-xs font-bold text-brand">0{index + 1}</span>
+            <span className="text-xs font-bold text-muted">0{index + 1}</span>
             <div><h3 className="text-xs">{title}</h3><p className="mt-2 text-xs font-light leading-6 text-muted">{description}</p></div>
           </div>
         ))}
