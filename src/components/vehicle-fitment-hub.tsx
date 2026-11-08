@@ -56,7 +56,19 @@ function ReverseResults({ result, mode, baseQuery, onLoadMore, loadingMore, hasM
   const rows = listFrom(result);
   const meta = asRecord(result.meta);
   const [expanded, setExpanded] = useState<string[]>([]);
+  const [modifications, setModifications] = useState<Record<string, AnyRecord[]>>({});
+  const [loadingGeneration, setLoadingGeneration] = useState<string[]>([]);
+  const [generationErrors, setGenerationErrors] = useState<Record<string, string>>({});
+  const [modelFilter, setModelFilter] = useState("");
+  const [yearFilter, setYearFilter] = useState("");
+  const [visibleCount, setVisibleCount] = useState(8);
   const total = Number(meta.count ?? rows.length);
+  const filteredRows = rows.filter((row) => {
+    const modelName = labelOf(row.model ?? row.name).toLowerCase();
+    const yearText = text(row.year_ranges ?? row.years ?? row.production_years, "").toLowerCase();
+    return modelName.includes(modelFilter.trim().toLowerCase()) && (!yearFilter.trim() || yearText.includes(yearFilter.trim()));
+  });
+  const visibleRows = filteredRows.slice(0, visibleCount);
   const toggle = (key: string) => setExpanded((current) => current.includes(key) ? current.filter((item) => item !== key) : [...current, key]);
   async function loadGeneration(modelSlug: string, generationSlug: string, generationKey: string) {
     if (!modelSlug || !generationSlug || modifications[generationKey] || loadingGeneration.includes(generationKey)) return;
@@ -87,13 +99,19 @@ function ReverseResults({ result, mode, baseQuery, onLoadMore, loadingMore, hasM
           <p className="text-[11px] font-bold tracking-[0.16em] text-muted">SEARCH RESULTS / {mode === "rim" ? "BY RIM SPECIFICATION" : "BY TIRE SIZE"}</p>
           <h2 className="mt-2 text-2xl">BMW VEHICLE COMPATIBILITY</h2>
         </div>
-        <p className="text-xs font-light text-muted">{total.toLocaleString()} MATCHING RECORDS · {rows.length} SHOWN</p>
+        <p className="text-xs font-light text-muted">{total.toLocaleString()} MATCHING RECORDS · {filteredRows.length} AFTER FILTERS</p>
       </div>
-      {rows.length === 0 ? (
+      <div className="mt-5 grid gap-3 border-y border-line bg-surface p-4 md:grid-cols-[1fr_180px_auto] md:items-end">
+        <label className="block"><span className="text-[10px] font-bold tracking-[0.14em] text-muted">FILTER BY BMW MODEL</span><Input value={modelFilter} onChange={(event) => { setModelFilter(event.target.value); setVisibleCount(8); }} placeholder="Search model, e.g. 3 Series" className="mt-2 bg-white" /></label>
+        <label className="block"><span className="text-[10px] font-bold tracking-[0.14em] text-muted">YEAR / RANGE</span><Input value={yearFilter} onChange={(event) => { setYearFilter(event.target.value); setVisibleCount(8); }} placeholder="e.g. 2020" className="mt-2 bg-white" /></label>
+        <Button type="button" variant="secondary" onClick={() => { setModelFilter(""); setYearFilter(""); setVisibleCount(8); }}>CLEAR FILTERS</Button>
+      </div>
+      <p className="mt-3 text-[11px] font-light text-muted">Showing {Math.min(visibleRows.length, visibleCount)} of {filteredRows.length} filtered models. Open a model only when you need generation and trim details.</p>
+      {filteredRows.length === 0 ? (
         <div className="mt-5 border-y border-line bg-surface px-5 py-8 text-sm font-light text-muted">No BMW matches were returned for these parameters. Adjust the specification or selected markets and search again.</div>
       ) : (
         <div className="mt-5 divide-y divide-line border-y border-line">
-          {rows.map((row, index) => {
+          {visibleRows.map((row, index) => {
             const make = labelOf(row.make ?? row.brand ?? "BMW");
             const model = labelOf(row.model ?? row.name);
             const generationRows = Array.isArray(row.generations) ? row.generations.map(asRecord) : [];
@@ -188,6 +206,7 @@ function ReverseResults({ result, mode, baseQuery, onLoadMore, loadingMore, hasM
           })}
         </div>
       )}
+      {visibleCount < filteredRows.length && <div className="mt-5 flex justify-center"><Button type="button" variant="secondary" onClick={() => setVisibleCount((count) => count + 8)}>SHOW 8 MORE MODELS</Button></div>}
       {hasMore && <div className="mt-5 flex justify-center"><Button type="button" variant="secondary" onClick={onLoadMore} disabled={loadingMore}>{loadingMore ? <LoaderCircle size={14} className="animate-spin" /> : null}{loadingMore ? "LOADING MORE..." : "LOAD MORE VEHICLES"}</Button></div>}
       <p className="mt-3 text-[11px] font-light text-muted">Compatibility results are returned by Wheel-Size and can be expanded by generation where generation data is available.</p>
     </section>
