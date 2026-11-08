@@ -142,7 +142,7 @@ export function VehicleFitmentSearch() {
 
   function resetVehicle() {
     setModel(""); setYear(""); setGeneration(""); setModification("");
-    setYears([]); setGenerations([]); setModifications([]); setError("");
+    setYears([]); setGenerations([]); setModifications([]); setError(""); setAiCandidate(null); setAiError("");
   }
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -236,7 +236,7 @@ export function VehicleFitmentSearch() {
                 <label className="grid gap-2">
                   <span className="text-[10px] font-bold tracking-[0.16em] text-muted">MARKET / REGION</span>
                   <span className="relative block">
-                    <select value={region} onChange={(event) => { setRegion(event.target.value); resetVehicle(); }} className="h-12 w-full appearance-none border border-line-strong bg-white px-4 pr-10 text-sm font-light text-ink outline-none focus:border-brand focus:ring-1 focus:ring-brand">
+                    <select value={region} onChange={(event) => { setRegion(event.target.value); resetVehicle(); setAiCandidate(null); setAiError(""); }} className="h-12 w-full appearance-none border border-line-strong bg-white px-4 pr-10 text-sm font-light text-ink outline-none focus:border-brand focus:ring-1 focus:ring-brand">
                       <option value="usdm">UNITED STATES (USDM)</option>
                       <option value="cdm">CANADA (CDM)</option>
                       <option value="eudm">EUROPE (EUDM)</option>
