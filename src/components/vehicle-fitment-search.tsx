@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, CarFront, Check, ChevronDown, LoaderCircle, Search, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -73,10 +73,6 @@ export function VehicleFitmentSearch() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  const selectedModel = useMemo(() => models.find((item) => item.value === model), [models, model]);
-  const selectedGeneration = useMemo(() => generations.find((item) => item.value === generation), [generations, generation]);
-  const selectedModification = useMemo(() => modifications.find((item) => item.value === modification), [modifications, modification]);
-
   async function loadCatalog(resource: string, params: Record<string, string>) {
     const query = new URLSearchParams({ resource, ...params });
     const response = await fetch(`/api/vehicle-fitment/catalog?${query.toString()}`);
@@ -134,7 +130,7 @@ export function VehicleFitmentSearch() {
     setYears([]); setGenerations([]); setModifications([]); setError("");
   }
 
-  function submit(event: React.FormEvent<HTMLFormElement>) {
+  function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!model || !year) {
       setError("Select a BMW model and year to continue.");
