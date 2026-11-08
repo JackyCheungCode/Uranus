@@ -269,7 +269,7 @@ export function VehicleFitmentSearch() {
           </div>
         </section>
 
-        <div className="flex flex-col bg-[#1a2129] p-6 text-white md:p-8">
+        <div className="flex flex-col bg-surface-dark p-6 text-white md:p-8">
           <div className="flex items-center gap-3">
             <span className="flex h-9 w-9 items-center justify-center border border-white/30 text-white"><Sparkles size={17} /></span>
             <div>
