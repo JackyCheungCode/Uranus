@@ -46,39 +46,37 @@ function axisSpec(wheel: AnyRecord, axis: "front" | "rear") {
   };
 }
 
-function TireCandidates({ tire }: { tire: string }) {
-  const parsed = tire.match(/(\d{3})\/(\d{2})R(\d{2})/i);
-  if (!parsed) return <p className="text-xs font-light text-muted">An OEM tire size is required to calculate diameter-preserving candidates.</p>;
-  const width = Number(parsed[1]);
-  const aspect = Number(parsed[2]);
-  const rim = Number(parsed[3]);
-  const originalDiameter = rim * 25.4 + 2 * width * aspect / 100;
-  const targets = [-1, 1, 2].map((step) => {
-    const targetRim = rim + step;
-    const options: { size: string; delta: number }[] = [];
-    for (const candidateWidth of [width - 20, width - 10, width, width + 10, width + 20]) {
-      for (const candidateAspect of [25, 30, 35, 40, 45, 50, 55, 60, 65, 70]) {
-        const diameter = targetRim * 25.4 + 2 * candidateWidth * candidateAspect / 100;
-        const delta = ((diameter - originalDiameter) / originalDiameter) * 100;
-        if (Math.abs(delta) <= 1.5) options.push({ size: `${candidateWidth}/${candidateAspect}R${targetRim}`, delta });
-      }
-    }
-    options.sort((a, b) => Math.abs(a.delta) - Math.abs(b.delta));
-    return { step, options: options.slice(0, 2) };
-  });
+function WheelSizeUpsteps({ payload }: { payload: unknown }) {
+  const rows = listFrom(payload);
+  const grouped = new Map<string, AnyRecord[]>();
+  for (const option of rows) {
+    const step = Number(option.step ?? 0);
+    const label = step === 0 ? "OE BASELINE" : step > 0 ? `PLUS ${step}` : `MINUS ${Math.abs(step)}`;
+    grouped.set(label, [...(grouped.get(label) ?? []), option]);
+  }
+  if (!rows.length) return <p className="py-5 text-sm font-light text-muted">No plus/minus candidates were returned for this OEM tire and wheel combination.</p>;
   return (
-    <div className="grid gap-px bg-line sm:grid-cols-3">
-      {targets.map(({ step, options }) => (
-        <div key={step} className="bg-white p-4">
-          <p className="text-[10px] font-bold tracking-[0.14em] text-muted">{step > 0 ? `PLUS ${step}` : "MINUS 1"}</p>
-          <p className="mt-1 text-xl font-bold text-ink">{rim + step}&quot;</p>
-          <div className="mt-3 space-y-2">
-            {options.length ? options.map((option) => (
-              <div key={option.size} className="flex items-center justify-between gap-2 border-t border-line pt-2 text-xs">
-                <span className="font-bold text-ink">{option.size}</span>
-                <span className="font-light text-muted">{option.delta > 0 ? "+" : ""}{option.delta.toFixed(1)}%</span>
-              </div>
-            )) : <p className="text-xs font-light text-muted">No close diameter match found.</p>}
+    <div className="grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-3">
+      {Array.from(grouped.entries()).map(([label, options]) => (
+        <div key={label} className="bg-white p-4">
+          <p className="text-[10px] font-bold tracking-[0.14em] text-muted">{label}</p>
+          <p className="mt-1 text-xl font-bold text-ink">{options.length} OPTIONS</p>
+          <div className="mt-3 space-y-3">
+            {options.slice(0, 5).map((option, index) => {
+              const rim = record(option.rim);
+              const tire = record(option.tire);
+              const difference = record(option.difference);
+              return (
+                <div key={index} className="border-t border-line pt-2">
+                  <p className="text-sm font-bold text-ink">{text(rim.designation ?? option.rim_designation)}</p>
+                  <p className="mt-1 text-xs font-light text-body">{text(tire.designation ?? option.tire_designation)}</p>
+                  <p className="mt-1 text-[10px] font-light text-muted">
+                    {difference.od_percent !== undefined ? `OUTER DIAMETER ${text(difference.od_percent)}%` : ""}
+                    {option.is_oe ? " · ORIGINAL EQUIPMENT" : ""}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       ))}
@@ -208,7 +206,7 @@ export function VehicleFitmentResults({ model, year, generation, modification, r
               <p className="mt-2 max-w-3xl text-xs font-light leading-6 text-muted">Preliminary tire-size candidates calculated from the selected OEM tire diameter. These are geometry screens, not confirmed wheel clearance or safety approvals.</p>
             </div>
             <div className="mt-5">
-              {primaryOemTire ? <TireCandidates tire={primaryOemTire} /> : <p className="py-5 text-sm font-light text-muted">An OEM tire size is required before plus/minus sizing can be calculated.</p>}
+              {payload && <WheelSizeUpsteps payload={record(payload).upsteps} />}\n              {record(payload).upstepsError && <p className="mt-3 text-xs font-light text-muted">{text(record(payload).upstepsError)}</p>}
             </div>
           </section>
 
