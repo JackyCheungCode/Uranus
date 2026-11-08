@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, CarFront, CircleAlert, LoaderCircle, Ruler, ShieldCheck } from "lucide-react";
+import { ArrowLeft, CarFront, CircleAlert, LoaderCircle, ShieldCheck } from "lucide-react";
 
 type Props = {
   model?: string;
