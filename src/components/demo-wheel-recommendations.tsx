@@ -1,9 +1,14 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Disc3, SlidersHorizontal } from "lucide-react";
+import { ChevronDown, Disc3, SlidersHorizontal } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+
+function FilterSelect({ label, value, options, onChange }: { label: string; value: string; options: string[]; onChange: (value: string) => void }) {
+  const [open, setOpen] = useState(false);
+  return <div className="relative"><span className="text-[10px] font-bold tracking-[0.12em] text-muted">{label}</span><button type="button" aria-haspopup="listbox" aria-expanded={open} onClick={() => setOpen((current) => !current)} className="mt-2 flex h-10 w-full items-center justify-between border border-line bg-white px-3 text-left text-xs text-ink"><span>{value}</span><ChevronDown size={14} /></button>{open && <div role="listbox" aria-label={label} className="absolute z-20 mt-1 max-h-52 w-full overflow-y-auto border border-line bg-white shadow-lg">{options.map((option) => <button type="button" role="option" aria-selected={value === option} key={option} onClick={() => { onChange(option); setOpen(false); }} className={`block min-h-9 w-full px-3 py-2 text-left text-xs ${value === option ? "bg-surface-strong font-bold text-ink" : "text-body hover:bg-surface"}`}>{option}</button>)}</div>}</div>;
+}
 
 type Props = {
   pcd: string;
@@ -94,11 +99,11 @@ export function DemoWheelRecommendations({ pcd, centerBore, diameter, width, off
       </div>
       {showFilters && <div className="mt-3 grid gap-3 border-y border-line bg-surface p-4 sm:grid-cols-2 lg:grid-cols-4">
         <label className="block"><span className="text-[10px] font-bold tracking-[0.12em] text-muted">KEYWORD</span><Input value={keyword} onChange={(e) => setKeyword(e.target.value)} placeholder="Brand, model, finish" className="mt-2 bg-white" /></label>
-        <label className="block"><span className="text-[10px] font-bold tracking-[0.12em] text-muted">BRAND</span><select value={brand} onChange={(e) => setBrand(e.target.value)} className="mt-2 h-10 w-full border border-line bg-white px-3 text-xs">{brands.map((item) => <option key={item}>{item}</option>)}</select></label>
-        <label className="block"><span className="text-[10px] font-bold tracking-[0.12em] text-muted">STYLE</span><select value={style} onChange={(e) => setStyle(e.target.value)} className="mt-2 h-10 w-full border border-line bg-white px-3 text-xs">{styles.map((item) => <option key={item}>{item}</option>)}</select></label>
+        <FilterSelect label="BRAND" value={brand} options={brands} onChange={setBrand} />
+        <FilterSelect label="STYLE" value={style} options={styles} onChange={setStyle} />
         <label className="block"><span className="text-[10px] font-bold tracking-[0.12em] text-muted">MAX PRICE (DEMO USD)</span><Input inputMode="numeric" value={priceMax} onChange={(e) => setPriceMax(e.target.value)} className="mt-2 bg-white" /></label>
-        <label className="block"><span className="text-[10px] font-bold tracking-[0.12em] text-muted">DIAMETER</span><select value={diameterFilter} onChange={(e) => setDiameterFilter(e.target.value)} className="mt-2 h-10 w-full border border-line bg-white px-3 text-xs">{diameters.map((item) => <option key={item}>{item}</option>)}</select></label>
-        <label className="block"><span className="text-[10px] font-bold tracking-[0.12em] text-muted">WIDTH</span><select value={widthFilter} onChange={(e) => setWidthFilter(e.target.value)} className="mt-2 h-10 w-full border border-line bg-white px-3 text-xs">{widths.map((item) => <option key={item}>{item}</option>)}</select></label>
+        <FilterSelect label="DIAMETER" value={diameterFilter} options={diameters} onChange={setDiameterFilter} />
+        <FilterSelect label="WIDTH" value={widthFilter} options={widths} onChange={setWidthFilter} />
         <label className="block sm:col-span-2"><span className="text-[10px] font-bold tracking-[0.12em] text-muted">OFFSET</span><div className="mt-2 flex flex-wrap gap-2">{[["ALL", "ALL"], ["NEAR", "±5 MM"], ["WIDE", "±10 MM"]].map(([value, label]) => <button key={value} type="button" aria-pressed={offsetRange === value} onClick={() => setOffsetRange(value)} className={`border px-3 py-2 text-[11px] font-bold ${offsetRange === value ? "border-ink bg-ink text-white" : "border-line bg-white text-muted"}`}>{label}</button>)}</div></label>
         <div className="flex items-end"><Button type="button" variant="secondary" onClick={() => { setBrand("ALL"); setStyle("ALL"); setDiameterFilter("ALL"); setWidthFilter("ALL"); setOffsetRange("ALL"); setPriceMax("1500"); setKeyword(""); }}>RESET FILTERS</Button></div>
       </div>}
@@ -109,7 +114,7 @@ export function DemoWheelRecommendations({ pcd, centerBore, diameter, width, off
             <div className="flex items-start justify-between gap-3"><div><p className="text-[10px] font-bold tracking-[0.14em] text-muted">{item.brand}</p><h4 className="mt-1 text-base font-bold text-ink">{item.model}</h4></div><span className="text-[10px] font-bold text-muted">{item.score}/5 MATCH</span></div>
             <p className="mt-2 text-[11px] font-light text-muted">{item.style} · {item.finish}</p>
             <div className="mt-3 grid grid-cols-2 gap-px bg-line text-xs"><div className="bg-surface p-2"><p className="text-[9px] font-bold text-muted">SIZE</p><p className="mt-1 font-bold text-ink">{item.diameter} × {item.width}J</p></div><div className="bg-surface p-2"><p className="text-[9px] font-bold text-muted">OFFSET</p><p className="mt-1 font-bold text-ink">ET{item.offset}</p></div><div className="bg-surface p-2"><p className="text-[9px] font-bold text-muted">PCD / CB</p><p className="mt-1 font-bold text-ink">{item.pcd} / {item.centerBore}</p></div><div className="bg-surface p-2"><p className="text-[9px] font-bold text-muted">LOAD</p><p className="mt-1 font-bold text-ink">{item.load} KG</p></div></div>
-            <div className="mt-3 flex items-center justify-between"><span className="text-xs font-bold text-ink">FROM ${item.price.toLocaleString()}} / WHEEL</span><span className="text-[9px] font-bold tracking-[0.1em] text-muted">SAMPLE PRICE</span></div>
+            <div className="mt-3 flex items-center justify-between"><span className="text-xs font-bold text-ink">FROM ${item.price.toLocaleString()} / WHEEL</span><span className="text-[9px] font-bold tracking-[0.1em] text-muted">SAMPLE PRICE</span></div>
           </div>
         </article>)}
         {!filtered.length && <div className="border-y border-line bg-surface px-5 py-8 text-sm font-light text-muted md:col-span-2 xl:col-span-3">No demo products match all selected conditions. Loosen one or more filters to broaden the sample list.</div>}
