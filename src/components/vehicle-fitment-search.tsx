@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 type CatalogOption = { value: string; label: string; detail?: string };
 type VehicleCandidate = {
   model: string | null;
+  modelLabel: string | null;
   year: string | null;
   generation: string | null;
   modification: string | null;
@@ -166,7 +167,7 @@ export function VehicleFitmentSearch() {
       const response = await fetch("/api/vehicle-fitment/identify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ description: aiDescription, region }),
+        body: JSON.stringify({ description: aiDescription, region, models: models.map(({ value, label }) => ({ value, label })) }),
       });
       const payload = await response.json();
       if (!response.ok) throw new Error(payload.error || "Vehicle identification failed.");
@@ -291,7 +292,7 @@ export function VehicleFitmentSearch() {
                 <p className="mt-3 text-sm font-light leading-6 text-white">{aiCandidate.clarification}</p>
               ) : (
                 <>
-                  <p className="mt-3 text-base font-bold text-white">{[aiCandidate.year, "BMW", aiCandidate.model, aiCandidate.generation, aiCandidate.modification].filter(Boolean).join(" · ")}</p>
+                  <p className="mt-3 text-base font-bold text-white">{[aiCandidate.year, "BMW", aiCandidate.modelLabel || aiCandidate.model, aiCandidate.generation, aiCandidate.modification].filter(Boolean).join(" · ")}</p>
                   <p className="mt-2 text-xs font-light text-white/55">MARKET: {(aiCandidate.region || region).toUpperCase()}</p>
                   {aiCandidate.notes && <p className="mt-2 text-xs font-light leading-5 text-white/65">{aiCandidate.notes}</p>}
                   <Button type="button" onClick={confirmAiCandidate} disabled={!aiCandidate.model || !aiCandidate.year} className="mt-4 w-full">
