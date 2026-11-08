@@ -52,7 +52,7 @@ function RegionPicker({ selected, onChange }: { selected: string[]; onChange: (v
   );
 }
 
-function ReverseResults({ result, mode }: { result: SearchResult; mode: "rim" | "tire" }) {
+function ReverseResults({ result, mode, onLoadMore, loadingMore, hasMore }: { result: SearchResult; mode: "rim" | "tire"; onLoadMore: () => void; loadingMore: boolean; hasMore: boolean }) {
   const rows = listFrom(result);
   const meta = asRecord(result.meta);
   const [expanded, setExpanded] = useState<string[]>([]);
@@ -121,7 +121,7 @@ function ReverseResults({ result, mode }: { result: SearchResult; mode: "rim" | 
           })}
         </div>
       )}
-      <p className="mt-3 text-[11px] font-light text-muted">Showing the first page returned by Wheel-Size. Pagination controls will be shown when additional result pages are available.</p>
+      {hasMore && <div className="mt-5 flex justify-center"><Button type="button" variant="secondary" onClick={onLoadMore} disabled={loadingMore}>{loadingMore ? <LoaderCircle size={14} className="animate-spin" /> : null}{loadingMore ? "LOADING MORE..." : "LOAD MORE VEHICLES"}</Button></div>}\n      <p className="mt-3 text-[11px] font-light text-muted">Compatibility results are returned by Wheel-Size and can be expanded by generation where generation data is available.</p>
     </section>
   );
 }
@@ -130,7 +130,7 @@ function ReverseSearch({ mode }: { mode: "rim" | "tire" }) {
   const [regions, setRegions] = useState<string[]>(["usdm"]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [result, setResult] = useState<SearchResult | null>(null);
+  const [result, setResult] = useState<SearchResult | null>(null);\n  const [baseQuery, setBaseQuery] = useState("");\n  const [loadingMore, setLoadingMore] = useState(false);
   const [page, setPage] = useState(0);
   const [values, setValues] = useState({
     boltPattern: "", diameter: "18", width: "8", offset: "", centerBore: "",
@@ -222,7 +222,7 @@ function ReverseSearch({ mode }: { mode: "rim" | "tire" }) {
           <button type="button" onClick={() => { setResult(null); setError(""); setPage(0); }} className="text-[11px] font-bold tracking-[0.1em] text-muted underline underline-offset-4">CLEAR RESULTS</button>
         </div>
       </form>
-      {result && <ReverseResults result={result} mode={mode} />}
+      {result && <ReverseResults result={result} mode={mode} onLoadMore={loadMore} loadingMore={loadingMore} hasMore={hasMore} />}
     </>
   );
 }
