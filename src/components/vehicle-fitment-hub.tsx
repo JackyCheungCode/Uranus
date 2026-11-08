@@ -143,8 +143,8 @@ function ReverseSearch({ mode }: { mode: "rim" | "tire" }) {
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!regions.length) { setError("Select at least one market region."); return; }
-    setLoading(true); setError(""); setResult(null); setPage(0);
-    const params = new URLSearchParams({ mode, offset: "0", limit: "50" });
+    setLoading(true); setError(""); setResult(null);
+    const params = new URLSearchParams({ search_type: mode, offset: "0", limit: "50" });
     for (const region of regions) params.append("region", region);
     if (isRim) {
       if (!values.diameter || !values.width) { setError("Rim diameter and width are required."); setLoading(false); return; }
@@ -235,7 +235,7 @@ export function VehicleFitmentHub() {
   const [entry, setEntry] = useState<Entry>("vehicle");
   const heading = useMemo(() => entry === "vehicle" ? "SEARCH BY VEHICLE" : entry === "rim" ? "SEARCH BY RIM SPECIFICATION" : "SEARCH BY TIRE SIZE", [entry]);
   return (
-    <main className="mx-auto max-w-[1440px] px-5 pb-20 pt-8 md:px-10 md:pb-28 md:pt-10">
+    <div className="mx-auto max-w-[1440px] px-5 pb-20 pt-8 md:px-10 md:pb-28 md:pt-10">
       <section className="bg-surface px-6 py-9 md:px-10 md:py-12">
         <div className="grid gap-7 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
