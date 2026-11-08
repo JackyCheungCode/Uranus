@@ -272,6 +272,6 @@ export function VehicleFitmentHub() {
           ["03", "ALTERNATIVE DIAMETERS", "Plus and minus sizing candidates remain available from OE tire baselines."],
         ].map(([number, title, description]) => <div key={number} className="flex gap-4"><span className="text-xs font-bold text-muted">{number}</span><div><h2 className="text-xs">{title}</h2><p className="mt-2 text-xs font-light leading-6 text-muted">{description}</p></div></div>)}
       </section>
-    </main>
+    </div>
   );
 }
