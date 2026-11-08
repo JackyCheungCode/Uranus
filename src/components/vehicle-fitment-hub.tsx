@@ -129,7 +129,7 @@ function ReverseResults({ result, mode, baseQuery, onLoadMore, loadingMore, hasM
                           const isLoadingGeneration = loadingGeneration.includes(generationKey);
                           return (
                             <div key={generationKey} className="bg-white">
-                              <button type="button" onClick={() => { if (generationSlug && modelSlug) { if (!expanded.includes(generationKey)) setExpanded((current) => [...current, generationKey]); loadGeneration(modelSlug, generationSlug, generationKey); } }} aria-expanded={expanded.includes(generationKey)} className="flex min-h-14 w-full items-center justify-between gap-4 px-4 py-3 text-left hover:bg-surface">
+                              <button type="button" onClick={() => { if (expanded.includes(generationKey)) { setExpanded((current) => current.filter((item) => item !== generationKey)); } else if (generationSlug && modelSlug) { setExpanded((current) => [...current, generationKey]); loadGeneration(modelSlug, generationSlug, generationKey); } }} aria-expanded={expanded.includes(generationKey)} className="flex min-h-14 w-full items-center justify-between gap-4 px-4 py-3 text-left hover:bg-surface">
                                 <span>
                                   <span className="block text-sm font-bold text-ink">{labelOf(generation)}</span>
                                   <span className="mt-1 block text-xs font-light text-muted">{text(generation.start_year ?? generation.year_start)} — {text(generation.end_year ?? generation.year_end)}</span>
