@@ -262,7 +262,7 @@ export function VehicleFitmentHub() {
         </div>
         <section className="border-b border-line px-0 py-7 md:px-2">
           <p className="text-[11px] font-bold tracking-[0.16em] text-muted">01 / {heading}</p>
-          {entry === "vehicle" ? <VehicleFitmentSearch /> : <ReverseSearch key={entry} mode={entry} />}
+          {entry === "vehicle" ? <VehicleFitmentSearch compact /> : <ReverseSearch key={entry} mode={entry} />}
         </section>
       </section>
       <section className="mt-12 grid gap-5 border-t border-line pt-6 sm:grid-cols-3">
