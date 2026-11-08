@@ -23,6 +23,13 @@ function firstOeWheel(payload: unknown): RecordValue | null {
   return null;
 }
 
+function hasFitmentRows(payload: unknown): boolean {
+  const root = asRecord(payload);
+  const rows = root.data ?? root.results;
+  if (Array.isArray(rows)) return rows.length > 0;
+  return !!rows && typeof rows === "object" && Object.keys(asRecord(rows)).length > 0;
+}
+
 function numeric(value: unknown): string | undefined {
   if (typeof value === "number" && Number.isFinite(value)) return String(value);
   if (typeof value === "string" && /^-?\d+(?:\.\d+)?$/.test(value)) return value;
@@ -59,16 +66,44 @@ export async function GET(request: NextRequest) {
   upstream.searchParams.set("user_key", apiKey);
 
   try {
-    const response = await fetch(upstream, {
-      headers: { Accept: "application/json" },
-      cache: "no-store",
-      signal: AbortSignal.timeout(20000),
-    });
-    const payload: unknown = await response.json();
+    async function requestFitment(url: URL) {
+      const response = await fetch(url, {
+        headers: { Accept: "application/json", "Accept-Encoding": "gzip" },
+        cache: "no-store",
+        signal: AbortSignal.timeout(20000),
+      });
+      const payload: unknown = await response.json();
+      return { response, payload };
+    }
+
+    let { response, payload } = await requestFitment(upstream);
     if (!response.ok) {
       const upstreamError = asRecord(payload);
       const detail = upstreamError.detail ?? upstreamError.message ?? upstreamError.error;
       return NextResponse.json({ error: detail ? `Wheel-Size API: ${String(detail)}` : `Wheel-Size API returned HTTP ${response.status}. Check the selected model, year, generation and region.` }, { status: response.status });
+    }
+
+    // If an optional trim/chassis filter is too restrictive, retry only within the
+    // same selected model, year and region. Never silently substitute another market.
+    let fallbackMessage: string | undefined;
+    if (!hasFitmentRows(payload) && modification) {
+      const broader = new URL(upstream);
+      broader.searchParams.delete("modification");
+      const retry = await requestFitment(broader);
+      if (retry.response.ok && hasFitmentRows(retry.payload)) {
+        payload = retry.payload;
+        fallbackMessage = "No exact trim match was found. Showing all modifications for this BMW model, year, generation and region.";
+      }
+    }
+    if (!hasFitmentRows(payload) && generation) {
+      const broader = new URL(upstream);
+      broader.searchParams.delete("modification");
+      broader.searchParams.delete("generation");
+      const retry = await requestFitment(broader);
+      if (retry.response.ok && hasFitmentRows(retry.payload)) {
+        payload = retry.payload;
+        fallbackMessage = "No exact chassis / trim match was found. Showing all generations and modifications for this BMW model, year and selected region.";
+      }
     }
 
     // Plus/minus sizing is requested only after a visitor explicitly submits a vehicle search.
@@ -107,7 +142,7 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    return NextResponse.json({ ...asRecord(payload), upsteps, upstepsError });
+    return NextResponse.json({ ...asRecord(payload), fallbackMessage, upsteps, upstepsError });
   } catch {
     return NextResponse.json({ error: "Unable to retrieve fitment data. Please try again." }, { status: 502 });
   }
