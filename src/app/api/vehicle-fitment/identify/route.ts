@@ -21,6 +21,7 @@ type WorkersAI = {
       messages: Array<{ role: "system" | "user"; content: string }>;
       max_tokens: number;
       temperature: number;
+      response_format: { type: "json_object" };
     },
   ) => Promise<{ response?: string }>;
 };
@@ -76,6 +77,7 @@ export async function POST(request: NextRequest) {
     const result = await env.AI.run("@cf/meta/llama-3.1-8b-instruct", {
       max_tokens: 320,
       temperature: 0.1,
+      response_format: { type: "json_object" },
       messages: [
         {
           role: "system",
