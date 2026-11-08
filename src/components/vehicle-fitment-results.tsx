@@ -10,6 +10,7 @@ type Props = {
   generation?: string;
   modification?: string;
   region?: string;
+  onSearchStateChange?: (loading: boolean) => void;
 };
 type AnyRecord = Record<string, any>;
 type FitmentRow = { id: string; vehicle: AnyRecord; wheel: AnyRecord; source: "OEM" | "AFTERMARKET"; index: number };
@@ -58,7 +59,7 @@ function sizingRows(payload: unknown) {
   });
 }
 
-export function VehicleFitmentResults({ model, year, generation, modification, region = "usdm" }: Props) {
+export function VehicleFitmentResults({ model, year, generation, modification, region = "usdm", onSearchStateChange }: Props) {
   const [payload, setPayload] = useState<unknown>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -77,6 +78,7 @@ export function VehicleFitmentResults({ model, year, generation, modification, r
   useEffect(() => {
     let active = true;
     setLoading(true);
+    onSearchStateChange?.(true);
     setError("");
     setPayload(null);
     setSelectedId("");
@@ -88,9 +90,9 @@ export function VehicleFitmentResults({ model, year, generation, modification, r
       })
       .then((result) => { if (active) setPayload(result); })
       .catch((cause) => { if (active) setError(cause instanceof Error ? cause.message : "Unable to load fitment data."); })
-      .finally(() => { if (active) setLoading(false); });
+      .finally(() => { if (active) { setLoading(false); onSearchStateChange?.(false); } });
     return () => { active = false; };
-  }, [query]);
+  }, [query, onSearchStateChange]);
 
   const vehicles = useMemo(() => rowsFrom(payload), [payload]);
   const fitments = useMemo<FitmentRow[]>(() => vehicles.flatMap((vehicle, vehicleIndex) =>
@@ -197,7 +199,7 @@ export function VehicleFitmentResults({ model, year, generation, modification, r
                     </tr>
                   );
                 })}
-                {!fitments.length && <tr><td colSpan={8} className="px-3 py-8 text-center text-sm font-light text-muted">No wheel records were returned for this exact vehicle selection.</td></tr>}
+                {!fitments.length && <tr><td colSpan={8} className="px-3 py-8 text-center text-sm font-light text-muted">No fitment records were returned for this exact selection. Try clearing the trim or generation filter, or choose another market / region. The API search uses one region per request.</td></tr>}
               </tbody>
             </table>
           </div>
