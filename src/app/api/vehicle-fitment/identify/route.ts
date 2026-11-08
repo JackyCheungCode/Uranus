@@ -9,7 +9,7 @@ type VehicleCandidate = {
   year: string | null;
   generation: string | null;
   modification: string | null;
-  region: "usdm" | "cdm" | "eudm" | "jdm" | "audm" | null;
+  region: "usdm" | "cdm" | "mxndm" | "ladm" | "eudm" | "rus" | "jdm" | "chdm" | "skdm" | "sam" | "medm" | "nadm" | "sadm" | "audm" | null;
   confidence: "high" | "medium" | "low";
   clarification: string | null;
   notes: string | null;
@@ -35,7 +35,7 @@ declare global {
   }
 }
 
-const VALID_REGIONS = new Set(["usdm", "cdm", "eudm", "jdm", "audm"]);
+const VALID_REGIONS = new Set(["usdm", "cdm", "mxndm", "ladm", "eudm", "rus", "jdm", "chdm", "skdm", "sam", "medm", "nadm", "sadm", "audm"]);
 
 function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : {};
@@ -55,7 +55,16 @@ function normalizeRegion(value: unknown): VehicleCandidate["region"] {
   if (["canada", "ca"].includes(normalized)) return "cdm";
   if (["europe", "eu", "european union"].includes(normalized)) return "eudm";
   if (["japan"].includes(normalized)) return "jdm";
-  if (["australia", "au"].includes(normalized)) return "audm";
+  if (["mexico", "mx"].includes(normalized)) return "mxndm";
+  if (["central & south america", "latin america", "south america"].includes(normalized)) return "ladm";
+  if (["russia", "russia+"].includes(normalized)) return "rus";
+  if (["china", "hong kong", "macao", "macau"].includes(normalized)) return "chdm";
+  if (["south korea", "korea", "republic of korea"].includes(normalized)) return "skdm";
+  if (["southeast asia", "south east asia"].includes(normalized)) return "sam";
+  if (["middle east"].includes(normalized)) return "medm";
+  if (["north africa"].includes(normalized)) return "nadm";
+  if (["south africa"].includes(normalized)) return "sadm";
+  if (["australia", "au", "oceania", "new zealand"].includes(normalized)) return "audm";
   return null;
 }
 
@@ -141,7 +150,7 @@ export async function POST(request: NextRequest) {
             "Extract the four-digit model year only when stated or unambiguously present.",
             "generation should be the chassis code only, lowercase, such as g80 or f30. Use null if not stated.",
             "Do not return modification. Trim information may be mentioned briefly in notes, but it must not be used as a catalog identifier.",
-            "Map United States to usdm, Canada to cdm, Europe to eudm, Japan to jdm, Australia to audm. Otherwise use the supplied default region.",
+            "Map USA+ to usdm, Canada to cdm, Mexico to mxndm, Central and South America to ladm, Europe to eudm, Russia+ to rus, Japan to jdm, China to chdm, South Korea to skdm, Southeast Asia to sam, Middle East to medm, North Africa to nadm, South Africa to sadm, and Oceania to audm. Otherwise use the supplied default region.",
             "confidence must be high, medium, or low.",
             "Ask one concise clarification if model or year is missing or ambiguous. Otherwise clarification must be null.",
             "Never invent vehicle details.",
