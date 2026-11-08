@@ -243,7 +243,7 @@ function ReverseSearch({ mode }: { mode: "rim" | "tire" }) {
             {loading ? "SEARCHING BMW FITMENTS..." : isRim ? "FIND BMW VEHICLES" : "FIND BMW VEHICLES"}
             <ArrowRight size={15} />
           </Button>
-          <button type="button" onClick={() => { setResult(null); setError(""); setPage(0); }} className="text-[11px] font-bold tracking-[0.1em] text-muted underline underline-offset-4">CLEAR RESULTS</button>
+          <button type="button" onClick={() => { setResult(null); setError(""); }} className="text-[11px] font-bold tracking-[0.1em] text-muted underline underline-offset-4">CLEAR RESULTS</button>
         </div>
       </form>
       {result && <ReverseResults result={result} mode={mode} onLoadMore={loadMore} loadingMore={loadingMore} hasMore={hasMore} />}
