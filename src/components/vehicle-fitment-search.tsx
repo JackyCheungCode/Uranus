@@ -7,6 +7,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 type CatalogOption = { value: string; label: string; detail?: string };
+type VehicleCandidate = {
+  model: string | null;
+  year: string | null;
+  generation: string | null;
+  modification: string | null;
+  region: string | null;
+  confidence: "high" | "medium" | "low";
+  clarification: string | null;
+  notes: string | null;
+};
 
 function getRows(payload: unknown): Record<string, unknown>[] {
   if (Array.isArray(payload)) return payload.filter((item): item is Record<string, unknown> => !!item && typeof item === "object");
@@ -26,7 +36,7 @@ function optionFrom(item: Record<string, unknown>, kind: "model" | "year" | "gen
   const start = item.start_year ?? item.production_start_year ?? item.year_start;
   const end = item.end_year ?? item.production_end_year ?? item.year_end;
   const detail = start ? `${start}${end && end !== start ? `–${end}` : ""}` : undefined;
-  return { value, label: kind === "year" ? label : label, detail };
+  return { value, label, detail };
 }
 
 function SelectField({
@@ -72,6 +82,10 @@ export function VehicleFitmentSearch() {
   const [loading, setLoading] = useState({ models: true, years: false, generations: false, modifications: false });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [aiDescription, setAiDescription] = useState("");
+  const [aiLoading, setAiLoading] = useState(false);
+  const [aiError, setAiError] = useState("");
+  const [aiCandidate, setAiCandidate] = useState<VehicleCandidate | null>(null);
 
   async function loadCatalog(resource: string, params: Record<string, string>) {
     const query = new URLSearchParams({ resource, ...params });
@@ -140,6 +154,39 @@ export function VehicleFitmentSearch() {
     const query = new URLSearchParams({ model, year, region });
     if (generation) query.set("generation", generation);
     if (modification) query.set("modification", modification);
+    router.push(`/vehicle-fitment/results?${query.toString()}`);
+  }
+
+  async function identifyVehicle(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setAiLoading(true);
+    setAiError("");
+    setAiCandidate(null);
+    try {
+      const response = await fetch("/api/vehicle-fitment/identify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ description: aiDescription, region }),
+      });
+      const payload = await response.json();
+      if (!response.ok) throw new Error(payload.error || "Vehicle identification failed.");
+      setAiCandidate(payload.candidate as VehicleCandidate);
+    } catch (cause) {
+      setAiError(cause instanceof Error ? cause.message : "Vehicle identification failed.");
+    } finally {
+      setAiLoading(false);
+    }
+  }
+
+  function confirmAiCandidate() {
+    if (!aiCandidate?.model || !aiCandidate.year) return;
+    const query = new URLSearchParams({
+      model: aiCandidate.model,
+      year: aiCandidate.year,
+      region: aiCandidate.region || region,
+    });
+    if (aiCandidate.generation) query.set("generation", aiCandidate.generation);
+    if (aiCandidate.modification) query.set("modification", aiCandidate.modification);
     router.push(`/vehicle-fitment/results?${query.toString()}`);
   }
 
@@ -219,14 +266,42 @@ export function VehicleFitmentSearch() {
               <h2 className="mt-1 text-lg text-white">AI VEHICLE MATCH</h2>
             </div>
           </div>
-          <p className="mt-6 text-sm font-light leading-7 text-white/70">Describe your BMW in your own words. AI-assisted vehicle identification will use the same verified BMW fitment database.</p>
-          <div className="mt-6 border border-white/20 bg-white/5 p-4">
-            <p className="text-xs font-light leading-6 text-white/60">Example: “2022 BMW M3 Competition xDrive, G80, US specification.”</p>
-          </div>
-          <div className="mt-auto pt-8">
-            <p className="text-[10px] font-bold tracking-[0.14em] text-white/50">AI IDENTIFICATION IS THE NEXT INTEGRATION STEP</p>
-            <p className="mt-2 text-xs font-light leading-6 text-white/60">No vehicle or fitment data is guessed. Manual lookup is available now; AI matching will be connected to the same confirmation flow.</p>
-          </div>
+          <p className="mt-6 text-sm font-light leading-7 text-white/70">Describe your BMW in your own words. AI extracts the likely model, year, chassis and trim. Review the candidate before requesting real fitment data.</p>
+          <form onSubmit={identifyVehicle} className="mt-6 grid gap-3">
+            <label htmlFor="ai-vehicle-description" className="text-[10px] font-bold tracking-[0.14em] text-white/60">DESCRIBE YOUR VEHICLE</label>
+            <textarea
+              id="ai-vehicle-description"
+              value={aiDescription}
+              onChange={(event) => { setAiDescription(event.target.value); setAiCandidate(null); }}
+              placeholder="Example: 2022 BMW M3 Competition xDrive, G80, US specification."
+              rows={4}
+              maxLength={500}
+              className="w-full resize-y border border-white/25 bg-white/5 px-4 py-3 text-sm font-light leading-6 text-white outline-none placeholder:text-white/35 focus:border-white/70"
+            />
+            <Button type="submit" disabled={aiLoading || aiDescription.trim().length < 5} className="w-full">
+              {aiLoading ? <LoaderCircle className="animate-spin" size={15} /> : <Sparkles size={15} />}
+              IDENTIFY MY BMW <ArrowRight size={15} />
+            </Button>
+          </form>
+          {aiError && <p role="alert" className="mt-4 border-l-2 border-white bg-white/10 px-3 py-3 text-xs font-light text-white">{aiError}</p>}
+          {aiCandidate && (
+            <div className="mt-5 border border-white/25 bg-white/5 p-4">
+              <p className="text-[10px] font-bold tracking-[0.14em] text-white/55">AI VEHICLE CANDIDATE · {aiCandidate.confidence.toUpperCase()} CONFIDENCE</p>
+              {aiCandidate.clarification ? (
+                <p className="mt-3 text-sm font-light leading-6 text-white">{aiCandidate.clarification}</p>
+              ) : (
+                <>
+                  <p className="mt-3 text-base font-bold text-white">{[aiCandidate.year, "BMW", aiCandidate.model, aiCandidate.generation, aiCandidate.modification].filter(Boolean).join(" · ")}</p>
+                  <p className="mt-2 text-xs font-light text-white/55">MARKET: {(aiCandidate.region || region).toUpperCase()}</p>
+                  {aiCandidate.notes && <p className="mt-2 text-xs font-light leading-5 text-white/65">{aiCandidate.notes}</p>}
+                  <Button type="button" onClick={confirmAiCandidate} disabled={!aiCandidate.model || !aiCandidate.year} className="mt-4 w-full">
+                    CONFIRM VEHICLE & FIND FITMENT <ArrowRight size={15} />
+                  </Button>
+                </>
+              )}
+            </div>
+          )}
+          <p className="mt-auto pt-6 text-[10px] font-light leading-5 text-white/45">AI identifies a candidate only. Wheel-Size fitment data is requested after you confirm the vehicle.</p>
         </div>
       </div>
       <div className="mt-8 grid gap-5 border-t border-line pt-6 sm:grid-cols-3">
