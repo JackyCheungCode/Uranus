@@ -181,7 +181,7 @@ export function VehicleImageCoverage() {
           <p className="mt-1 text-xs font-light text-muted">BMW model catalog · {region.toUpperCase()} · generation-level image check</p>
         </div>
         {completed > 0 && (
-          <Button variant="outline" onClick={runAll} disabled={running} className="h-10">
+          <Button variant="secondary" onClick={runAll} disabled={running} className="h-10">
             <RefreshCw size={14} /> RUN AGAIN
           </Button>
         )}
@@ -232,7 +232,7 @@ export function VehicleImageCoverage() {
                     <p className="text-xs font-light leading-5 text-muted">{result?.message || "Run the test to inspect generation image availability."}</p>
                   )}
                   {result?.status === "error" && (
-                    <Button variant="outline" size="sm" className="mt-3" onClick={() => retry(target)}>RETRY</Button>
+                    <Button variant="secondary" size="compact" className="mt-3" onClick={() => retry(target)}>RETRY</Button>
                   )}
                 </div>
               )}
