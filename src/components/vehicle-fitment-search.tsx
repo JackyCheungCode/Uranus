@@ -255,7 +255,8 @@ export function VehicleFitmentSearch({ compact = false }: { compact?: boolean } 
           <span className="text-[11px] font-bold tracking-[0.18em] text-muted">BMW FITMENT ENGINEERING / GLOBAL MARKET DATA</span>
         </div>
       </div>
-      )}\n      <div className="mt-12 border-y border-line">
+      )}
+      <div className="mt-12 border-y border-line">
         <section className="min-w-0 bg-white">
           <div className="border-b border-line bg-surface px-6 py-5 md:px-8">
             <div className="flex items-center gap-3">
@@ -323,7 +324,8 @@ export function VehicleFitmentSearch({ compact = false }: { compact?: boolean } 
           </div>
         ))}
       </div>
-      )}\n      {activeVehicle && (
+      )}
+      {activeVehicle && (
         <div className="mt-16 border-t-2 border-ink pt-8" aria-live="polite">
           <VehicleFitmentResults key={activeVehicle.requestId} {...activeVehicle} onSearchStateChange={handleSearchStateChange} />
         </div>
