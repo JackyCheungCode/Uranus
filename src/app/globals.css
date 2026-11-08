@@ -80,6 +80,6 @@ a {
 }
 
 ::selection {
-  background: var(--brand-primary);
-  color: #ffffff;
+  background: #ebebeb;
+  color: #262626;
 }
