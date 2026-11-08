@@ -14,7 +14,7 @@ function readText(value: unknown): string | undefined {
 
 function findAnyUrl(value: unknown, depth = 0): string | undefined {
   if (depth > 5) return undefined;
-  if (typeof value === "string" && /^https?:\\/\\//i.test(value)) return value;
+  if (typeof value === "string" && (value.startsWith("http://") || value.startsWith("https://"))) return value;
   if (Array.isArray(value)) {
     for (const item of value) {
       const nested = findAnyUrl(item, depth + 1);
@@ -26,7 +26,7 @@ function findAnyUrl(value: unknown, depth = 0): string | undefined {
   if (!record) return undefined;
   for (const key of ["url", "src", "href", "original", "large", "full"]) {
     const candidate = record[key];
-    if (typeof candidate === "string" && /^https?:\\/\\//i.test(candidate)) return candidate;
+    if (typeof candidate === "string" && (candidate.startsWith("http://") || candidate.startsWith("https://"))) return candidate;
   }
   for (const candidate of Object.values(record)) {
     const nested = findAnyUrl(candidate, depth + 1);
