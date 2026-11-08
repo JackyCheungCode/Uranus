@@ -5,6 +5,7 @@ import { Activity, ArrowRight, CarFront, Check, CircleHelp, Disc3, LoaderCircle,
 import { VehicleFitmentSearch } from "@/components/vehicle-fitment-search";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { DemoWheelRecommendations } from "@/components/demo-wheel-recommendations";
 
 type Entry = "vehicle" | "rim" | "tire";
 type Region = { code: string; label: string };
@@ -63,6 +64,13 @@ function ReverseResults({ result, mode, baseQuery, onLoadMore, loadingMore, hasM
   const [yearFilter, setYearFilter] = useState("");
   const [visibleCount, setVisibleCount] = useState(8);
   const total = Number(meta.count ?? rows.length);
+  const queryParams = new URLSearchParams(baseQuery);
+  const midpoint = (min: string | null, max: string | null) => min !== null && max !== null ? String((Number(min) + Number(max)) / 2) : "";
+  const demoPcd = queryParams.get("bolt_pattern") ?? "";
+  const demoCenterBore = midpoint(queryParams.get("cb_min"), queryParams.get("cb_max"));
+  const demoOffset = midpoint(queryParams.get("offset_min"), queryParams.get("offset_max"));
+  const demoDiameter = queryParams.get("rim_diameter") ?? "";
+  const demoWidth = queryParams.get("rim_width") ?? "";
   const filteredRows = rows.filter((row) => {
     const modelName = labelOf(row.model ?? row.name).toLowerCase();
     const yearText = text(row.year_ranges ?? row.years ?? row.production_years, "").toLowerCase();
@@ -208,6 +216,7 @@ function ReverseResults({ result, mode, baseQuery, onLoadMore, loadingMore, hasM
       )}
       {visibleCount < filteredRows.length && <div className="mt-5 flex justify-center"><Button type="button" variant="secondary" onClick={() => setVisibleCount((count) => count + 8)}>SHOW 8 MORE MODELS</Button></div>}
       {hasMore && <div className="mt-5 flex justify-center"><Button type="button" variant="secondary" onClick={onLoadMore} disabled={loadingMore}>{loadingMore ? <LoaderCircle size={14} className="animate-spin" /> : null}{loadingMore ? "LOADING MORE..." : "LOAD MORE VEHICLES"}</Button></div>}
+      <DemoWheelRecommendations pcd={demoPcd} centerBore={demoCenterBore} diameter={demoDiameter} width={demoWidth} offset={demoOffset} />
       <p className="mt-3 text-[11px] font-light text-muted">Compatibility results are returned by Wheel-Size and can be expanded by generation where generation data is available.</p>
     </section>
   );
