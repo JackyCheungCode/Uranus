@@ -224,7 +224,10 @@ export function VehicleImageCoverage() {
                             <div className="flex aspect-[16/9] items-center justify-center border border-line bg-surface text-xs text-muted">NO IMAGE URL</div>
                           )}
                           <p className="text-xs font-bold uppercase text-ink">{generation.name}</p>
-                          {generation.years && <p className="text-[11px] font-light text-muted">{generation.years}</p>}\n                          {!generation.imageUrl && generation.imageFields && generation.imageFields.length > 0 && (\n                            <p className="break-all text-[10px] font-light leading-5 text-muted">IMAGE FIELDS DETECTED: {generation.imageFields.join(", ")}</p>\n                          )}
+                          {generation.years && <p className="text-[11px] font-light text-muted">{generation.years}</p>}
+                          {!generation.imageUrl && generation.imageFields && generation.imageFields.length > 0 && (
+                            <p className="break-all text-[10px] font-light leading-5 text-muted">IMAGE FIELDS DETECTED: {generation.imageFields.join(", ")}</p>
+                          )}
                           {generation.imageUrl && <a className="break-all text-[10px] text-ink underline" href={generation.imageUrl} target="_blank" rel="noreferrer">OPEN IMAGE SOURCE</a>}
                         </div>
                       ))}
