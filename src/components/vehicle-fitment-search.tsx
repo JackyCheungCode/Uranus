@@ -296,7 +296,7 @@ export function VehicleFitmentSearch() {
           </div>
         </div>
         <div className="relative mt-8 flex items-center gap-3 border-t border-line-strong pt-4">
-          <span className="h-1 w-16 bg-brand" />
+          <span className="h-1 w-16 bg-ink" />
           <span className="text-[11px] font-bold tracking-[0.18em] text-muted">BMW FITMENT ENGINEERING / GLOBAL MARKET DATA</span>
         </div>
       </div>
