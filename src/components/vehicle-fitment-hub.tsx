@@ -52,12 +52,34 @@ function RegionPicker({ selected, onChange }: { selected: string[]; onChange: (v
   );
 }
 
-function ReverseResults({ result, mode, onLoadMore, loadingMore, hasMore }: { result: SearchResult; mode: "rim" | "tire"; onLoadMore: () => void; loadingMore: boolean; hasMore: boolean }) {
+function ReverseResults({ result, mode, baseQuery, onLoadMore, loadingMore, hasMore }: { result: SearchResult; mode: "rim" | "tire"; baseQuery: string; onLoadMore: () => void; loadingMore: boolean; hasMore: boolean }) {
   const rows = listFrom(result);
   const meta = asRecord(result.meta);
   const [expanded, setExpanded] = useState<string[]>([]);
   const total = Number(meta.count ?? rows.length);
   const toggle = (key: string) => setExpanded((current) => current.includes(key) ? current.filter((item) => item !== key) : [...current, key]);
+  async function loadGeneration(modelSlug: string, generationSlug: string, generationKey: string) {
+    if (!modelSlug || !generationSlug || modifications[generationKey] || loadingGeneration.includes(generationKey)) return;
+    setLoadingGeneration((current) => [...current, generationKey]);
+    setGenerationErrors((current) => ({ ...current, [generationKey]: "" }));
+    try {
+      const params = new URLSearchParams(baseQuery);
+      params.set("search_type", "drilldown");
+      params.set("fitment_type", mode);
+      params.set("model", modelSlug);
+      params.set("generation", generationSlug);
+      params.set("offset", "0");
+      params.set("limit", "100");
+      const response = await fetch(`/api/vehicle-fitment/reverse?${params.toString()}`);
+      const payload = await response.json();
+      if (!response.ok) throw new Error(payload.error || "Unable to load vehicle modifications.");
+      setModifications((current) => ({ ...current, [generationKey]: listFrom(payload) }));
+    } catch (cause) {
+      setGenerationErrors((current) => ({ ...current, [generationKey]: cause instanceof Error ? cause.message : "Unable to load vehicle modifications." }));
+    } finally {
+      setLoadingGeneration((current) => current.filter((item) => item !== generationKey));
+    }
+  }
   return (
     <section className="mt-10 border-t-2 border-ink pt-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
@@ -97,14 +119,59 @@ function ReverseResults({ result, mode, onLoadMore, loadingMore, hasMore }: { re
                 {isOpen && (
                   <div className="border-t border-line bg-surface px-4 py-4 sm:px-5">
                     {generationRows.length ? (
-                      <div className="grid gap-3 md:grid-cols-2">
-                        {generationRows.map((generation, generationIndex) => (
-                          <div key={String(generation.slug ?? generation.id ?? generationIndex)} className="border-l-2 border-line-strong bg-white px-4 py-3">
-                            <p className="text-sm font-bold text-ink">{labelOf(generation)}</p>
-                            <p className="mt-1 text-xs font-light text-muted">{text(generation.start_year ?? generation.year_start)} — {text(generation.end_year ?? generation.year_end)}</p>
-                            {Array.isArray(generation.modifications) && <p className="mt-2 text-xs font-light text-body">{generation.modifications.length} MODIFICATIONS</p>}
-                          </div>
-                        ))}
+                      <div className="space-y-3">
+                        {generationRows.map((generation, generationIndex) => {
+                          const generationSlug = String(generation.slug ?? "");
+                          const modelValue = asRecord(row.model);
+                          const modelSlug = String(modelValue.slug ?? row.model_slug ?? "");
+                          const generationKey = `${key}:${generationSlug || generationIndex}`;
+                          const details = modifications[generationKey] ?? [];
+                          const isLoadingGeneration = loadingGeneration.includes(generationKey);
+                          return (
+                            <div key={generationKey} className="bg-white">
+                              <button type="button" onClick={() => { if (generationSlug && modelSlug) { if (!expanded.includes(generationKey)) setExpanded((current) => [...current, generationKey]); loadGeneration(modelSlug, generationSlug, generationKey); } }} aria-expanded={expanded.includes(generationKey)} className="flex min-h-14 w-full items-center justify-between gap-4 px-4 py-3 text-left hover:bg-surface">
+                                <span>
+                                  <span className="block text-sm font-bold text-ink">{labelOf(generation)}</span>
+                                  <span className="mt-1 block text-xs font-light text-muted">{text(generation.start_year ?? generation.year_start)} — {text(generation.end_year ?? generation.year_end)}</span>
+                                </span>
+                                <span className="flex items-center gap-2 text-[10px] font-bold tracking-[0.1em] text-muted">{isLoadingGeneration ? "LOADING..." : details.length ? `${details.length} MODIFICATIONS` : "VIEW MODIFICATIONS"}<span>{expanded.includes(generationKey) ? "−" : "+"}</span></span>
+                              </button>
+                              {expanded.includes(generationKey) && (
+                                <div className="border-t border-line bg-surface px-4 py-4">
+                                  {generationErrors[generationKey] && <p role="alert" className="mb-3 text-xs font-light text-ink">{generationErrors[generationKey]}</p>}
+                                  {isLoadingGeneration ? <p className="text-xs font-light text-muted">Loading matching BMW configurations...</p> : details.length ? (
+                                    <div className="divide-y divide-line border-y border-line">
+                                      {details.map((item, itemIndex) => {
+                                        const engine = asRecord(item.engine);
+                                        const power = asRecord(engine.power);
+                                        return (
+                                          <article key={String(item.slug ?? itemIndex)} className="py-4">
+                                            <div className="flex flex-wrap items-start justify-between gap-3">
+                                              <div>
+                                                <h3 className="text-sm font-bold text-ink">{text(item.trim, "BMW MODIFICATION")}</h3>
+                                                <p className="mt-1 text-xs font-light text-muted">{text(item.body)}{item.start_year || item.end_year ? ` · ${text(item.start_year)}–${text(item.end_year)}` : ""}</p>
+                                                <p className="mt-1 text-xs font-light text-body">{[engine.type, engine.capacity ? `${engine.capacity} L` : null, engine.fuel, power.hp ? `${power.hp} hp` : null, engine.code].filter(Boolean).join(" · ") || "ENGINE DATA NOT PROVIDED"}</p>
+                                              </div>
+                                              <span className="text-[10px] font-bold tracking-[0.1em] text-muted">OEM FITMENT</span>
+                                            </div>
+                                            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                                              <div className="bg-white px-3 py-3"><p className="text-[10px] font-bold tracking-[0.12em] text-muted">OEM RIM</p><p className="mt-1 text-sm font-bold text-ink">{text(item.oem_rim)}</p></div>
+                                              <div className="bg-white px-3 py-3"><p className="text-[10px] font-bold tracking-[0.12em] text-muted">OEM TIRE</p><p className="mt-1 text-sm font-bold text-ink">{text(item.oem_tire)}</p></div>
+                                            </div>
+                                            <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                                              {[["FRONTSPACE Δ", item.fs_delta_mm, "mm"], ["BACKSPACE Δ", item.bs_delta_mm, "mm"], ["CENTER BORE Δ", item.cb_diff_mm, "mm"], ["LOAD CAPACITY", item.load_kg, "kg"]].map(([label, value, unit]) => <div key={String(label)} className="bg-white px-3 py-2"><p className="text-[9px] font-bold tracking-[0.1em] text-muted">{label}</p><p className="mt-1 text-xs font-bold text-ink">{value === null || value === undefined ? "—" : `${value} ${unit}`}</p></div>)}
+                                            </div>
+                                            {item.load_index !== null && item.load_index !== undefined && <p className="mt-2 text-[10px] font-light text-muted">LOAD INDEX: {String(item.load_index)}</p>}
+                                          </article>
+                                        );
+                                      })}
+                                    </div>
+                                  ) : !generationErrors[generationKey] ? <p className="text-xs font-light text-muted">No trim-level records were returned for this generation and exact search parameters.</p> : null}
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
                       </div>
                     ) : (
                       <div className="grid gap-3 text-xs font-light text-body sm:grid-cols-3">
@@ -246,7 +313,7 @@ function ReverseSearch({ mode }: { mode: "rim" | "tire" }) {
           <button type="button" onClick={() => { setResult(null); setError(""); }} className="text-[11px] font-bold tracking-[0.1em] text-muted underline underline-offset-4">CLEAR RESULTS</button>
         </div>
       </form>
-      {result && <ReverseResults result={result} mode={mode} onLoadMore={loadMore} loadingMore={loadingMore} hasMore={hasMore} />}
+      {result && <ReverseResults result={result} mode={mode} baseQuery={baseQuery} onLoadMore={loadMore} loadingMore={loadingMore} hasMore={hasMore} />}
     </>
   );
 }
