@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 type UnknownRecord = Record<string, unknown>;
@@ -13,25 +12,36 @@ function readText(value: unknown): string | undefined {
   return typeof value === "string" || typeof value === "number" ? String(value) : undefined;
 }
 
-function findImageUrl(value: unknown, depth = 0): string | undefined {
-  if (depth > 4) return undefined;
-  const record = asRecord(value);
-  if (!record) return undefined;
-
-  const preferredKeys = ["image_url", "imageUrl", "image", "photo_url", "photo", "photography", "picture", "thumbnail"];
-  for (const key of preferredKeys) {
-    const candidate = record[key];
-    if (typeof candidate === "string" && /^https?:\/\//i.test(candidate)) return candidate;
-    if (candidate && typeof candidate === "object") {
-      const nested = findImageUrl(candidate, depth + 1);
+function findAnyUrl(value: unknown, depth = 0): string | undefined {
+  if (depth > 5) return undefined;
+  if (typeof value === "string" && /^https?:\\/\\//i.test(value)) return value;
+  if (Array.isArray(value)) {
+    for (const item of value) {
+      const nested = findAnyUrl(item, depth + 1);
       if (nested) return nested;
     }
+    return undefined;
   }
+  const record = asRecord(value);
+  if (!record) return undefined;
+  for (const key of ["url", "src", "href", "original", "large", "full"]) {
+    const candidate = record[key];
+    if (typeof candidate === "string" && /^https?:\\/\\//i.test(candidate)) return candidate;
+  }
+  for (const candidate of Object.values(record)) {
+    const nested = findAnyUrl(candidate, depth + 1);
+    if (nested) return nested;
+  }
+  return undefined;
+}
+
+function findImageUrl(value: unknown): string | undefined {
+  const record = asRecord(value);
+  if (!record) return undefined;
   for (const [key, candidate] of Object.entries(record)) {
-    if (/image|photo|picture|photography/i.test(key)) {
-      if (typeof candidate === "string" && /^https?:\/\//i.test(candidate)) return candidate;
-      const nested = findImageUrl(candidate, depth + 1);
-      if (nested) return nested;
+    if (/image|photo|picture|photography|thumbnail/i.test(key)) {
+      const url = findAnyUrl(candidate);
+      if (url) return url;
     }
   }
   return undefined;
