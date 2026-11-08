@@ -106,7 +106,7 @@ function SelectField({
     </div>
   );
 }
-export function VehicleFitmentSearch() {
+export function VehicleFitmentSearch({ compact = false }: { compact?: boolean } = {}) {
   const [activeVehicle, setActiveVehicle] = useState<{ model: string; year: string; generation?: string; modification?: string; region: string; requestId: number } | null>(null);
   const [searchSequence, setSearchSequence] = useState(0);
   const [region, setRegion] = useState("usdm");
@@ -220,8 +220,8 @@ export function VehicleFitmentSearch() {
 
 
   return (
-    <section className="mx-auto max-w-[1440px] px-5 pb-20 pt-8 md:px-10 md:pb-28 md:pt-10">
-      <div className="relative isolate overflow-hidden bg-[radial-gradient(ellipse_at_18%_0%,#ffffff_0%,#f7f7f7_52%,#ebebeb_100%)] px-6 py-10 md:px-12 md:py-14">
+    <section className={compact ? "w-full" : "mx-auto max-w-[1440px] px-5 pb-20 pt-8 md:px-10 md:pb-28 md:pt-10"}>
+      {!compact && (\n      <div className="relative isolate overflow-hidden bg-[radial-gradient(ellipse_at_18%_0%,#ffffff_0%,#f7f7f7_52%,#ebebeb_100%)] px-6 py-10 md:px-12 md:py-14">
         <div aria-hidden="true" className="pointer-events-none absolute -right-12 -top-20 h-[420px] w-[420px] opacity-25">
           <svg viewBox="0 0 420 420" className="h-full w-full" fill="none">
             <circle cx="210" cy="210" r="178" stroke="#6b6b6b" strokeWidth="1"/>
@@ -255,7 +255,7 @@ export function VehicleFitmentSearch() {
           <span className="text-[11px] font-bold tracking-[0.18em] text-muted">BMW FITMENT ENGINEERING / GLOBAL MARKET DATA</span>
         </div>
       </div>
-      <div className="mt-12 border-y border-line">
+      )}\n      <div className="mt-12 border-y border-line">
         <section className="min-w-0 bg-white">
           <div className="border-b border-line bg-surface px-6 py-5 md:px-8">
             <div className="flex items-center gap-3">
@@ -311,7 +311,7 @@ export function VehicleFitmentSearch() {
         </section>
 
       </div>
-      <div className="mt-8 grid gap-5 border-t border-line pt-6 sm:grid-cols-3">
+      {!compact && (\n      <div className="mt-8 grid gap-5 border-t border-line pt-6 sm:grid-cols-3">
         {[
           ["OEM FACTORY SPECS", "Original wheel and tire dimensions from the selected vehicle."],
           ["AFTERMARKET FITMENT", "Additional wheel and tire combinations for your chassis and trim."],
@@ -323,7 +323,7 @@ export function VehicleFitmentSearch() {
           </div>
         ))}
       </div>
-      {activeVehicle && (
+      )}\n      {activeVehicle && (
         <div className="mt-16 border-t-2 border-ink pt-8" aria-live="polite">
           <VehicleFitmentResults key={activeVehicle.requestId} {...activeVehicle} onSearchStateChange={handleSearchStateChange} />
         </div>
