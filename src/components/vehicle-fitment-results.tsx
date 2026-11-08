@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { AlertTriangle, Check, LoaderCircle, Search, SlidersHorizontal } from "lucide-react";
+import { AlertTriangle, Check, LoaderCircle, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 type Props = {
