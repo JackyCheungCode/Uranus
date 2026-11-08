@@ -68,7 +68,7 @@ export async function GET(request: NextRequest) {
   try {
     async function requestFitment(url: URL) {
       const response = await fetch(url, {
-        headers: { Accept: "application/json", "Accept-Encoding": "gzip" },
+        headers: { Accept: "application/json" },
         cache: "no-store",
         signal: AbortSignal.timeout(20000),
       });
