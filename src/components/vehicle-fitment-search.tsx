@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { VehicleFitmentResults } from "@/components/vehicle-fitment-results";
 import { ArrowRight, CarFront, Check, ChevronDown, LoaderCircle, Search, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -70,7 +70,7 @@ function SelectField({
 }
 
 export function VehicleFitmentSearch() {
-  const router = useRouter();
+  const [activeVehicle, setActiveVehicle] = useState<{ model: string; year: string; generation?: string; modification?: string; region: string } | null>(null);
   const [region, setRegion] = useState("usdm");
   const [models, setModels] = useState<CatalogOption[]>([]);
   const [years, setYears] = useState<CatalogOption[]>([]);
@@ -152,10 +152,9 @@ export function VehicleFitmentSearch() {
       return;
     }
     setSubmitting(true);
-    const query = new URLSearchParams({ model, year, region });
-    if (generation) query.set("generation", generation);
-    if (modification) query.set("modification", modification);
-    router.push(`/vehicle-fitment/results?${query.toString()}`);
+    setError("");
+    setActiveVehicle({ model, year, generation: generation || undefined, modification: modification || undefined, region });
+    setSubmitting(false);
   }
 
   async function identifyVehicle(event: FormEvent<HTMLFormElement>) {
@@ -181,14 +180,12 @@ export function VehicleFitmentSearch() {
 
   function confirmAiCandidate() {
     if (!aiCandidate?.model || !aiCandidate.year) return;
-    const query = new URLSearchParams({
-      model: aiCandidate.model,
-      year: aiCandidate.year,
-      region: aiCandidate.region || region,
-    });
-    if (aiCandidate.generation) query.set("generation", aiCandidate.generation);
-    if (aiCandidate.modification) query.set("modification", aiCandidate.modification);
-    router.push(`/vehicle-fitment/results?${query.toString()}`);
+    setModel(aiCandidate.model);
+    setYear(aiCandidate.year);
+    setGeneration(aiCandidate.generation || "");
+    setModification(aiCandidate.modification || "");
+    setRegion(aiCandidate.region || region);
+    setActiveVehicle({ model: aiCandidate.model, year: aiCandidate.year, generation: aiCandidate.generation || undefined, modification: aiCandidate.modification || undefined, region: aiCandidate.region || region });
   }
 
   return (
@@ -317,6 +314,11 @@ export function VehicleFitmentSearch() {
           </div>
         ))}
       </div>
+      {activeVehicle && (
+        <div className="mt-16 border-t-2 border-ink pt-8" aria-live="polite">
+          <VehicleFitmentResults {...activeVehicle} />
+        </div>
+      )}
     </section>
   );
 }
