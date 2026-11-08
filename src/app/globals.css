@@ -1,0 +1,85 @@
+@import "@fontsource/inter/300.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/700.css";
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", Arial, sans-serif;
+  --color-brand: #1c69d4;
+  --color-ink: #262626;
+  --color-body: #3c3c3c;
+  --color-muted: #6b6b6b;
+  --color-canvas: #ffffff;
+  --color-surface: #f7f7f7;
+  --color-surface-card: #fafafa;
+  --color-surface-strong: #ebebeb;
+  --color-line: #e6e6e6;
+  --color-line-strong: #cccccc;
+  --radius-*: initial;
+  --radius-none: 0px;
+  --spacing-section: 5rem;
+}
+
+:root {
+  color-scheme: light;
+  --brand-primary: #1c69d4;
+  --color-ink: #262626;
+  --color-body: #3c3c3c;
+  --color-muted: #6b6b6b;
+  --color-canvas: #ffffff;
+  --color-surface: #f7f7f7;
+  --color-surface-card: #fafafa;
+  --color-surface-strong: #ebebeb;
+  --color-line: #e6e6e6;
+  --color-line-strong: #cccccc;
+  --radius: 0px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-20: 80px;
+}
+
+* {
+  box-sizing: border-box;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--color-canvas);
+  color: var(--color-body);
+  font-family: "Inter", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.55;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-ink);
+  font-weight: 700;
+  line-height: 1.08;
+  text-transform: uppercase;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: var(--brand-primary);
+  color: #ffffff;
+}
