@@ -8,6 +8,8 @@ function asRecord(value: unknown): RecordValue {
   return value && typeof value === "object" && !Array.isArray(value) ? value as RecordValue : {};
 }
 
+const SUPPORTED_REGIONS = new Set(["usdm", "cdm", "mxndm", "ladm", "eudm", "rus", "jdm", "chdm", "skdm", "sam", "medm", "nadm", "sadm", "audm"]);
+
 function firstOeWheel(payload: unknown): RecordValue | null {
   const root = asRecord(payload);
   const rows = Array.isArray(root.data) ? root.data : Array.isArray(root.results) ? root.results : [];
@@ -15,7 +17,7 @@ function firstOeWheel(payload: unknown): RecordValue | null {
     const vehicle = asRecord(row);
     const wheels = vehicle.wheels ?? vehicle.wheel;
     const wheelRows = Array.isArray(wheels) ? wheels : wheels && typeof wheels === "object" ? [wheels] : [];
-    const found = wheelRows.map(asRecord).find((wheel) => wheel.is_stock === true);
+    const found = wheelRows.map(asRecord).find((wheel) => wheel.is_stock === true || vehicle.is_stock === true);
     if (found) return found;
   }
   return null;
@@ -43,6 +45,9 @@ export async function GET(request: NextRequest) {
   if (!model || !year) {
     return NextResponse.json({ error: "Select a BMW model and model year first." }, { status: 400 });
   }
+  if (!SUPPORTED_REGIONS.has(region)) {
+    return NextResponse.json({ error: "Unsupported market / region. Choose one of the 14 supported Wheel-Size regions." }, { status: 400 });
+  }
 
   const upstream = new URL("https://api.wheel-size.com/v2/search/by_model/");
   upstream.searchParams.set("make", "bmw");
@@ -60,7 +65,11 @@ export async function GET(request: NextRequest) {
       signal: AbortSignal.timeout(20000),
     });
     const payload: unknown = await response.json();
-    if (!response.ok) return NextResponse.json(payload, { status: response.status });
+    if (!response.ok) {
+      const upstreamError = asRecord(payload);
+      const detail = upstreamError.detail ?? upstreamError.message ?? upstreamError.error;
+      return NextResponse.json({ error: detail ? `Wheel-Size API: ${String(detail)}` : `Wheel-Size API returned HTTP ${response.status}. Check the selected model, year, generation and region.` }, { status: response.status });
+    }
 
     // Plus/minus sizing is requested only after a visitor explicitly submits a vehicle search.
     // One OE package is used for the sizing call to keep API usage predictable.
