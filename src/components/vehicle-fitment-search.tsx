@@ -158,22 +158,39 @@ export function VehicleFitmentSearch() {
   useEffect(() => {
     if (!model) { setYears([]); setGenerations([]); setModifications([]); return; }
     let active = true;
-    setLoading((current) => ({ ...current, years: true, generations: true }));
-    setYear(""); setGeneration(""); setModification(""); setModifications([]);
-    Promise.all([
-      loadCatalog("years", { model, region }),
-      loadCatalog("generations", { model, region }),
-    ]).then(([yearRows, generationRows]) => {
-      if (!active) return;
-      setYears(yearRows.map((item) => optionFrom(item, "year")).filter((item): item is CatalogOption => !!item));
-      setGenerations(generationRows.map((item) => optionFrom(item, "generation")).filter((item): item is CatalogOption => !!item));
-    }).catch((cause) => {
-      if (active) setError(cause instanceof Error ? cause.message : "Unable to load model years and generations.");
-    }).finally(() => {
-      if (active) setLoading((current) => ({ ...current, years: false, generations: false }));
-    });
+    setLoading((current) => ({ ...current, years: true }));
+    setYear(""); setGeneration(""); setModification("");
+    setGenerations([]); setModifications([]);
+    loadCatalog("years", { model, region })
+      .then((rows) => {
+        if (active) setYears(rows.map((item) => optionFrom(item, "year")).filter((item): item is CatalogOption => !!item));
+      })
+      .catch((cause) => {
+        if (active) setError(cause instanceof Error ? cause.message : "Unable to load model years.");
+      })
+      .finally(() => {
+        if (active) setLoading((current) => ({ ...current, years: false }));
+      });
     return () => { active = false; };
   }, [model, region]);
+
+  useEffect(() => {
+    if (!model || !year) { setGenerations([]); setGeneration(""); return; }
+    let active = true;
+    setLoading((current) => ({ ...current, generations: true }));
+    setGeneration(""); setModification(""); setModifications([]);
+    loadCatalog("generations", { model, year, region })
+      .then((rows) => {
+        if (active) setGenerations(rows.map((item) => optionFrom(item, "generation")).filter((item): item is CatalogOption => !!item));
+      })
+      .catch((cause) => {
+        if (active) setError(cause instanceof Error ? cause.message : "Unable to load chassis generations for this year.");
+      })
+      .finally(() => {
+        if (active) setLoading((current) => ({ ...current, generations: false }));
+      });
+    return () => { active = false; };
+  }, [model, year, region]);
 
   useEffect(() => {
     if (!model || !year) { setModifications([]); setModification(""); return; }
@@ -259,7 +276,12 @@ export function VehicleFitmentSearch() {
             {Array.from({ length: 10 }, (_, index) => <line key={index} x1="210" y1="58" x2="210" y2="166" stroke="#6b6b6b" strokeWidth="2" transform={`rotate(${index * 36} 210 210)`} />)}
           </svg>
         </div>
-        <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-[radial-gradient(ellipse_at_15%_0%,#ffffff_0%,transparent_70%)]" />
+        <div aria-hidden="true" className="pointer-events-none absolute -left-10 top-0 h-32 w-72 opacity-70">
+          <svg viewBox="0 0 288 128" className="h-full w-full" fill="none">
+            <path d="M0 92C17 70 35 69 54 79C65 45 103 31 133 49C151 8 206 6 230 42C259 35 282 52 288 76V128H0V92Z" fill="#ffffff"/>
+            <path d="M0 105C24 86 47 89 64 98C91 76 119 78 141 96C164 69 205 71 222 94C246 84 273 93 288 108" stroke="#cccccc" strokeWidth="1"/>
+          </svg>
+        </div>
         <div className="relative grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(280px,0.62fr)] lg:items-end">
           <div>
             <p className="text-[12px] font-bold tracking-[0.2em] text-muted">BMW WHEEL FITMENT / ENGINEERED FOR YOUR BMW</p>
@@ -278,11 +300,6 @@ export function VehicleFitmentSearch() {
           <span className="text-[11px] font-bold tracking-[0.18em] text-muted">BMW FITMENT ENGINEERING / GLOBAL MARKET DATA</span>
         </div>
       </div>
-          <p className="text-[12px] font-bold tracking-[0.16em] text-muted">FITMENT STARTS WITH THE DETAILS</p>
-          <p className="mt-2 text-sm font-light leading-6 text-body">The same BMW model can use different wheels across model years, chassis generations, engines and regional specifications.</p>
-        </div>
-      </div>
-
       <div className="mt-12 grid border-y border-line lg:grid-cols-[minmax(0,1.45fr)_minmax(280px,0.75fr)]">
         <section className="min-w-0 bg-white">
           <div className="border-b border-line bg-surface px-6 py-5 md:px-8">
