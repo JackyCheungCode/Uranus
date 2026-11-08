@@ -131,6 +131,7 @@ export function VehicleFitmentResults({ model, year, generation, modification, r
           {loading ? <><LoaderCircle size={15} className="animate-spin" /> RETRIEVING WHEEL-SIZE DATA</> : error ? "QUERY NEEDS ATTENTION" : `${fitments.length} FITMENT RECORDS · ${upsteps.length} SIZE CANDIDATES`}
         </div>
       </div>
+      {!loading && !error && record(payload).fallbackMessage && <p role="status" className="mt-4 border-l-2 border-ink bg-surface px-4 py-3 text-xs font-light leading-5 text-body">{display(record(payload).fallbackMessage)}</p>}
 
       {loading && <div className="flex min-h-36 items-center gap-3 py-8 text-sm font-light text-muted"><LoaderCircle size={18} className="animate-spin" /> RETRIEVING OEM, AFTERMARKET AND SIZE ALTERNATIVES...</div>}
       {error && <div role="alert" className="mt-6 flex items-start gap-3 border-l-2 border-ink bg-surface px-4 py-4 text-sm font-light text-ink"><AlertTriangle size={18} />{error}</div>}
