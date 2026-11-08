@@ -91,7 +91,7 @@ export function VehicleFitmentResults({ model, year, generation, modification, r
       .then((result) => { if (active) setPayload(result); })
       .catch((cause) => { if (active) setError(cause instanceof Error ? cause.message : "Unable to load fitment data."); })
       .finally(() => { if (active) { setLoading(false); onSearchStateChange?.(false); } });
-    return () => { active = false; };
+    return () => { active = false; onSearchStateChange?.(false); };
   }, [query, onSearchStateChange]);
 
   const vehicles = useMemo(() => rowsFrom(payload), [payload]);
