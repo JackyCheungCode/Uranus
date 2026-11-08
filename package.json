@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "cf-build": "opennextjs-cloudflare build",
+    "cf-deploy": "wrangler deploy"
   },
   "dependencies": {
     "@fontsource/inter": "^5.2.6",
@@ -28,6 +30,8 @@
     "eslint": "^9.35.0",
     "eslint-config-next": "^16.0.0",
     "tailwindcss": "^4.1.13",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "@opennextjs/cloudflare": "latest",
+    "wrangler": "latest"
   }
 }
