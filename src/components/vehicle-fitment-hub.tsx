@@ -121,7 +121,8 @@ function ReverseResults({ result, mode, onLoadMore, loadingMore, hasMore }: { re
           })}
         </div>
       )}
-      {hasMore && <div className="mt-5 flex justify-center"><Button type="button" variant="secondary" onClick={onLoadMore} disabled={loadingMore}>{loadingMore ? <LoaderCircle size={14} className="animate-spin" /> : null}{loadingMore ? "LOADING MORE..." : "LOAD MORE VEHICLES"}</Button></div>}\n      <p className="mt-3 text-[11px] font-light text-muted">Compatibility results are returned by Wheel-Size and can be expanded by generation where generation data is available.</p>
+      {hasMore && <div className="mt-5 flex justify-center"><Button type="button" variant="secondary" onClick={onLoadMore} disabled={loadingMore}>{loadingMore ? <LoaderCircle size={14} className="animate-spin" /> : null}{loadingMore ? "LOADING MORE..." : "LOAD MORE VEHICLES"}</Button></div>}
+      <p className="mt-3 text-[11px] font-light text-muted">Compatibility results are returned by Wheel-Size and can be expanded by generation where generation data is available.</p>
     </section>
   );
 }
@@ -130,8 +131,9 @@ function ReverseSearch({ mode }: { mode: "rim" | "tire" }) {
   const [regions, setRegions] = useState<string[]>(["usdm"]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [result, setResult] = useState<SearchResult | null>(null);\n  const [baseQuery, setBaseQuery] = useState("");\n  const [loadingMore, setLoadingMore] = useState(false);
-  const [page, setPage] = useState(0);
+  const [result, setResult] = useState<SearchResult | null>(null);
+  const [baseQuery, setBaseQuery] = useState("");
+  const [loadingMore, setLoadingMore] = useState(false);
   const [values, setValues] = useState({
     boltPattern: "", diameter: "18", width: "8", offset: "", centerBore: "",
     sectionWidth: "225", aspectRatio: "45", tireDiameter: "18",
@@ -170,7 +172,9 @@ function ReverseSearch({ mode }: { mode: "rim" | "tire" }) {
       params.set("rim_diameter", values.tireDiameter);
     }
     try {
-      const response = await fetch(`/api/vehicle-fitment/reverse?${params.toString()}`);
+      const query = params.toString();
+      setBaseQuery(query);
+      const response = await fetch(`/api/vehicle-fitment/reverse?${query}`);
       const payload = await response.json();
       if (!response.ok) throw new Error(payload.error || "Search failed.");
       setResult(payload as SearchResult);
@@ -180,6 +184,26 @@ function ReverseSearch({ mode }: { mode: "rim" | "tire" }) {
       setLoading(false);
     }
   }
+
+  async function loadMore() {
+    if (!result || loadingMore) return;
+    setLoadingMore(true);
+    try {
+      const params = new URLSearchParams(baseQuery);
+      params.set("offset", String(listFrom(result).length));
+      const response = await fetch(`/api/vehicle-fitment/reverse?${params.toString()}`);
+      const next = await response.json();
+      if (!response.ok) throw new Error(next.error || "Unable to load more results.");
+      setResult((current) => current ? { ...current, ...next, data: [...listFrom(current), ...listFrom(next)] } : next);
+    } catch (cause) {
+      setError(cause instanceof Error ? cause.message : "Unable to load more results.");
+    } finally {
+      setLoadingMore(false);
+    }
+  }
+
+  const total = Number(asRecord(result?.meta).count ?? listFrom(result).length);
+  const hasMore = !!result && listFrom(result).length < total;
 
   return (
     <>
