@@ -3,6 +3,7 @@
 import { Fragment, useEffect, useMemo, useState } from "react";
 import { AlertTriangle, CarFront, Check, Disc3, Gauge, LoaderCircle, SlidersHorizontal, Wrench } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { DemoWheelRecommendations } from "@/components/demo-wheel-recommendations";
 
 type Props = {
   model?: string;
@@ -332,23 +333,13 @@ export function VehicleFitmentResults({ model, year, generation, modification, r
             ) : <p className="mt-4 text-sm font-light text-muted">Select a fitment row above to build a product specification.</p>}
           </section>
 
-          <section className="mt-8 border-t border-line pt-5">
-            <div className="flex flex-wrap items-end justify-between gap-3">
-              <div><p className="text-[12px] font-bold tracking-[0.16em] text-muted">04 / AUTOMATIC PRODUCT MATCH</p><h3 className="mt-1 text-xl">WHEEL PRODUCT RECOMMENDATIONS</h3></div>
-              <span className="text-[11px] font-bold tracking-[0.12em] text-muted">CATALOG INTEGRATION PENDING</span>
-            </div>
-            <div className="mt-4 grid gap-4 border-y border-line bg-surface px-4 py-4 md:grid-cols-[1fr_auto] md:items-center">
-              <div>
-                <p className="text-sm font-bold text-ink">{selected ? "MATCH SPECIFICATION READY" : "SELECT A FITMENT FIRST"}</p>
-                <p className="mt-1 text-xs font-light leading-6 text-muted">
-                  {selected ? "The selected front / rear rim width and ET values are now the matching criteria for the product catalog. Product results will appear here when the store wheel inventory is connected." : "Choose an OEM or aftermarket fitment row to define the target wheel size and offset."}
-                </p>
-              </div>
-              <div className="text-[12px] font-bold tracking-[0.1em] text-muted">{selected ? "SIZE + J + ET" : "AWAITING SELECTION"}</div>
-            </div>
-            <p className="mt-3 text-[12px] font-light leading-5 text-muted">PRODUCT MATCHING WILL USE FRONT / REAR DIAMETER, WIDTH (J), OFFSET (ET), PCD, CENTER BORE AND AVAILABLE LOAD RATING. NO PRODUCT OR STOCK CLAIM IS SHOWN UNTIL THE REAL STORE CATALOG IS CONNECTED.</p>
-          </section>
-
+          <DemoWheelRecommendations
+            pcd={display(technical.bolt_pattern ?? technical.pcd) === "—" ? "" : display(technical.bolt_pattern ?? technical.pcd)}
+            centerBore={display(technical.centre_bore ?? technical.center_bore) === "—" ? "" : display(technical.centre_bore ?? technical.center_bore)}
+            diameter={selectedFront?.diameter === "—" ? "" : selectedFront?.diameter ?? ""}
+            width={selectedFront?.width === "—" ? "" : selectedFront?.width ?? ""}
+            offset={selectedFront?.offset === "—" ? "" : selectedFront?.offset ?? ""}
+          />
           <section className="mt-8 border-t border-line pt-5">
             <div className="flex items-start gap-3">
               <AlertTriangle size={18} className="mt-0.5 shrink-0 text-ink" />
