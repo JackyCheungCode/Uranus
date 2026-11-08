@@ -10,9 +10,6 @@
   ],
   "workers_dev": true,
   "upload_source_maps": true,
-  "ai": {
-    "binding": "AI"
-  },
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"

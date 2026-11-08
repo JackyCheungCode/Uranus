@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { AlertTriangle, Check, LoaderCircle, SlidersHorizontal } from "lucide-react";
+import { Fragment, useEffect, useMemo, useState } from "react";
+import { AlertTriangle, CarFront, Check, Disc3, Gauge, LoaderCircle, SlidersHorizontal, Wrench } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 type Props = {
@@ -65,6 +65,11 @@ export function VehicleFitmentResults({ model, year, generation, modification, r
   const [error, setError] = useState("");
   const [selectedId, setSelectedId] = useState("");
   const [showSizing, setShowSizing] = useState(true);
+  const [sourceFilter, setSourceFilter] = useState<"ALL" | "OEM" | "AFTERMARKET">("ALL");
+  const [diameterFilter, setDiameterFilter] = useState("ALL");
+  const [widthFilter, setWidthFilter] = useState("ALL");
+  const [rftOnly, setRftOnly] = useState(false);
+  const [xlOnly, setXlOnly] = useState(false);
   const query = useMemo(() => {
     const params = new URLSearchParams();
     if (model) params.set("model", model);
@@ -106,7 +111,23 @@ export function VehicleFitmentResults({ model, year, generation, modification, r
   ), [vehicles]);
   const oem = fitments.filter((item) => item.source === "OEM");
   const aftermarket = fitments.filter((item) => item.source === "AFTERMARKET");
-  const selected = fitments.find((item) => item.id === selectedId) ?? oem[0] ?? aftermarket[0] ?? null;
+  const diameterOptions = [...new Set(fitments.flatMap((item) => [axis(item.wheel, "front").diameter, axis(item.wheel, "rear").diameter]).filter((value) => value !== "—"))].sort((a, b) => Number(a) - Number(b));
+  const widthOptions = [...new Set(fitments.flatMap((item) => [axis(item.wheel, "front").width, axis(item.wheel, "rear").width]).filter((value) => value !== "—"))].sort((a, b) => Number(a) - Number(b));
+  const filteredFitments = fitments.filter((item) => {
+    const front = axis(item.wheel, "front");
+    const rear = axis(item.wheel, "rear");
+    const diameterMatches = diameterFilter === "ALL" || front.diameter === diameterFilter || rear.diameter === diameterFilter;
+    const widthMatches = widthFilter === "ALL" || front.width === widthFilter || rear.width === widthFilter;
+    return (sourceFilter === "ALL" || item.source === sourceFilter)
+      && diameterMatches && widthMatches
+      && (!rftOnly || item.wheel.is_runflat_tires === true)
+      && (!xlOnly || item.wheel.is_extra_load_tires === true);
+  });
+  const groupedFitments = (["OEM", "AFTERMARKET"] as const)
+    .filter((source) => sourceFilter === "ALL" || sourceFilter === source)
+    .map((source) => ({ source, rows: filteredFitments.filter((item) => item.source === source) }))
+    .filter((group) => group.rows.length > 0);
+  const selected = filteredFitments.find((item) => item.id === selectedId) ?? filteredFitments[0] ?? null;
   const primary = vehicles[0] ?? {};
   const technical = record(primary.technical);
   const vehicleName = [record(primary.make).name, record(primary.model).name, record(primary.generation).name, primary.name ?? primary.trim].filter(Boolean).join(" ");
@@ -159,51 +180,119 @@ export function VehicleFitmentResults({ model, year, generation, modification, r
             </div>
             <p className="text-[12px] font-light text-muted">SELECT A ROW TO BUILD YOUR PRODUCT MATCH</p>
           </div>
+          <div className="mt-4 grid gap-4 border-b border-line pb-4 lg:grid-cols-2">
+            <div className="grid gap-3">
+              <div>
+                <p className="text-[11px] font-bold tracking-[0.14em] text-muted">FITMENT SOURCE</p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {(["ALL", "OEM", "AFTERMARKET"] as const).map((source) => (
+                    <button key={source} type="button" aria-pressed={sourceFilter === source} onClick={() => setSourceFilter(source)}
+                      className={`border px-3 py-2 text-[11px] font-bold tracking-[0.08em] transition-colors ${sourceFilter === source ? "border-ink bg-ink text-white" : "border-line-strong bg-white text-muted hover:border-ink hover:text-ink"}`}>
+                      {source === "ALL" ? `ALL SOURCES · ${fitments.length}` : `${source} · ${source === "OEM" ? oem.length : aftermarket.length}`}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p className="text-[11px] font-bold tracking-[0.14em] text-muted">RIM DIAMETER</p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {["ALL", ...diameterOptions].map((diameter) => (
+                    <button key={diameter} type="button" aria-pressed={diameterFilter === diameter} onClick={() => setDiameterFilter(diameter)}
+                      className={`border px-3 py-2 text-[11px] font-bold ${diameterFilter === diameter ? "border-ink bg-surface-strong text-ink" : "border-line bg-white text-muted hover:border-ink"}`}>
+                      {diameter === "ALL" ? "ALL" : `${diameter} IN`}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="grid content-start gap-3">
+              <div>
+                <p className="text-[11px] font-bold tracking-[0.14em] text-muted">RIM WIDTH</p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {["ALL", ...widthOptions].map((width) => (
+                    <button key={width} type="button" aria-pressed={widthFilter === width} onClick={() => setWidthFilter(width)}
+                      className={`border px-3 py-2 text-[11px] font-bold ${widthFilter === width ? "border-ink bg-surface-strong text-ink" : "border-line bg-white text-muted hover:border-ink"}`}>
+                      {width === "ALL" ? "ALL" : `${width} J`}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="flex flex-wrap items-center gap-2">
+                <button type="button" aria-pressed={rftOnly} onClick={() => setRftOnly((value) => !value)}
+                  className={`flex items-center gap-2 border px-3 py-2 text-[11px] font-bold ${rftOnly ? "border-ink bg-surface-strong text-ink" : "border-line bg-white text-muted"}`}>
+                  <Gauge size={14} /> RUN FLAT
+                </button>
+                <button type="button" aria-pressed={xlOnly} onClick={() => setXlOnly((value) => !value)}
+                  className={`flex items-center gap-2 border px-3 py-2 text-[11px] font-bold ${xlOnly ? "border-ink bg-surface-strong text-ink" : "border-line bg-white text-muted"}`}>
+                  <Wrench size={14} /> XL LOAD
+                </button>
+                <span className="ml-auto text-[11px] font-light text-muted">{filteredFitments.length} OF {fitments.length} RECORDS</span>
+              </div>
+            </div>
+          </div>
           <div className="mt-3 overflow-x-auto">
-            <table className="w-full min-w-[920px] border-collapse text-left">
+            <table className="w-full min-w-[1120px] border-collapse text-left">
               <thead>
                 <tr className="border-b border-line bg-surface text-[11px] font-bold tracking-[0.12em] text-muted">
                   <th className="px-3 py-3">TYPE / OPTION</th>
-                  <th className="px-3 py-3">FRONT RIM</th>
+                  <th className="px-3 py-3"><span className="inline-flex items-center gap-1"><Disc3 size={13} /> FRONT RIM</span></th>
                   <th className="px-3 py-3">FRONT TIRE</th>
+                  <th className="px-3 py-3">FRONT J</th>
                   <th className="px-3 py-3">FRONT ET</th>
-                  <th className="px-3 py-3">REAR RIM</th>
+                  <th className="px-3 py-3"><span className="inline-flex items-center gap-1"><Disc3 size={13} /> REAR RIM</span></th>
                   <th className="px-3 py-3">REAR TIRE</th>
+                  <th className="px-3 py-3">REAR J</th>
                   <th className="px-3 py-3">REAR ET</th>
                   <th className="px-3 py-3">ACTION</th>
                 </tr>
               </thead>
               <tbody>
-                {fitments.map((item) => {
-                  const front = axis(item.wheel, "front");
-                  const rear = axis(item.wheel, "rear");
-                  const active = selected?.id === item.id;
-                  return (
-                    <tr key={item.id} className={`border-b border-line text-xs ${active ? "bg-surface-strong" : "bg-white"}`}>
-                      <td className="whitespace-nowrap px-3 py-3">
-                        <span className="font-bold text-ink">{item.source}</span>
-                        <span className="ml-2 text-[12px] font-light text-muted">{String(item.index + 1).padStart(2, "0")}</span>
-                        {item.wheel.is_runflat_tires && <span className="ml-2 text-[11px] text-muted">RFT</span>}
-                        {item.wheel.is_extra_load_tires && <span className="ml-1 text-[11px] text-muted">XL</span>}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-3 font-bold text-ink">{front.rim}</td>
-                      <td className="whitespace-nowrap px-3 py-3 font-light text-body">{front.tire}</td>
-                      <td className="px-3 py-3 font-light text-body">{front.offset === "—" ? "—" : `ET${front.offset}`}</td>
-                      <td className="whitespace-nowrap px-3 py-3 font-bold text-ink">{rear.rim}</td>
-                      <td className="whitespace-nowrap px-3 py-3 font-light text-body">{rear.tire}</td>
-                      <td className="px-3 py-3 font-light text-body">{rear.offset === "—" ? "—" : `ET${rear.offset}`}</td>
-                      <td className="px-3 py-2">
-                        <Button type="button" size="compact" variant={active ? "primary" : "secondary"} onClick={() => choose(item.id)}>
-                          {active ? <><Check size={13} /> SELECTED</> : "SELECT"}
-                        </Button>
+                {groupedFitments.flatMap((group) => [
+                  <Fragment key={`${group.source}-group`}>
+                    <tr className="border-b border-line bg-surface-strong">
+                      <td colSpan={10} className="px-3 py-3">
+                        <span className="inline-flex items-center gap-2 text-[12px] font-bold tracking-[0.14em] text-ink">
+                          {group.source === "OEM" ? <CarFront size={16} /> : <Disc3 size={16} />}
+                          {group.source === "OEM" ? "ORIGINAL EQUIPMENT (OEM)" : "AFTERMARKET FITMENTS"}
+                        </span>
+                        <span className="ml-3 text-[11px] font-light text-muted">{group.rows.length} OPTIONS</span>
                       </td>
                     </tr>
-                  );
-                })}
-                {!fitments.length && <tr><td colSpan={8} className="px-3 py-8 text-center text-sm font-light text-muted">No fitment records were returned for this exact selection. Try clearing the trim or generation filter, or choose another market / region. The API search uses one region per request.</td></tr>}
+                    {group.rows.map((item) => {
+                      const front = axis(item.wheel, "front");
+                      const rear = axis(item.wheel, "rear");
+                      const active = selected?.id === item.id;
+                      return (
+                        <tr key={item.id} className={`border-b border-line text-xs ${active ? "bg-surface-strong" : "bg-white"}`}>
+                          <td className="whitespace-nowrap px-3 py-3">
+                            <span className="font-bold text-ink">{item.source}</span>
+                            <span className="ml-2 text-[12px] font-light text-muted">{String(item.index + 1).padStart(2, "0")}</span>
+                            {item.wheel.is_runflat_tires && <span className="ml-2 text-[11px] text-muted">RFT</span>}
+                            {item.wheel.is_extra_load_tires && <span className="ml-1 text-[11px] text-muted">XL</span>}
+                          </td>
+                          <td className="whitespace-nowrap px-3 py-3 font-bold text-ink">{front.rim}</td>
+                          <td className="whitespace-nowrap px-3 py-3 font-light text-body">{front.tire}</td>
+                          <td className="px-3 py-3 font-light text-body">{front.width}</td>
+                          <td className="px-3 py-3 font-light text-body">{front.offset === "—" ? "—" : `ET${front.offset}`}</td>
+                          <td className="whitespace-nowrap px-3 py-3 font-bold text-ink">{rear.rim}</td>
+                          <td className="whitespace-nowrap px-3 py-3 font-light text-body">{rear.tire}</td>
+                          <td className="px-3 py-3 font-light text-body">{rear.width}</td>
+                          <td className="px-3 py-3 font-light text-body">{rear.offset === "—" ? "—" : `ET${rear.offset}`}</td>
+                          <td className="px-3 py-2">
+                            <Button type="button" size="compact" variant={active ? "primary" : "secondary"} onClick={() => choose(item.id)}>
+                              {active ? <><Check size={13} /> SELECTED</> : "SELECT"}
+                            </Button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </Fragment>,
+                ])}
+                {!filteredFitments.length && <tr><td colSpan={10} className="px-3 py-8 text-center text-sm font-light text-muted">No fitment records match these filters. Adjust the source, diameter, width or tire attributes above.</td></tr>}
               </tbody>
             </table>
           </div>
+
 
           <section className="mt-10">
             <div className="flex flex-wrap items-end justify-between gap-3 border-b border-ink pb-3">
