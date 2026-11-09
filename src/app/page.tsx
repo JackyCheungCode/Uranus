@@ -49,7 +49,7 @@ export default function HomePage() {
   return (
     <>
       <section className="relative overflow-hidden bg-[#1a2129] text-white">
-        <div className="mx-auto grid min-h-[680px] max-w-[1600px] lg:grid-cols-[.82fr_1.18fr]">
+        <div className="mx-auto grid min-h-[680px] max-w-[1440px] lg:grid-cols-[.82fr_1.18fr]">
           <div className="relative z-10 flex flex-col justify-center px-6 py-20 sm:px-10 lg:px-14 xl:px-20">
             <div className="mb-8 h-1 w-16 bg-brand" />
             <p className="text-[11px] font-bold tracking-[0.24em] text-white/55">URANUS / HIGH PERFORMANCE WHEELS</p>
@@ -67,7 +67,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1600px] px-5 py-20 sm:px-10 lg:px-14 lg:py-28">
+      <section className="mx-auto max-w-[1440px] px-5 py-20 sm:px-10 lg:px-14 lg:py-28">
         <div className="flex flex-col justify-between gap-7 sm:flex-row sm:items-end">
           <div>
             <p className="text-[10px] font-bold tracking-[0.22em] text-muted">THE URANUS COLLECTION / 2026</p>
@@ -81,7 +81,7 @@ export default function HomePage() {
       </section>
 
       <section className="bg-[#11151a] text-white">
-        <div className="mx-auto grid max-w-[1600px] gap-12 px-5 py-20 sm:px-10 lg:grid-cols-[1fr_1fr] lg:items-center lg:px-14 lg:py-28">
+        <div className="mx-auto grid max-w-[1440px] gap-12 px-5 py-20 sm:px-10 lg:grid-cols-[1fr_1fr] lg:items-center lg:px-14 lg:py-28">
           <div>
             <p className="text-[10px] font-bold tracking-[0.22em] text-white/45">PERFORMANCE STARTS WITH PRECISION</p>
             <h2 className="mt-5 max-w-2xl text-4xl font-bold leading-[1.02] tracking-[-0.03em] text-white sm:text-5xl">THE PERFECT STANCE IS NEVER AN ACCIDENT.</h2>
