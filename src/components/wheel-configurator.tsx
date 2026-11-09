@@ -27,7 +27,7 @@ export function WheelConfigurator() {
 
   return (
     <div className="grid gap-0 xl:grid-cols-[minmax(0,1fr)_420px]">
-      <div className="bg-[#101419] p-6 text-white sm:p-10 lg:p-14">
+      <div className="bg-[#1a2129] p-6 text-white sm:p-10 lg:p-14">
         <div className="flex items-center justify-between border-b border-white/15 pb-5">
           <p className="text-[10px] font-bold tracking-[0.2em] text-white/50">URANUS / CONFIGURATION STUDIO</p>
           <p className="text-[10px] font-bold tracking-[0.16em] text-white/50">BUILD 01 — 03</p>
@@ -37,10 +37,10 @@ export function WheelConfigurator() {
         </div>
         <div className="mt-10">
           <p className="text-[10px] font-bold tracking-[0.2em] text-white/45">STEP 0{step + 1}</p>
-          <h2 className="mt-3 text-3xl font-bold tracking-[-0.03em] text-white sm:text-4xl">{choices[step].title}</h2>
+          <h2 className="mt-3 text-3xl font-bold tracking-normal text-white sm:text-4xl">{choices[step].title}</h2>
           <p className="mt-3 text-sm font-light text-white/60">{choices[step].detail}</p>
         </div>
-        {step === 0 && <div className="mt-10 grid grid-cols-2 gap-px bg-white/15 sm:grid-cols-3">{vehicles.map((item) => <button key={item} onClick={() => setVehicle(item)} className={`min-h-24 px-4 py-5 text-left transition-colors ${vehicle === item ? "bg-white text-ink" : "bg-[#171d24] text-white hover:bg-[#252d36]"}`}><span className="block text-[9px] font-bold tracking-[0.16em] opacity-55">BMW M / 2026</span><span className="mt-3 block text-sm font-bold">{item}</span>{vehicle === item && <Check className="mt-2" size={15} />}</button>)}</div>}
+        {step === 0 && <div className="mt-10 grid grid-cols-2 gap-px bg-white/15 sm:grid-cols-3">{vehicles.map((item) => <button key={item} onClick={() => setVehicle(item)} className={`min-h-24 px-4 py-5 text-left transition-colors ${vehicle === item ? "bg-white text-ink" : "bg-[#262e38] text-white hover:bg-[#343d47]"}`}><span className="block text-[9px] font-bold tracking-[0.16em] opacity-55">BMW M / 2026</span><span className="mt-3 block text-sm font-bold">{item}</span>{vehicle === item && <Check className="mt-2" size={15} />}</button>)}</div>}
         {step === 1 && <div className="mt-10 grid gap-3 sm:grid-cols-2">{wheels.map((item) => <button key={item.slug} onClick={() => setWheel(item.slug)} className={`border p-5 text-left transition-colors ${wheel === item.slug ? "border-white bg-white text-ink" : "border-white/15 bg-[#171d24] text-white hover:bg-[#252d36]"}`}><span className="text-[9px] font-bold tracking-[0.16em] opacity-55">{item.category}</span><span className="mt-3 block text-lg font-bold">{item.name}</span><span className="mt-2 block text-xs font-light opacity-65">{item.finish} / {item.size}</span>{wheel === item.slug && <span className="mt-4 inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.12em]">SELECTED <Check size={13} /></span>}</button>)}</div>}
         {step === 2 && <div className="mt-10 grid gap-8 sm:grid-cols-2">
           <fieldset><legend className="mb-4 text-[10px] font-bold tracking-[0.16em] text-white/55">FINISH</legend><div className="grid grid-cols-2 gap-2">{finishes.map((item) => <button key={item} onClick={() => setFinish(item)} className={`min-h-14 border px-3 text-[10px] font-bold tracking-[0.08em] ${finish === item ? "border-white bg-white text-ink" : "border-white/20 text-white"}`}>{item}</button>)}</div></fieldset>
@@ -52,9 +52,9 @@ export function WheelConfigurator() {
           {step < 2 ? <Button onClick={() => setStep((value) => Math.min(2, value + 1))}>CONTINUE <ChevronRight size={15} /></Button> : <Link href="/vehicle-fitment"><Button>VERIFY FITMENT <ArrowRight size={15} /></Button></Link>}
         </div>
       </div>
-      <aside className="bg-[#e9ebed] p-6 sm:p-10 xl:p-8">
+      <aside className="bg-surface-strong p-6 sm:p-10 xl:p-8">
         <p className="text-[10px] font-bold tracking-[0.2em] text-muted">YOUR BUILD / LIVE SUMMARY</p>
-        <div className="mt-8 flex aspect-square items-center justify-center bg-[#d9dcdf]">
+        <div className="mt-8 flex aspect-square items-center justify-center bg-surface-card">
           <svg viewBox="0 0 360 360" className="w-[88%]" fill="none" aria-label="Configured wheel preview">
             <defs><radialGradient id="config-metal" cx="35%" cy="25%" r="75%"><stop stopColor="#f5f6f7"/><stop offset=".3" stopColor="#aeb4ba"/><stop offset=".68" stopColor="#343a41"/><stop offset="1" stopColor="#858d95"/></radialGradient></defs>
             <circle cx="180" cy="180" r="156" fill="#171b20" stroke="#9299a0" strokeWidth="2"/><circle cx="180" cy="180" r="143" stroke="url(#config-metal)" strokeWidth="18"/>
