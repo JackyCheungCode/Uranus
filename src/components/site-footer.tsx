@@ -3,7 +3,7 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 const columns = [
   { title: "01 / PRODUCTS", links: [{href:"/wheels",label:"Wheel Collection"},{href:"/finishes",label:"Finish Studio"},{href:"/configurator",label:"Wheel Configurator"},{href:"/vehicle-fitment",label:"Vehicle Fitment"}] },
-  { title: "02 / EXPLORE", links: [{href:"/technology",label:"Engineering & Quality"},{href:"/advice",label:"Fitment Advice"},{href:"/insights",label:"Journal & Insights"},{href:"/faq",label:"FAQ & Support"}] },
+  { title: "02 / EXPLORE", links: [{href:"/technology",label:"Engineering & Quality"},{href:"/markets",label:"Global Markets"},{href:"/advice",label:"Fitment Advice"},{href:"/insights",label:"Journal & Insights"},{href:"/faq",label:"FAQ & Support"}] },
   { title: "03 / COMPANY", links: [{href:"/about",label:"About URANUS"},{href:"/dealers",label:"Wholesale & Distribution"},{href:"/contact",label:"Contact"},{href:"/request-quote",label:"Request a Quote"}] },
 ];
 
