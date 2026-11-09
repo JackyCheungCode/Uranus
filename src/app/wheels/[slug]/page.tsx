@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, MoveUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { wheels } from "@/lib/data/wheels";
+import { WheelOrderPanel } from "@/components/wheel-order-panel";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -56,6 +57,7 @@ export default async function WheelDetailPage({ params }: Props) {
         </div>
       </div>
     </section>
+    <WheelOrderPanel wheel={wheel} />
     <section className="mx-auto max-w-[1600px] px-5 py-16 sm:px-10 lg:px-14 lg:py-24">
       <div className="flex flex-col justify-between gap-5 border-b border-line pb-7 sm:flex-row sm:items-end"><div><p className="text-[10px] font-bold tracking-[.2em] text-muted">ENGINEERED DETAILS</p><h2 className="mt-3 text-3xl sm:text-4xl">SPECIFICATION OVERVIEW.</h2></div><p className="max-w-md text-xs font-light leading-6 text-muted">A considered balance of design, construction and fitment parameters. Final specifications depend on the selected vehicle and application.</p></div>
       <div className="mt-8 grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-4">
