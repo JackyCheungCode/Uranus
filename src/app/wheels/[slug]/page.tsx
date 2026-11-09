@@ -51,7 +51,7 @@ export default async function WheelDetailPage({ params }: Props) {
             <h1 className="mt-5 text-4xl font-bold leading-[.95] tracking-normal text-white sm:text-6xl">{wheel.name}</h1>
             <p className="mt-7 max-w-lg text-sm font-light leading-7 text-white/65">{wheel.description} Developed around a purposeful spoke profile, precision proportions and a clean performance finish.</p>
             <div className="mt-10 border-y border-white/20 py-6"><p className="text-[9px] font-bold tracking-[.16em] text-white/45">STARTING PRICE / SET</p><p className="mt-2 text-3xl font-bold text-white">{wheel.price}</p></div>
-            <div className="mt-8 flex flex-wrap gap-3"><Link href="/configurator"><Button>CONFIGURE THIS WHEEL <ArrowRight size={15}/></Button></Link><Link href="/vehicle-fitment"><Button variant="inverse">CHECK FITMENT</Button></Link></div>
+            <div className="mt-8 flex flex-wrap gap-3"><Link href="#order-builder"><Button>START YOUR ORDER <ArrowRight size={15}/></Button></Link><Link href="/vehicle-fitment"><Button variant="inverse">CHECK FITMENT</Button></Link></div>
             <p className="mt-5 text-[10px] font-light leading-5 text-white/40">Product render and pricing are catalogue demonstration content. Confirm production specifications and availability before purchase.</p>
           </div>
         </div>
