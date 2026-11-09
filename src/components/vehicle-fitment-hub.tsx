@@ -355,14 +355,19 @@ export function VehicleFitmentHub() {
   const heading = useMemo(() => entry === "vehicle" ? "SEARCH BY VEHICLE" : entry === "rim" ? "SEARCH BY RIM SPECIFICATION" : "SEARCH BY TIRE SIZE", [entry]);
   return (
     <div className="mx-auto max-w-[1440px] px-5 pb-20 pt-8 md:px-10 md:pb-28 md:pt-10">
-      <section className="bg-surface px-6 py-9 md:px-10 md:py-12">
-        <div className="grid gap-7 lg:grid-cols-[1fr_auto] lg:items-end">
+      <section className="relative isolate overflow-hidden bg-[#0b0e12] px-6 py-14 text-white md:px-10 md:py-20 lg:px-14">
+        <div aria-hidden="true" className="absolute inset-y-0 right-0 w-[46%] opacity-30 [background-image:repeating-linear-gradient(130deg,transparent_0,transparent_42px,rgba(255,255,255,.12)_43px,transparent_44px)]" />
+        <div aria-hidden="true" className="absolute -right-24 top-1/2 h-[500px] w-[500px] -translate-y-1/2 border border-white/10"><div className="absolute inset-8 border border-white/10" /><div className="absolute inset-16 border border-white/10" /><div className="absolute inset-28 border border-white/10" /></div>
+        <div className="relative grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
-            <p className="text-[11px] font-bold tracking-[0.2em] text-muted">BMW WHEEL FITMENT DATABASE / 14 GLOBAL MARKETS</p>
-            <h1 className="mt-4 max-w-4xl text-4xl sm:text-5xl lg:text-6xl">FIND YOUR BMW WHEEL FITMENT.</h1>
-            <p className="mt-5 max-w-2xl text-sm font-light leading-7 text-body">Search original equipment and aftermarket specifications by vehicle, or discover compatible BMW vehicles from a wheel or tire size.</p>
+            <div className="mb-8 flex h-1 w-20 overflow-hidden"><span className="w-1/3 bg-[#0066b1]" /><span className="w-1/3 bg-[#1c69d4]" /><span className="w-1/3 bg-[#e22718]" /></div>
+            <p className="text-[10px] font-bold tracking-[0.24em] text-white/50">URANUS PERFORMANCE / GLOBAL FITMENT DATABASE</p>
+            <h1 className="mt-5 max-w-4xl text-5xl font-bold leading-[.94] tracking-[-0.04em] text-white sm:text-6xl lg:text-7xl">PRECISION<br />IS THE<br /><span className="text-white/45">PERFORMANCE.</span></h1>
+            <p className="mt-7 max-w-2xl text-sm font-light leading-7 text-white/65">Find the right wheel setup for your BMW. Search by vehicle, rim specification or tire size across 14 regional markets.</p>
           </div>
-          <div className="flex items-center gap-3 border-l border-line-strong pl-5 text-xs font-light text-muted"><Activity size={18} /> WHEEL-SIZE DATA / HUMAN-INITIATED SEARCH</div>
+          <div className="relative z-10 border-l border-white/25 pl-5 text-[10px] font-bold tracking-[0.16em] text-white/55 lg:mb-2">
+            <p>14 GLOBAL MARKETS</p><p className="mt-3">OEM / AFTERMARKET</p><p className="mt-3">LIVE FITMENT DATA</p>
+          </div>
         </div>
       </section>
       <section className="mt-8">
@@ -372,14 +377,14 @@ export function VehicleFitmentHub() {
             ["rim", "BY RIM", Disc3, "Diameter / width / PCD / ET"],
             ["tire", "BY TIRE", SlidersHorizontal, "Section / ratio / diameter"],
           ] as const).map(([value, label, Icon, description]) => (
-            <button key={value} type="button" role="tab" aria-selected={entry === value} onClick={() => setEntry(value)} className={`flex min-h-[76px] items-center gap-4 border-b-2 px-4 py-4 text-left transition-colors sm:px-6 ${entry === value ? "border-brand bg-surface text-ink" : "border-transparent bg-white text-muted hover:bg-surface"}`}>
+            <button key={value} type="button" role="tab" aria-selected={entry === value} onClick={() => setEntry(value)} className={`relative flex min-h-[82px] items-center gap-4 border-b-2 px-4 py-4 text-left transition-colors sm:px-6 ${entry === value ? "border-ink bg-[#11151a] text-white" : "border-transparent bg-white text-muted hover:bg-surface"}`}>
               <Icon size={21} />
               <span><span className="block text-sm font-bold tracking-[0.12em]">{label}</span><span className="mt-1 block text-[11px] font-light">{description}</span></span>
-              {entry === value && <Check className="ml-auto text-brand" size={17} />}
+              {entry === value && <span className="ml-auto flex h-1 w-8 overflow-hidden"><i className="w-1/3 bg-[#0066b1]" /><i className="w-1/3 bg-[#1c69d4]" /><i className="w-1/3 bg-[#e22718]" /></span>}
             </button>
           ))}
         </div>
-        <section className="border-b border-line px-0 py-7 md:px-2">
+        <section className="border-b border-line bg-[#f4f4f4] px-5 py-8 md:px-8 md:py-10">
           <p className="text-[11px] font-bold tracking-[0.16em] text-muted">01 / {heading}</p>
           {entry === "vehicle" ? <VehicleFitmentSearch compact /> : <ReverseSearch key={entry} mode={entry} />}
         </section>
