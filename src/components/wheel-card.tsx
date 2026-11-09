@@ -44,7 +44,7 @@ export function WheelCard({ wheel }: { wheel: Wheel }) {
           <div aria-hidden="true" className="absolute inset-0 opacity-50 [background-image:linear-gradient(135deg,transparent_0%,rgba(255,255,255,.8)_50%,transparent_100%)]" />
           <div className="relative z-10 h-full w-full transition-transform duration-500 group-hover:scale-[1.04]"><WheelRender slug={wheel.slug} /></div>
           <span className="absolute bottom-4 left-4 z-20 text-[9px] font-bold tracking-[0.18em] text-[#3c3c3c]/70">URANUS / {wheel.category}</span>
-          <span className="absolute right-4 top-4 z-20 text-[9px] font-bold tracking-[0.16em] text-[#3c3c3c]/55">01 / 04</span>
+          <span className="absolute right-4 top-4 z-20 text-[9px] font-bold tracking-[0.16em] text-[#3c3c3c]/55">DESIGN STUDY</span>
         </div>
         <div className="flex flex-1 flex-col px-1 pb-4 pt-5">
           <p className="text-[10px] font-bold tracking-[0.18em] text-muted">{wheel.category} / PERFORMANCE SERIES</p>
