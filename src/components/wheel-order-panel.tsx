@@ -19,11 +19,11 @@ const widths = ["8.0J", "8.5J", "9.0J", "9.5J", "10.0J", "10.5J", "11.0J", "11.5
 type Props = { wheel: Wheel };
 
 export function WheelOrderPanel({ wheel }: Props) {
-  const dimensionPairs = Array.from(wheel.size.matchAll(/(\\d{2})\\s*[×x]\\s*(\\d+(?:\\.\\d+)?)/g));
+  const dimensionPairs = Array.from(wheel.size.matchAll(/(\d{2})\s*[×x]\s*(\d+(?:\.\d+)?)/g));
   const [finish, setFinish] = useState(wheel.finish);
   const [frontDiameter, setFrontDiameter] = useState(dimensionPairs[0]?.[1] ?? "20");
   const [rearDiameter, setRearDiameter] = useState(dimensionPairs[1]?.[1] ?? dimensionPairs[0]?.[1] ?? "20");
-  const [frontWidth, setFrontWidth] = useState(wheel.size.match(/\d+\.\d+\s*$/)?.[0]?.trim() ? wheel.size.match(/\d+\.\d+\s*$/)?.[0]?.trim() + "J" : "9.0J");
+  const [frontWidth, setFrontWidth] = useState(dimensionPairs[0]?.[2] ? dimensionPairs[0][2] + "J" : "9.0J");
   const [rearWidth, setRearWidth] = useState(dimensionPairs[1]?.[2] ? dimensionPairs[1][2] + "J" : dimensionPairs[0]?.[2] ? dimensionPairs[0][2] + "J" : "10.5J");
   const [staggered, setStaggered] = useState(true);
   const [pcd, setPcd] = useState(wheel.fitment);
@@ -43,7 +43,7 @@ export function WheelOrderPanel({ wheel }: Props) {
   const [orderNumber, setOrderNumber] = useState("");
   const unitPrice = Number(wheel.price.replace(/[^0-9.]/g, "")) || 0;
   const total = useMemo(() => unitPrice * Number(quantity), [unitPrice, quantity]);
-  const emailValid = !email.trim() || /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email.trim());
+  const emailValid = !email.trim() || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
   const canGenerate = Boolean(customer.trim() && (email.trim() || phone.trim()) && vehicle.trim() && pcd.trim() && emailValid);
 
   function generateConfirmation() {
