@@ -19,11 +19,12 @@ const widths = ["8.0J", "8.5J", "9.0J", "9.5J", "10.0J", "10.5J", "11.0J", "11.5
 type Props = { wheel: Wheel };
 
 export function WheelOrderPanel({ wheel }: Props) {
+  const dimensionPairs = Array.from(wheel.size.matchAll(/(\\d{2})\\s*[×x]\\s*(\\d+(?:\\.\\d+)?)/g));
   const [finish, setFinish] = useState(wheel.finish);
-  const [frontDiameter, setFrontDiameter] = useState(wheel.size.match(/(18|19|20|21|22)/)?.[0] ?? "20");
-  const [rearDiameter, setRearDiameter] = useState(wheel.size.match(/(18|19|20|21|22)/g)?.[1] ?? wheel.size.match(/(18|19|20|21|22)/)?.[0] ?? "20");
+  const [frontDiameter, setFrontDiameter] = useState(dimensionPairs[0]?.[1] ?? "20");
+  const [rearDiameter, setRearDiameter] = useState(dimensionPairs[1]?.[1] ?? dimensionPairs[0]?.[1] ?? "20");
   const [frontWidth, setFrontWidth] = useState(wheel.size.match(/\d+\.\d+\s*$/)?.[0]?.trim() ? wheel.size.match(/\d+\.\d+\s*$/)?.[0]?.trim() + "J" : "9.0J");
-  const [rearWidth, setRearWidth] = useState("10.5J");
+  const [rearWidth, setRearWidth] = useState(dimensionPairs[1]?.[2] ? dimensionPairs[1][2] + "J" : dimensionPairs[0]?.[2] ? dimensionPairs[0][2] + "J" : "10.5J");
   const [staggered, setStaggered] = useState(true);
   const [pcd, setPcd] = useState(wheel.fitment);
   const [offsetFront, setOffsetFront] = useState("");
@@ -42,7 +43,8 @@ export function WheelOrderPanel({ wheel }: Props) {
   const [orderNumber, setOrderNumber] = useState("");
   const unitPrice = Number(wheel.price.replace(/[^0-9.]/g, "")) || 0;
   const total = useMemo(() => unitPrice * Number(quantity), [unitPrice, quantity]);
-  const canGenerate = customer.trim() && (email.trim() || phone.trim()) && vehicle.trim() && pcd.trim();
+  const emailValid = !email.trim() || /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email.trim());
+  const canGenerate = Boolean(customer.trim() && (email.trim() || phone.trim()) && vehicle.trim() && pcd.trim() && emailValid);
 
   function generateConfirmation() {
     if (!canGenerate) return;
@@ -56,12 +58,12 @@ export function WheelOrderPanel({ wheel }: Props) {
   const label = "text-[9px] font-bold tracking-[0.16em] text-muted";
 
   return (
-    <section id="order-builder" className="bg-[#f0f1f2] text-ink">
-      <div className="mx-auto max-w-[1600px] px-5 py-16 sm:px-10 lg:px-14 lg:py-24">
+    <section id="order-builder" className="bg-surface-strong text-ink">
+      <div className="mx-auto max-w-[1440px] px-5 py-16 sm:px-10 lg:px-14 lg:py-24">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_390px] lg:gap-16">
           <div>
             <p className="text-[10px] font-bold tracking-[0.2em] text-muted">01 / BUILD YOUR ORDER</p>
-            <h2 className="mt-3 text-3xl font-bold tracking-[-0.04em] sm:text-5xl">SPECIFY EVERY DETAIL.</h2>
+            <h2 className="mt-3 text-3xl font-bold tracking-normal sm:text-5xl">SPECIFY EVERY DETAIL.</h2>
             <p className="mt-4 max-w-2xl text-sm font-light leading-7 text-muted">Wheel orders are vehicle-specific. Select the finish and dimensions, then provide your vehicle and fitment data so the final specification can be checked before production.</p>
 
             <div className="mt-10 border-t border-[#c9cdd1] pt-8">
@@ -121,7 +123,7 @@ export function WheelOrderPanel({ wheel }: Props) {
             </div>
           </div>
 
-          <aside className="h-fit bg-[#111519] p-6 text-white lg:sticky lg:top-28 lg:p-8">
+          <aside className="h-fit bg-[#1a2129] p-6 text-white lg:sticky lg:top-28 lg:p-8">
             <p className="text-[10px] font-bold tracking-[0.18em] text-white/45">ORDER SUMMARY / LIVE</p>
             <h3 className="mt-3 text-2xl font-bold">{wheel.name}</h3>
             <p className="mt-1 text-[10px] font-light text-white/50">{wheel.category} CONSTRUCTION</p>
