@@ -11,15 +11,22 @@ const navItems = [
   { href: "/vehicle-fitment", label: "FITMENT", detail: "VEHICLE APPLICATION" },
   { href: "/technology", label: "ENGINEERING", detail: "TECHNOLOGY & QUALITY" },
   { href: "/markets", label: "GLOBAL TRADE", detail: "EXPORT MARKETS" },
-  { href: "/advice", label: "ADVICE", detail: "GUIDES & INSIGHTS" },
+  { href: "/advice", label: "ADVICE", detail: "TECHNICAL GUIDES" },
   { href: "/about", label: "ABOUT", detail: "THE URANUS APPROACH" },
 ];
 
 const moreItems = [
   { href: "/finishes", label: "FINISH STUDIO" },
+  { href: "/quality-assurance", label: "QUALITY & DOCUMENTATION" },
+  { href: "/fitment-checklist", label: "FITMENT CHECKLIST" },
+  { href: "/wheel-care", label: "WHEEL CARE" },
+  { href: "/trade-process", label: "INTERNATIONAL ORDER PROCESS" },
   { href: "/dealers", label: "WHOLESALE & DISTRIBUTION" },
-  { href: "/insights", label: "JOURNAL" },
+  { href: "/private-label", label: "PRIVATE LABEL & CUSTOM" },
+  { href: "/insights", label: "JOURNAL & INSIGHTS" },
   { href: "/faq", label: "FAQ & SUPPORT" },
+  { href: "/shipping-returns", label: "SHIPPING & RETURNS" },
+  { href: "/warranty", label: "WARRANTY" },
   { href: "/contact", label: "CONTACT" },
 ];
 
@@ -52,10 +59,10 @@ export function SiteHeader() {
           })}
           <div className="group relative flex h-full items-center">
             <button type="button" className="flex h-full flex-col justify-center gap-1 border-b-2 border-transparent text-left text-ink hover:border-line-strong" aria-haspopup="true">
-              <span className="text-[10px] font-bold tracking-[0.11em]">MORE</span><span className="text-[8px] font-light tracking-[0.08em] text-muted">EXPLORE URANUS</span>
+              <span className="text-[10px] font-bold tracking-[0.11em]">MORE</span><span className="text-[8px] font-light tracking-[0.08em] text-muted">ALL DESTINATIONS</span>
             </button>
-            <div className="invisible absolute right-0 top-full w-64 border border-line bg-white opacity-0 transition-all group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-              {moreItems.map((item) => <Link key={item.href} href={item.href} className="flex min-h-12 items-center justify-between border-b border-line px-4 text-[10px] font-bold tracking-[0.1em] text-ink last:border-0 hover:bg-surface hover:text-brand">{item.label}<ArrowUpRight size={13}/></Link>)}
+            <div className="invisible absolute right-0 top-full max-h-[calc(100vh-90px)] w-72 overflow-y-auto border border-line bg-white opacity-0 transition-all group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+              {moreItems.map((item) => <Link key={item.href} href={item.href} className={`flex min-h-12 items-center justify-between border-b border-line px-4 text-[10px] font-bold tracking-[0.1em] last:border-0 hover:bg-surface hover:text-brand ${isActive(pathname,item.href) ? "text-brand" : "text-ink"}`}>{item.label}<ArrowUpRight size={13}/></Link>)}
             </div>
           </div>
         </nav>
@@ -76,7 +83,7 @@ export function SiteHeader() {
         <nav aria-label="Mobile navigation" className="mx-auto max-w-[1440px] px-5 pb-5 sm:px-8">
           {[...navItems,...moreItems].map((item,index) => {
             const active = isActive(pathname,item.href);
-            return <Link key={item.href} href={item.href} onClick={()=>setMobileOpen(false)} aria-current={active?"page":undefined} className={`flex min-h-14 items-center justify-between border-b border-line py-3 ${active?"text-ink":"text-body"}`}>
+            return <Link key={item.href} href={item.href} onClick={()=>setMobileOpen(false)} aria-current={active?"page":undefined} className={`flex min-h-14 items-center justify-between border-b border-line py-3 ${active?"text-brand":"text-body"}`}>
               <span className="text-[11px] font-bold tracking-[0.12em]">{item.label}</span><span className="text-[10px] font-light text-muted">{String(index+1).padStart(2,"0")}</span>
             </Link>;
           })}
