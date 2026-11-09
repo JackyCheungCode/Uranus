@@ -1,16 +1,16 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 const columns = [
-  { title: "01 / PRODUCTS", links: [{href:"/wheels",label:"Wheel Collection"},{href:"/finishes",label:"Finish Studio"},{href:"/configurator",label:"Wheel Configurator"},{href:"/vehicle-fitment",label:"Vehicle Fitment"}] },
-  { title: "02 / EXPLORE", links: [{href:"/technology",label:"Engineering & Quality"},{href:"/markets",label:"Global Markets"},{href:"/advice",label:"Fitment Advice"},{href:"/insights",label:"Journal & Insights"},{href:"/faq",label:"FAQ & Support"}] },
-  { title: "03 / COMPANY", links: [{href:"/about",label:"About URANUS"},{href:"/dealers",label:"Wholesale & Distribution"},{href:"/contact",label:"Contact"},{href:"/request-quote",label:"Request a Quote"}] },
+  { title: "01 / PRODUCTS", links: [{href:"/wheels",label:"Wheel Collection"},{href:"/finishes",label:"Finish Studio"},{href:"/configurator",label:"Wheel Configurator"},{href:"/vehicle-fitment",label:"Vehicle Fitment"},{href:"/fitment-checklist",label:"Fitment Checklist"}] },
+  { title: "02 / KNOWLEDGE", links: [{href:"/technology",label:"Engineering & Quality"},{href:"/quality-assurance",label:"Quality Documentation"},{href:"/advice",label:"Technical Guides"},{href:"/wheel-care",label:"Wheel Care"},{href:"/insights",label:"Journal & Insights"},{href:"/faq",label:"FAQ & Support"}] },
+  { title: "03 / BUSINESS", links: [{href:"/about",label:"About URANUS"},{href:"/markets",label:"Global Markets"},{href:"/trade-process",label:"Trade Process"},{href:"/dealers",label:"Wholesale & Distribution"},{href:"/private-label",label:"Private Label & Custom"},{href:"/contact",label:"Contact"},{href:"/request-quote",label:"Request a Quote"}] },
 ];
 
 export function SiteFooter() {
   return <footer className="bg-surface text-body">
     <div className="mx-auto max-w-[1440px] px-5 pb-10 pt-14 sm:px-8 lg:px-10 lg:pb-12 lg:pt-16">
-      <div className="grid gap-10 border-b border-line-strong pb-12 lg:grid-cols-[1.2fr_2fr] lg:gap-16">
+      <div className="grid gap-10 border-b border-line-strong pb-12 lg:grid-cols-[1.1fr_2fr] lg:gap-16">
         <div>
           <Link href="/" className="flex items-center gap-3">
             <span className="flex h-9 w-9 items-center justify-center border border-ink text-[11px] font-bold tracking-[-0.08em]">U.</span>
@@ -25,7 +25,7 @@ export function SiteFooter() {
       </div>
       <div className="flex flex-col justify-between gap-4 pt-6 text-[9px] font-light leading-5 tracking-[0.06em] text-muted md:flex-row md:items-end">
         <div className="flex flex-col gap-1"><span>© {new Date().getFullYear()} URANUS. ALL RIGHTS RESERVED.</span><span>INDEPENDENT AFTERMARKET WHEEL BRAND.</span></div>
-        <div className="flex flex-wrap gap-x-5 gap-y-2"><Link href="/shipping-returns" className="hover:text-brand">SHIPPING & RETURNS</Link><Link href="/warranty" className="hover:text-brand">WARRANTY</Link><Link href="/legal/privacy" className="hover:text-brand">PRIVACY</Link><Link href="/legal/terms" className="hover:text-brand">TERMS</Link></div>
+        <div className="flex flex-wrap gap-x-5 gap-y-2"><Link href="/trade-process" className="hover:text-brand">TRADE PROCESS</Link><Link href="/shipping-returns" className="hover:text-brand">SHIPPING & RETURNS</Link><Link href="/warranty" className="hover:text-brand">WARRANTY</Link><Link href="/legal/privacy" className="hover:text-brand">PRIVACY</Link><Link href="/legal/terms" className="hover:text-brand">TERMS</Link></div>
       </div>
       <p className="mt-5 max-w-3xl text-[9px] font-light leading-5 text-muted">Vehicle names are used for fitment reference only. URANUS is not affiliated with or endorsed by BMW AG. Product specifications, availability, certification and commercial terms are subject to written confirmation.</p>
     </div>
