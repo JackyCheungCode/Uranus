@@ -35,20 +35,20 @@ export default async function WheelDetailPage({ params }: Props) {
   if (!wheel) notFound();
 
   return <>
-    <section className="bg-[#0b0e12] text-white">
-      <div className="mx-auto max-w-[1600px] px-5 pb-6 pt-8 sm:px-10 lg:px-14">
+    <section className="bg-[#1a2129] text-white">
+      <div className="mx-auto max-w-[1440px] px-5 pb-6 pt-8 sm:px-10 lg:px-14">
         <Link href="/wheels" className="inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.16em] text-white/55 hover:text-white"><ArrowLeft size={14}/> BACK TO COLLECTION</Link>
         <div className="mt-8 grid gap-8 lg:grid-cols-[1.15fr_.85fr] lg:items-center">
-          <div className="relative flex min-h-[360px] items-center justify-center overflow-hidden bg-[#171d24] sm:min-h-[560px]">
+          <div className="relative flex min-h-[360px] items-center justify-center overflow-hidden bg-[#262e38] sm:min-h-[560px]">
             <div aria-hidden="true" className="absolute inset-0 opacity-35 [background-image:repeating-linear-gradient(135deg,transparent_0,transparent_36px,rgba(255,255,255,.1)_37px,transparent_38px)]"/>
             <div className="absolute right-5 top-5 text-[9px] font-bold tracking-[0.18em] text-white/45">PRODUCT STUDY / 01</div>
             <ProductWheel slug={wheel.slug}/>
             <div className="absolute bottom-5 left-5 text-[9px] font-bold tracking-[0.18em] text-white/45">URANUS PERFORMANCE / {wheel.category}</div>
           </div>
           <div className="py-8 lg:pl-8">
-            <div className="mb-7 flex h-1 w-20 overflow-hidden"><span className="w-1/3 bg-[#0066b1]"/><span className="w-1/3 bg-[#1c69d4]"/><span className="w-1/3 bg-[#e22718]"/></div>
+            <div className="mb-7 h-1 w-16 bg-brand" />
             <p className="text-[10px] font-bold tracking-[0.2em] text-white/45">{wheel.category} / PERFORMANCE COLLECTION</p>
-            <h1 className="mt-5 text-4xl font-bold leading-[.95] tracking-[-.04em] text-white sm:text-6xl">{wheel.name}</h1>
+            <h1 className="mt-5 text-4xl font-bold leading-[.95] tracking-normal text-white sm:text-6xl">{wheel.name}</h1>
             <p className="mt-7 max-w-lg text-sm font-light leading-7 text-white/65">{wheel.description} Developed around a purposeful spoke profile, precision proportions and a clean performance finish.</p>
             <div className="mt-10 border-y border-white/20 py-6"><p className="text-[9px] font-bold tracking-[.16em] text-white/45">STARTING PRICE / SET</p><p className="mt-2 text-3xl font-bold text-white">{wheel.price}</p></div>
             <div className="mt-8 flex flex-wrap gap-3"><Link href="/configurator"><Button>CONFIGURE THIS WHEEL <ArrowRight size={15}/></Button></Link><Link href="/vehicle-fitment"><Button variant="inverse">CHECK FITMENT</Button></Link></div>
