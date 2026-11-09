@@ -60,7 +60,7 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-3 xl:hidden">
           <Link href="/vehicle-fitment" className="hidden sm:block">
-            <Button size="sm" className="h-10 gap-2 px-4 text-[10px] tracking-[0.1em]">FIND FITMENT <ArrowUpRight size={13} /></Button>
+            <Button size="compact" className="h-10 gap-2 px-4 text-[10px] tracking-[0.1em]">FIND FITMENT <ArrowUpRight size={13} /></Button>
           </Link>
           <button type="button" onClick={() => setMobileOpen((open) => !open)} aria-label={mobileOpen ? "Close navigation" : "Open navigation"} aria-expanded={mobileOpen} className="flex h-10 w-10 items-center justify-center border border-line text-ink transition-colors hover:bg-surface">
             {mobileOpen ? <X size={19} /> : <Menu size={19} />}
