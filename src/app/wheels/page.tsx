@@ -8,9 +8,9 @@ export const metadata: Metadata = { title: "Wheel Collection" };
 
 export default function WheelsPage() {
   return <>
-    <section className="bg-[#0b0e12] px-5 py-16 text-white sm:px-10 lg:px-14 lg:py-24">
-      <div className="mx-auto grid max-w-[1600px] gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
-        <div><p className="text-[10px] font-bold tracking-[.22em] text-white/45">URANUS PERFORMANCE / WHEEL COLLECTION</p><h1 className="mt-5 text-5xl font-bold leading-[.94] tracking-[-.04em] text-white sm:text-6xl lg:text-7xl">FORM FOLLOWS<br/>PERFORMANCE.</h1><p className="mt-7 max-w-xl text-sm font-light leading-7 text-white/60">Forged, flow-formed and cast designs. Explore the collection and discover the specification behind every silhouette.</p></div>
+    <section className="bg-[#1a2129] px-5 py-16 text-white sm:px-10 lg:px-14 lg:py-24">
+      <div className="mx-auto grid max-w-[1440px] gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+        <div><p className="text-[10px] font-bold tracking-[.22em] text-white/45">URANUS PERFORMANCE / WHEEL COLLECTION</p><h1 className="mt-5 text-5xl font-bold leading-[.94] tracking-normal text-white sm:text-6xl lg:text-7xl">FORM FOLLOWS<br/>PERFORMANCE.</h1><p className="mt-7 max-w-xl text-sm font-light leading-7 text-white/60">Forged, flow-formed and cast designs. Explore the collection and discover the specification behind every silhouette.</p></div>
         <div className="border-l border-white/25 pl-5 text-[10px] font-bold tracking-[.16em] text-white/55"><p>{wheels.length.toString().padStart(2,"0")} DESIGNS</p><p className="mt-3">THREE CONSTRUCTIONS</p><p className="mt-3">ONE PERFORMANCE MINDSET</p></div>
       </div>
     </section>
