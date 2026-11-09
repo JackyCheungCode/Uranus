@@ -10,6 +10,7 @@ const navItems = [
   { href: "/wheels", label: "WHEELS", detail: "PRODUCT COLLECTION" },
   { href: "/vehicle-fitment", label: "FITMENT", detail: "VEHICLE APPLICATION" },
   { href: "/technology", label: "ENGINEERING", detail: "TECHNOLOGY & QUALITY" },
+  { href: "/markets", label: "GLOBAL TRADE", detail: "EXPORT MARKETS" },
   { href: "/advice", label: "ADVICE", detail: "GUIDES & INSIGHTS" },
   { href: "/about", label: "ABOUT", detail: "THE URANUS APPROACH" },
 ];
