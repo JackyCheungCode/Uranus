@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { SiteShell } from "@/components/layout/site-shell";
-import { PdsProviders } from "@/components/pds/providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -10,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
- return <html lang="en"><body><PdsProviders><SiteShell>{children}</SiteShell></PdsProviders></body></html>;
+ return <html lang="en"><body><SiteShell>{children}</SiteShell></body></html>;
 }
