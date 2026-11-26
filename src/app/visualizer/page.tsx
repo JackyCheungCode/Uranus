@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { wheels } from "@/data/wheels";
 const scenes=[
  {name:"STREET",image:"https://mayhemwheels.com/cdn/shop/files/Mayhem_Street_8119_Vanquish_1.jpg?v=1793656266&width=1800"},
@@ -11,12 +10,11 @@ const years=["2026","2025","2024","2023","2022","2021","2020","2019","2018"];
 const makes=["Ford","Chevrolet","GMC","Ram","Jeep","Toyota"];
 const models:Record<string,string[]>={Ford:["F-150","F-250","F-350","Ranger"],Chevrolet:["Silverado 1500","Silverado 2500HD","Colorado"],GMC:["Sierra 1500","Sierra 2500HD","Canyon"],Ram:["1500","2500","3500"],Jeep:["Wrangler","Gladiator"],Toyota:["Tacoma","Tundra","4Runner"]};
 export default function VisualizerPage(){
- const params=useSearchParams();
  const [vehicle,setVehicle]=useState({year:"2025",make:"Ford",model:"F-150",trim:"Lariat",body:"Crew Cab"});
  const [wheelId,setWheelId]=useState(wheels[0].id),[scene,setScene]=useState(0),[color,setColor]=useState("BLACK"),[height,setHeight]=useState("LEVEL"),[tire,setTire]=useState("35"),[background,setBackground]=useState("DAYLIGHT"),[mode,setMode]=useState("MAYHEM"),[saved,setSaved]=useState(false);
  const selected=wheels.find(w=>w.id===wheelId)||wheels[0];
  const sameStyle=useMemo(()=>wheels.filter(w=>w.style===selected.style),[selected.style]);
- useEffect(()=>{const slug=params.get("style");if(slug){const found=wheels.find(w=>w.slug===slug);if(found)setWheelId(found.id);}},[params]);
+ useEffect(()=>{const slug=new URLSearchParams(window.location.search).get("style");if(slug){const found=wheels.find(w=>w.slug===slug);if(found)setWheelId(found.id);}},[]);
  const saveVehicle=()=>{localStorage.setItem("mayhem-vehicle",JSON.stringify(vehicle));setSaved(true);};
  const saveSetup=()=>{localStorage.setItem("mayhem-setup",JSON.stringify({vehicle,wheelId,scene,color,height,tire,background}));setSaved(true);};
  const share=()=>{const url=window.location.origin+"/visualizer?style="+encodeURIComponent(selected.slug);if(navigator.clipboard?.writeText)navigator.clipboard.writeText(url);};
