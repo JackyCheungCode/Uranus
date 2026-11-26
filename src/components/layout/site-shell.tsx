@@ -49,7 +49,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
           <div className="pds-header-context"><span>WHEELS &amp; VEHICLE FITMENT</span><span className="pds-header-divider">/</span><span>DESIGNED FOR YOUR DRIVE</span></div>
           <div className="pds-header-actions">
             <button className="pds-icon-action" onClick={() => setSearchOpen(!searchOpen)} aria-label="Search">⌕</button>
-            <PButton onClick={() => setVehicleOpen(true)} icon="car" iconSource="local">{vehicleLabel}</PButton>
+            <PButton onClick={() => setVehicleOpen(true)} icon="car">{vehicleLabel}</PButton>
           </div>
           {searchOpen && <form className="pds-search-panel" onSubmit={event => { event.preventDefault(); window.location.href = "/wheels?q=" + encodeURIComponent(query); }}>
             <PInputSearch name="site-search" label="Search wheels" value={query} onInput={event => setQuery((event.detail.target as HTMLInputElement).value)} placeholder="Search wheels, styles and part numbers" clear />
