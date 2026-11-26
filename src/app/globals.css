@@ -711,3 +711,6 @@ body { font-family: var(--p-font-porsche-next); color: var(--p-color-primary); }
   .uranus-template-hero-copy { padding-bottom: var(--p-spacing-fluid-xl); }
   .uranus-pds-footer { padding-top: var(--p-spacing-fluid-xl); }
 }
+
+.uranus-pds-footer { padding: var(--p-spacing-fluid-xl) 0 var(--p-spacing-fluid-lg); }
+.uranus-landing p-carousel p-link-tile img { object-fit: contain; background: var(--p-color-surface); }
