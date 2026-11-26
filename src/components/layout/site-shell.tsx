@@ -48,7 +48,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
           </div>
           <a href="/visualizer">VISUALIZER</a>
           <a href="/dealers">FIND A DEALER</a>
-          <a href="/merch">MERCH</a>
+          <a href="https://www.shoptwggear.com">MERCH</a>
         </nav>
         <div className="mw-header-actions">
           <button onClick={() => setSearchOpen(!searchOpen)} aria-label="Search" className="mw-icon-button">⌕</button>
