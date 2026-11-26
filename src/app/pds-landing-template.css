@@ -366,7 +366,7 @@
 }
 .uranus-template-hero-copy {
   width: 100%;
-  max-width: min(100% - 32px, 68rem);
+  max-width: min(calc(100% - 32px), 68rem);
   color: #fff !important;
 }
 .uranus-template-hero-copy h1,
@@ -398,4 +398,38 @@
   .uranus-template-hero-copy {
     max-width: calc(100% - 32px);
   }
+}
+
+
+/* Final contrast and hero seam cleanup. */
+.uranus-landing-template p-link-tile,
+.uranus-landing-template p-link-tile::part(root),
+.uranus-landing-template p-link-tile::part(headline),
+.uranus-landing-template p-link-tile::part(label),
+.uranus-landing-template p-link-tile::part(description),
+.uranus-landing-template p-link-tile::part(link),
+.uranus-landing-template p-link-tile::part(icon) {
+  color: #fff !important;
+  --p-link-tile-color: #fff;
+  --p-text-color: #fff;
+}
+.uranus-template-entry-section p-link-tile,
+.uranus-featured-stories p-link-tile {
+  color: #fff !important;
+}
+.uranus-template-hero {
+  border: 0 !important;
+  border-bottom: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+.uranus-template-hero::before,
+.uranus-template-hero::after,
+.uranus-template-hero-video {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+.uranus-template-hero::after {
+  content: none !important;
 }
