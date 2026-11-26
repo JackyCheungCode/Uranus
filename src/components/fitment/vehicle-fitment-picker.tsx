@@ -116,7 +116,7 @@ export function VehicleFitmentPicker({ initialVehicle, onClose, onSave }: Props)
     onClose();
   };
 
-  const change = (setter: (value: string) => void) => (event: CustomEvent<SelectChangeEventDetail>) => setter(event.detail.value);
+  const change = (setter: (value: string) => void) => (event: CustomEvent<SelectChangeEventDetail>) => setter(String(event.detail.value ?? ""));
 
   return <div className="mw-modal-backdrop" onClick={onClose}>
     <section className="mw-vehicle-modal mw-fitment-modal" role="dialog" aria-modal="true" aria-label="Find your fit" onClick={e => e.stopPropagation()}>
@@ -126,16 +126,16 @@ export function VehicleFitmentPicker({ initialVehicle, onClose, onSave }: Props)
       <PText>Choose your exact vehicle to retrieve original equipment wheel and tire specifications from Wheel-Size.</PText>
       {initialVehicle && <PText>Previously saved: {initialVehicle.year} {initialVehicle.make} {initialVehicle.model} / {initialVehicle.trim}</PText>}
       <div className="mw-vehicle-fields">
-        <PSelect label="MAKE" value={make} onChange={change(setMake)}>
+        <PSelect name="vehicle-make" label="MAKE" value={make} onChange={change(setMake)}>
           {makes.map(item => <PSelectOption key={slugOf(item)} value={slugOf(item)}>{labelOf(item)}</PSelectOption>)}
         </PSelect>
-        <PSelect label="MODEL" value={model} disabled={!make || !models.length} onChange={change(setModel)}>
+        <PSelect name="vehicle-model" label="MODEL" value={model} disabled={!make || !models.length} onChange={change(setModel)}>
           {models.map(item => <PSelectOption key={slugOf(item)} value={slugOf(item)}>{labelOf(item)}</PSelectOption>)}
         </PSelect>
-        <PSelect label="YEAR" value={year} disabled={!model || !years.length} onChange={change(setYear)}>
+        <PSelect name="vehicle-year" label="YEAR" value={year} disabled={!model || !years.length} onChange={change(setYear)}>
           {years.map(item => { const value = str(item.year || item.value || item.name || item); return <PSelectOption key={value} value={value}>{value}</PSelectOption>; })}
         </PSelect>
-        <PSelect label="TRIM / MODIFICATION" value={modification} disabled={!year || !mods.length} onChange={change(setModification)}>
+        <PSelect name="vehicle-modification" label="TRIM / MODIFICATION" value={modification} disabled={!year || !mods.length} onChange={change(setModification)}>
           <PSelectOption value="">All available trims</PSelectOption>
           {mods.map(item => <PSelectOption key={slugOf(item)} value={slugOf(item)}>{labelOf(item)}</PSelectOption>)}
         </PSelect>
