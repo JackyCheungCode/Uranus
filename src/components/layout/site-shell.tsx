@@ -1,19 +1,12 @@
 "use client";
-import { useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { VehicleFitmentPicker } from "@/components/fitment/vehicle-fitment-picker";
 const links=[
  {label:"ALL WHEELS",href:"/wheels"},{label:"STREET",href:"/wheels?category=street"},{label:"TRAIL",href:"/wheels?category=trail"},{label:"DUALLY",href:"/wheels?category=dually"},{label:"COLOR SERIES",href:"/wheels?category=color-series"},{label:"NEW ARRIVALS",href:"/wheels?sort=new"}
 ];
-const options={
- year:["2026","2025","2024","2023","2022","2021","2020","2019","2018"],
- make:["Chevrolet","Ford","GMC","Jeep","Ram","Toyota"],
- model:["1500","F-150","F-250","F-350","Silverado 1500","Silverado 2500HD","Sierra 1500","Sierra 2500HD","Wrangler","Gladiator","Ram 1500","Ram 2500","Tundra","Tacoma"],
- trim:["Base","XL","XLT","Lariat","King Ranch","Platinum","Limited","LT","LTZ","High Country","SLT","AT4","Denali","TRD Pro","Rubicon"],
- body:["Crew Cab","SuperCrew","Regular Cab","Double Cab","CrewMax","Short Bed","Long Bed"]
-};
 type Vehicle={year:string;make:string;model:string;trim:string;body:string};
-const emptyVehicle:Vehicle={year:"2025",make:"Ford",model:"F-150",trim:"Lariat",body:"Crew Cab"};
+const emptyVehicle:Vehicle={year:"",make:"",model:"",trim:"",body:""};
 export function SiteShell({children}:{children:ReactNode}){
  const [menuOpen,setMenuOpen]=useState(false),[vehicleOpen,setVehicleOpen]=useState(false),[searchOpen,setSearchOpen]=useState(false),[query,setQuery]=useState("");
  const [vehicle,setVehicle]=useState<Vehicle>(emptyVehicle),[vehicleSaved,setVehicleSaved]=useState(false);
@@ -25,13 +18,12 @@ export function SiteShell({children}:{children:ReactNode}){
   if(raw){try{setVehicle(JSON.parse(raw) as Vehicle);setVehicleSaved(true);}catch{localStorage.removeItem("mayhem-vehicle");}}
   return()=>window.removeEventListener("keydown",close);
  },[]);
- const saveVehicle=(event:FormEvent)=>{event.preventDefault();localStorage.setItem("mayhem-vehicle",JSON.stringify(vehicle));setVehicleSaved(true);setVehicleOpen(false);};
- const vehicleLabel=vehicleSaved?vehicle.year+" "+vehicle.make+" "+vehicle.model:"SELECT VEHICLE";
+ const vehicleLabel=vehicleSaved?vehicle.year+" "+vehicle.make+" "+vehicle.model:"FIND YOUR FIT";
  return <>
   
   <header className="mw-header">
    <button className="mw-menu-button" onClick={()=>setMenuOpen(!menuOpen)} aria-label="Toggle menu" aria-expanded={menuOpen}><span/><span/><span/></button>
-   <a className="mw-wordmark" href="/" aria-label="Mayhem Wheels home">URANUS</a>
+   <a className="mw-wordmark" href="/" aria-label="Uranus home">URANUS</a>
    <nav className="mw-nav" aria-label="Main navigation"><div className="mw-nav-group"><a href="/wheels">WHEELS <span>⌄</span></a><div className="mw-dropdown">{links.map(item=><a key={item.label} href={item.href}>{item.label}</a>)}</div></div><a href="/visualizer">VISUALIZER</a><a href="/dealers">FIND A DEALER</a><a href="https://www.shoptwggear.com">MERCH</a></nav>
    <div className="mw-header-actions"><button onClick={()=>setSearchOpen(!searchOpen)} aria-label="Search" className="mw-icon-button">⌕</button><button onClick={()=>setVehicleOpen(true)} className="mw-vehicle-button"><span className="mw-vehicle-icon">＋</span>{vehicleSaved?vehicleLabel:"FIND YOUR FIT"}</button><a href="/garage" className="mw-garage-link">MY GARAGE</a></div>
    {searchOpen&&<form className="mw-search" onSubmit={e=>{e.preventDefault();window.location.href="/wheels?q="+encodeURIComponent(query);}}><input autoFocus value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search wheels, styles and part numbers"/><button type="submit">SEARCH →</button></form>}
@@ -40,8 +32,8 @@ export function SiteShell({children}:{children:ReactNode}){
   {vehicleOpen&&<VehicleFitmentPicker initialVehicle={vehicleSaved?vehicle:null} onClose={()=>setVehicleOpen(false)} onSave={v=>{setVehicle(v);setVehicleSaved(true);}}/>}
   {children}
   <SiteFooter/>
-  <button className="mw-support-launcher" onClick={()=>setSupportOpen(v=>!v)} aria-label="Contact Mayhem support" aria-expanded={supportOpen}>?</button>
-  {supportOpen&&<section className="mw-support-panel" aria-label="Mayhem support"><button className="mw-accessibility-close" onClick={()=>setSupportOpen(false)} aria-label="Close support">×</button><p className="mw-kicker">MAYHEM SUPPORT</p><h2>Contact our team.</h2><p>Tell us how we can help. Our team will reply by email.</p><div className="mw-support-options"><a href="/fitment">WHAT FITS MY VEHICLE? <span>›</span></a><a href="/warranty">WARRANTY / DAMAGED WHEEL <span>›</span></a><a href="/contact?topic=product">PRODUCT QUESTION <span>›</span></a><a href="/dealers">FIND A DEALER <span>›</span></a><a href="/contact">SOMETHING ELSE <span>›</span></a></div><a className="mw-button mw-button-dark" href="mailto:customerservice@mayhemwheels.com">EMAIL CUSTOMER SUPPORT →</a><p className="mw-modal-note">AI-assisted product information can be incomplete. Confirm fitment and installation with a qualified professional.</p></section>}
+  <button className="mw-support-launcher" onClick={()=>setSupportOpen(v=>!v)} aria-label="Contact Uranus support" aria-expanded={supportOpen}>?</button>
+  {supportOpen&&<section className="mw-support-panel" aria-label="Mayhem support"><button className="mw-accessibility-close" onClick={()=>setSupportOpen(false)} aria-label="Close support">×</button><p className="mw-kicker">URANUS SUPPORT</p><h2>Contact our team.</h2><p>Tell us how we can help. Our team will reply by email.</p><div className="mw-support-options"><a href="/fitment">WHAT FITS MY VEHICLE? <span>›</span></a><a href="/warranty">WARRANTY / DAMAGED WHEEL <span>›</span></a><a href="/contact?topic=product">PRODUCT QUESTION <span>›</span></a><a href="/dealers">FIND A DEALER <span>›</span></a><a href="/contact">SOMETHING ELSE <span>›</span></a></div><a className="mw-button mw-button-dark" href="mailto:customerservice@mayhemwheels.com">EMAIL CUSTOMER SUPPORT →</a><p className="mw-modal-note">AI-assisted product information can be incomplete. Confirm fitment and installation with a qualified professional.</p></section>}
 
  </>;
 }
