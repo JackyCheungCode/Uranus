@@ -24,7 +24,7 @@ export default function HomePage() {
           <p className="mw-hero-subtitle">CONCAVE &amp; VENTED STYLE</p>
           <a href="/products/8120-horizon" className="mw-button mw-button-light">EXPLORE FITMENTS <span>↗</span></a>
         </div>
-        <div className="mw-hero-bottom"><span>01 / 04</span><span>SCROLL TO EXPLORE ↓</span><span>M / W</span></div>
+        <div className="mw-hero-bottom"><span>01 / 04</span><span>SCROLL TO EXPLORE ↓</span><a href="https://www.youtube.com/watch?v=zXGecaz0hkw" target="_blank" rel="noreferrer">PLAY MAYHEM VIDEO ↗</a></div>
       </section>
 
       <section className="mw-featured">
