@@ -5,13 +5,13 @@ import { PCarousel, PButton, PHeading, PLinkTile, PText } from "@porsche-design-
 import "./pds-landing-template.css";
 
 const media = {
-  heroPoster: "https://images.pexels.com/photos/18434037/pexels-photo-18434037.jpeg?auto=compress&cs=tinysrgb&w=2400",
+  heroPoster: "https://images.pexels.com/photos/18434037/pexels-photo-18434037/free-photo-of-close-up-of-a-racing-car.jpeg?auto=compress&dpr=1&h=1600&w=2400",
   heroVideo: "https://videos.pexels.com/video-files/33968285/14411956_1920_1080_60fps.mp4",
-  raceWheel: "https://images.pexels.com/photos/30639412/pexels-photo-30639412.jpeg?auto=compress&cs=tinysrgb&w=1800",
-  redWheel: "https://images.pexels.com/photos/30773524/pexels-photo-30773524.jpeg?auto=compress&cs=tinysrgb&w=1800",
-  blackWheel: "https://images.pexels.com/photos/34278191/pexels-photo-34278191.jpeg?auto=compress&cs=tinysrgb&w=1800",
-  raceCar: "https://images.pexels.com/photos/29252120/pexels-photo-29252120.jpeg?auto=compress&cs=tinysrgb&w=1800",
-  drift: "https://images.pexels.com/photos/10467348/pexels-photo-10467348.jpeg?auto=compress&cs=tinysrgb&w=1800",
+  raceWheel: "https://images.pexels.com/photos/30639412/pexels-photo-30639412/free-photo-of-close-up-of-race-car-wheel-in-motion.jpeg?auto=compress&dpr=1&h=1200&w=1800",
+  redWheel: "https://images.pexels.com/photos/30773524/pexels-photo-30773524/free-photo-of-close-up-of-a-red-sports-car-wheel-on-track.jpeg?auto=compress&dpr=1&h=1200&w=1800",
+  blackWheel: "https://images.pexels.com/photos/18434037/pexels-photo-18434037/free-photo-of-close-up-of-a-racing-car.jpeg?auto=compress&dpr=1&h=1200&w=1800",
+  raceCar: "https://images.pexels.com/photos/29252120/pexels-photo-29252120/free-photo-of-formula-1-race-car-on-track-close-up.jpeg?auto=compress&dpr=1&h=1200&w=1800",
+  drift: "https://images.pexels.com/photos/10467348/pexels-photo-10467348.jpeg?auto=compress&dpr=1&h=1200&w=1800",
   showroom: "https://images.pexels.com/photos/18434037/pexels-photo-18434037.jpeg?auto=compress&cs=tinysrgb&w=1800",
 };
 
