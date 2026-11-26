@@ -207,3 +207,111 @@
     gap: var(--p-spacing-fluid-xl);
   }
 }
+
+
+/* Final P1/P2 responsive calibration for the PDS landing-page composition. */
+.uranus-featured-stories {
+  padding-block: clamp(3.5rem, 7vw, 7rem);
+}
+.uranus-featured-stories p-carousel {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+.uranus-featured-stories p-carousel p-link-tile {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+.uranus-featured-stories p-carousel p-link-tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.uranus-editorial-stories {
+  row-gap: clamp(3.5rem, 8vw, 8rem);
+  padding-block: clamp(2rem, 5vw, 5rem);
+}
+.uranus-editorial-row {
+  align-items: center;
+  column-gap: clamp(1.5rem, 4vw, 4rem);
+}
+.uranus-editorial-image {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  object-fit: cover;
+  object-position: center;
+}
+.uranus-editorial-copy {
+  max-width: 38rem;
+  padding-block: clamp(.5rem, 2vw, 2rem);
+}
+.uranus-editorial-copy p-text {
+  max-width: 34rem;
+  line-height: 1.65;
+}
+.uranus-editorial-copy p-heading {
+  max-width: 16ch;
+  line-height: 1.08;
+}
+.uranus-template-text-link {
+  min-height: 44px;
+  align-items: center;
+  transition: opacity .2s ease;
+}
+.uranus-template-text-link:focus-visible {
+  outline: 2px solid var(--p-color-focus);
+  outline-offset: 4px;
+}
+@media (min-width: 768px) {
+  .uranus-featured-stories {
+    padding-inline: 0;
+  }
+  .uranus-editorial-row {
+    min-height: 0;
+  }
+  .uranus-editorial-image {
+    height: 100%;
+    min-height: 30rem;
+    max-height: 46rem;
+  }
+}
+@media (max-width: 767px) {
+  .uranus-featured-stories {
+    padding-block: 3rem;
+  }
+  .uranus-featured-stories p-carousel {
+    overflow: visible;
+  }
+  .uranus-editorial-stories {
+    row-gap: 3.5rem;
+    padding-block: 1.5rem 3.5rem;
+  }
+  .uranus-editorial-row {
+    row-gap: 1.25rem;
+  }
+  .uranus-editorial-image {
+    aspect-ratio: 4 / 3;
+    max-height: none;
+  }
+  .uranus-editorial-copy {
+    padding: 0 .25rem;
+  }
+  .uranus-editorial-copy p-heading {
+    max-width: 14ch;
+  }
+  .uranus-editorial-copy p-text {
+    line-height: 1.55;
+  }
+  .uranus-template-text-link {
+    margin-top: 1.25rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .uranus-template-text-link {
+    transition: none;
+  }
+}
