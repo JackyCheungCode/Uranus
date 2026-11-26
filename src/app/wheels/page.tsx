@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const products = [
  {id:"8120",name:"HORIZON",finish:"GLOSS BLACK",sizes:"18x9 | 20x9 | 22x10",lugs:"6 Lug",category:"STREET",image:"https://mayhemwheels.com/cdn/shop/files/Mayhem8120-6GB1.png?v=1789750229&width=1200",href:"/products/8120-horizon"},
@@ -12,6 +12,7 @@ const products = [
 const categories=["ALL WHEELS","STREET","TRAIL","DUALLY","COLOR SERIES","NEW ARRIVALS"];
 export default function WheelsPage(){
  const [category,setCategory]=useState("ALL WHEELS"),[search,setSearch]=useState(""),[finish,setFinish]=useState("ALL"),[sort,setSort]=useState("FEATURED"),[compare,setCompare]=useState<string[]>([]);
+ useEffect(()=>{const q=new URLSearchParams(window.location.search);const c=q.get("category");if(c){const normalized=c.toUpperCase().replace(/-/g," ");if(categories.includes(normalized))setCategory(normalized);}if(q.get("sort")==="new")setCategory("NEW ARRIVALS");},[]);
  const filtered=useMemo(()=>products.filter(p=>(category==="ALL WHEELS"||category==="NEW ARRIVALS"||p.category===category)&&(finish==="ALL"||p.finish.includes(finish))&&(p.name+" "+p.id+" "+p.finish).toLowerCase().includes(search.toLowerCase())).sort((a,b)=>sort==="A-Z"?a.name.localeCompare(b.name):sort==="Z-A"?b.name.localeCompare(a.name):0),[category,finish,search,sort]);
  return <main className="mw-catalog">
   <div className="mw-breadcrumb">HOME / WHEELS / <b>{category}</b></div>
