@@ -2,44 +2,14 @@ import Link from "next/link";
 
 export function SiteFooter() {
   return (
-    <footer className="mw-footer">
-      <div className="mw-footer-main">
-        <div>
-          <Link href="/" className="mw-wordmark mw-footer-logo">URANUS</Link>
-          <p>BUILT FOR YOUR DRIVE.</p>
-          <p className="mw-footer-description">Distinctive wheels for trucks, Jeep and SUVs. Style, precision and function.</p>
-        </div>
-        <div className="mw-footer-column">
-          <b>WHEELS</b>
-          <Link href="/wheels">ALL WHEELS</Link>
-          <Link href="/wheels?category=street">STREET</Link>
-          <Link href="/wheels?category=trail">TRAIL</Link>
-          <Link href="/wheels?category=dually">DUALLY</Link>
-          <Link href="/wheels?category=color-series">COLOR SERIES</Link>
-          <Link href="/wheels?sort=new">NEW ARRIVALS</Link>
-        </div>
-        <div className="mw-footer-column">
-          <b>DEALERS</b>
-          <Link href="/dealers">FIND A DEALER</Link>
-          <Link href="https://mayhemwheels.com/pages/become-a-dealer">BECOME A DEALER</Link>
-        </div>
-        <div className="mw-footer-column">
-          <b>INFORMATION</b>
-          <Link href="/contact">CONTACT US</Link>
-          <Link href="/warranty">WARRANTY</Link>
-          <Link href="/faq">WHEEL FAQS</Link>
-          <Link href="/prop65">PROP 65</Link>
-        </div>
-        <div className="mw-footer-column mw-footer-connect">
-          <b>STAY CONNECTED</b>
-          <p>Explore wheel styles, technical details and vehicle fitment.</p>
-          <a href="https://mayhemwheels.com/" target="_blank" rel="noreferrer">MAYHEM WHEELS ↗</a>
-        </div>
+    <footer className="uranus-pds-footer">
+      <div className="uranus-footer-top">
+        <div className="uranus-footer-brand"><Link href="/">URANUS</Link><p>BUILT FOR YOUR DRIVE.</p></div>
+        <nav aria-label="Wheels"><h2>WHEELS</h2><Link href="/wheels">All wheels</Link><Link href="/wheels?category=street">Street</Link><Link href="/wheels?category=trail">Trail</Link><Link href="/wheels?category=dually">Dually</Link></nav>
+        <nav aria-label="Tools"><h2>TOOLS</h2><Link href="/visualizer">Wheel visualizer</Link><Link href="/garage">My garage</Link><Link href="/dealers">Find a dealer</Link></nav>
+        <nav aria-label="Information"><h2>INFORMATION</h2><Link href="/contact">Contact</Link><Link href="/warranty">Warranty</Link><Link href="/faq">Wheel FAQs</Link><Link href="/prop65">Prop 65</Link></nav>
       </div>
-      <div className="mw-footer-bottom">
-        <span>© 2026 THE WHEEL GROUP. ALL RIGHTS RESERVED.</span>
-        <span>URANUS</span>
-      </div>
+      <div className="uranus-footer-bottom"><span>© 2026 URANUS. ALL RIGHTS RESERVED.</span><span>DESIGNED FOR YOUR DRIVE.</span></div>
     </footer>
   );
 }
