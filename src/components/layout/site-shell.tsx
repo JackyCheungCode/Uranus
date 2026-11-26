@@ -2,7 +2,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { VehicleFitmentPicker } from "@/components/fitment/vehicle-fitment-picker";
-import { PButton, PInputSearch, PorscheDesignSystemProvider } from "@porsche-design-system/components-react/ssr";
+import { PButton, PButtonPure, PInputSearch, PorscheDesignSystemProvider } from "@porsche-design-system/components-react/ssr";
 
 const links = [
   { label: "All wheels", href: "/wheels" },
@@ -41,11 +41,11 @@ export function SiteShell({ children }: { children: ReactNode }) {
       <div className="pds-app">
         <header className="uranus-pds-header">
           <div className="uranus-header-left">
-            <button className="uranus-menu-trigger" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-haspopup="dialog" aria-label="Open navigation"><span/><span/><span/><span className="uranus-menu-label">Menu</span></button>
+            <PButtonPure className="uranus-menu-trigger" type="button" onClick={() => setMenuOpen(!menuOpen)} aria={{ "aria-expanded": String(menuOpen), "aria-haspopup": "dialog" }} icon="menu-lines" hideLabel={false}>Menu</PButtonPure>
           </div>
           <a className="uranus-header-wordmark" href="/" aria-label="Uranus home">URANUS</a>
           <div className="uranus-header-right">
-            <button className="uranus-header-icon" type="button" onClick={() => setSearchOpen(!searchOpen)} aria-label="Search">⌕</button>
+            <PButtonPure className="uranus-header-icon" type="button" onClick={() => setSearchOpen(!searchOpen)} title="Search" icon="search" hideLabel>Search</PButtonPure>
             <PButton onClick={() => setVehicleOpen(true)} icon="car">{vehicleLabel}</PButton>
           </div>
           {searchOpen && <form className="uranus-search-panel" onSubmit={event => { event.preventDefault(); window.location.href = "/wheels?q=" + encodeURIComponent(query); }}>
