@@ -17,7 +17,7 @@ export default function HomePage() {
   return (
     <main className="uranus-landing">
       <section className="uranus-landing-hero" aria-labelledby="home-heading">
-        <img src={heroImage} alt="Uranus wheel campaign" fetchPriority="high" /><iframe className="uranus-hero-video" src="https://www.youtube-nocookie.com/embed/zXGecaz0hkw?autoplay=1&mute=1&loop=1&playlist=zXGecaz0hkw&controls=0&modestbranding=1&playsinline=1&rel=0" title="Uranus wheel campaign video" allow="autoplay; encrypted-media; picture-in-picture" />
+        <video className="uranus-hero-video" poster={heroImage} loop muted autoPlay playsInline aria-hidden="true" />
         <div className="uranus-landing-hero-shade" />
         <div className="uranus-landing-hero-copy">
           <p className="uranus-eyebrow">URANUS / BUILT FOR YOUR DRIVE</p>

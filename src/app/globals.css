@@ -525,3 +525,30 @@ body { font-family: var(--p-font-porsche-next); color: var(--p-color-primary); }
 @media (max-aspect-ratio: 16/9) {
   .uranus-landing-hero .uranus-hero-video { width: 177.78vh; height: 100vh; min-width: 100%; min-height: 56.25vw; left: 50%; top: 50%; transform: translate(-50%,-50%); }
 }
+
+
+/* PDS landing template header controls + native video placeholder */
+.uranus-menu-trigger,
+.uranus-header-icon,
+.uranus-header-right p-button-pure {
+  color: var(--p-color-primary);
+  --p-button-pure-fg: var(--p-color-primary);
+}
+.uranus-pds-header p-button-pure::part(button) { color: inherit; }
+.uranus-pds-header p-button-pure::part(icon) { color: inherit; }
+.pds-app:has(.uranus-landing video) .uranus-pds-header,
+.pds-app:has(.uranus-landing video) .uranus-pds-header p-button-pure {
+  color: var(--p-color-canvas);
+  --p-button-pure-fg: var(--p-color-canvas);
+  color-scheme: dark;
+}
+.pds-app:not(:has(.uranus-landing video)) .uranus-pds-header p-button-pure {
+  color-scheme: light;
+}
+.uranus-fitment-icon { width: 44px; height: 44px; }
+.uranus-fitment-icon::part(button) { min-width: 44px; min-height: 44px; padding: 0; }
+.uranus-landing-hero .uranus-hero-video {
+  position: absolute; inset: 0; z-index: -1; display: block;
+  width: 100%; height: 100%; min-width: 100%; min-height: 100%;
+  border: 0; object-fit: cover; object-position: center;
+}

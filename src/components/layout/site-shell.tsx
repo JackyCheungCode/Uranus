@@ -35,18 +35,17 @@ export function SiteShell({ children }: { children: ReactNode }) {
     if (raw) { try { setVehicle(JSON.parse(raw) as Vehicle); setVehicleSaved(true); } catch { localStorage.removeItem("mayhem-vehicle"); } }
     return () => window.removeEventListener("keydown", close);
   }, []);
-  const vehicleLabel = vehicleSaved ? [vehicle.year, vehicle.make, vehicle.model].filter(Boolean).join(" ") : "Find your fit";
   return (
     <PorscheDesignSystemProvider cdn="auto">
       <div className="pds-app">
         <header className="uranus-pds-header">
           <div className="uranus-header-left">
-            <PButtonPure className="uranus-menu-trigger" type="button" onClick={() => setMenuOpen(!menuOpen)} aria={{ "aria-expanded": menuOpen, "aria-haspopup": "dialog" }} icon="menu-lines" hideLabel={false}>Menu</PButtonPure>
+            <PButtonPure className="uranus-menu-trigger" type="button" onClick={() => setMenuOpen(!menuOpen)} aria={{ "aria-expanded": menuOpen, "aria-haspopup": "dialog", "aria-label": "Open menu" }} icon="menu-lines" hideLabel>Menu</PButtonPure>
           </div>
           <a className="uranus-header-wordmark" href="/" aria-label="Uranus home">URANUS</a>
           <div className="uranus-header-right">
-            <PButtonPure className="uranus-header-icon" type="button" onClick={() => setSearchOpen(!searchOpen)} title="Search" icon="search" hideLabel>Search</PButtonPure>
-            <PButton onClick={() => setVehicleOpen(true)} icon="car">{vehicleLabel}</PButton>
+            <PButtonPure className="uranus-header-icon" type="button" onClick={() => setSearchOpen(!searchOpen)} aria={{ "aria-label": "Search" }} title="Search" icon="search" hideLabel>Search</PButtonPure>
+            <PButtonPure className="uranus-header-icon uranus-fitment-icon" type="button" onClick={() => setVehicleOpen(true)} aria={{ "aria-label": "Find your fit" }} title="Find your fit" icon="car" hideLabel>Find your fit</PButtonPure>
           </div>
           {searchOpen && <form className="uranus-search-panel" onSubmit={event => { event.preventDefault(); window.location.href = "/wheels?q=" + encodeURIComponent(query); }}>
             <PInputSearch name="site-search" label="Search wheels" value={query} onInput={event => setQuery((event.detail.target as HTMLInputElement).value)} placeholder="Search wheels, styles and part numbers" clear />
