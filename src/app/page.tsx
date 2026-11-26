@@ -88,6 +88,10 @@ export default function HomePage() {
           <PLinkTile
             className="col-span-full sm:col-span-one-half"
             href="/fitment"
+            onClick={(event) => {
+              event.preventDefault();
+              window.dispatchEvent(new Event("uranus:open-fitment"));
+            }}
             label="Find your fit"
             description="Choose your vehicle and explore compatible wheels"
             compact={true}
