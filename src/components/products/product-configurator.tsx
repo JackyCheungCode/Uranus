@@ -5,12 +5,10 @@ export function ProductConfigurator({items}:{items:WheelItem[]}){
  const [activeId,setActiveId]=useState(items[0]?.id||"");
  const current=items.find(x=>x.id===activeId)||items[0];
  const [size,setSize]=useState(current?.sizes.split(" | ")[0]||"");
- const [gallery,setGallery]=useState(0);
  const sizes=current?.sizes.split(" | ")||[];
- const lugVariants=items.filter(x=>x.finish===current.finish);
  const finishes=Array.from(new Set(items.map(x=>x.finish)));
  const variantsByFinish=useMemo(()=>items.filter(x=>x.finish===current.finish),[items,current.finish]);
- const chooseVariant=(item:WheelItem)=>{setActiveId(item.id);const next=item.sizes.split(" | ");if(!next.includes(size))setSize(next[0]);setGallery(0);};
+ const chooseVariant=(item:WheelItem)=>{setActiveId(item.id);const next=item.sizes.split(" | ");if(!next.includes(size))setSize(next[0]);};
  const diameter=size.split("x")[0]||"—",width=size.split("x")[1]||"—";
  return <main className="mw-product-page">
   <div className="mw-breadcrumb">HOME / WHEELS / {current.style} {current.name}</div>
