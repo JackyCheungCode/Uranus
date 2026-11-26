@@ -207,3 +207,229 @@
     gap: var(--p-spacing-fluid-xl);
   }
 }
+
+
+/* Final P1/P2 responsive calibration for the PDS landing-page composition. */
+.uranus-featured-stories {
+  padding-block: clamp(3.5rem, 7vw, 7rem);
+}
+.uranus-featured-stories p-carousel {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+.uranus-featured-stories p-carousel p-link-tile {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+.uranus-featured-stories p-carousel p-link-tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.uranus-editorial-stories {
+  row-gap: clamp(3.5rem, 8vw, 8rem);
+  padding-block: clamp(2rem, 5vw, 5rem);
+}
+.uranus-editorial-row {
+  align-items: center;
+  column-gap: clamp(1.5rem, 4vw, 4rem);
+}
+.uranus-editorial-image {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  object-fit: cover;
+  object-position: center;
+}
+.uranus-editorial-copy {
+  max-width: 38rem;
+  padding-block: clamp(.5rem, 2vw, 2rem);
+}
+.uranus-editorial-copy p-text {
+  max-width: 34rem;
+  line-height: 1.65;
+}
+.uranus-editorial-copy p-heading {
+  max-width: 16ch;
+  line-height: 1.08;
+}
+.uranus-template-text-link {
+  min-height: 44px;
+  align-items: center;
+  transition: opacity .2s ease;
+}
+.uranus-template-text-link:focus-visible {
+  outline: 2px solid var(--p-color-focus);
+  outline-offset: 4px;
+}
+@media (min-width: 768px) {
+  .uranus-featured-stories {
+    padding-inline: 0;
+  }
+  .uranus-editorial-row {
+    min-height: 0;
+  }
+  .uranus-editorial-image {
+    height: 100%;
+    min-height: 30rem;
+    max-height: 46rem;
+  }
+}
+@media (max-width: 767px) {
+  .uranus-featured-stories {
+    padding-block: 3rem;
+  }
+  .uranus-featured-stories p-carousel {
+    overflow: visible;
+  }
+  .uranus-editorial-stories {
+    row-gap: 3.5rem;
+    padding-block: 1.5rem 3.5rem;
+  }
+  .uranus-editorial-row {
+    row-gap: 1.25rem;
+  }
+  .uranus-editorial-image {
+    aspect-ratio: 4 / 3;
+    max-height: none;
+  }
+  .uranus-editorial-copy {
+    padding: 0 .25rem;
+  }
+  .uranus-editorial-copy p-heading {
+    max-width: 14ch;
+  }
+  .uranus-editorial-copy p-text {
+    line-height: 1.55;
+  }
+  .uranus-template-text-link {
+    margin-top: 1.25rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .uranus-template-text-link {
+    transition: none;
+  }
+}
+
+
+/* Header and hero width/color correction requested for desktop and mobile. */
+.uranus-template-header {
+  inset-inline: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+  box-sizing: border-box;
+}
+.uranus-template-header > .col-wide {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  width: 100%;
+  max-width: 1440px;
+  min-height: 80px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 4vw, 64px);
+  box-sizing: border-box;
+}
+.uranus-template-header nav,
+.uranus-template-header-actions {
+  min-width: 0;
+}
+.uranus-template-header p-button-pure,
+.uranus-template-header p-button-pure::part(button),
+.uranus-template-header p-button-pure::part(icon),
+.uranus-template-header p-button-pure::part(label) {
+  color: #fff !important;
+  --p-button-pure-fg: #fff;
+}
+.uranus-template-login {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding-inline: 12px;
+  color: #fff !important;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.uranus-template-login:hover { opacity: .72; }
+.uranus-template-login:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+.uranus-template-hero-copy {
+  width: 100%;
+  max-width: min(calc(100% - 32px), 68rem);
+  color: #fff !important;
+}
+.uranus-template-hero-copy h1,
+.uranus-template-hero-copy p,
+.uranus-template-hero-copy p-heading,
+.uranus-template-hero-copy p-text,
+.uranus-template-hero-description {
+  color: #fff !important;
+  --p-text-color: #fff;
+}
+.uranus-template-hero-copy p-button,
+.uranus-template-hero-copy p-button::part(button),
+.uranus-template-hero-copy p-button::part(label) {
+  color: #fff !important;
+}
+@media (max-width: 767px) {
+  .uranus-template-header > .col-wide {
+    min-height: 64px;
+    padding-inline: 16px;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 8px;
+  }
+  .uranus-template-header-actions { gap: 4px; }
+  .uranus-template-login {
+    min-height: 40px;
+    padding-inline: 6px;
+    font-size: 12px;
+  }
+  .uranus-template-hero-copy {
+    max-width: calc(100% - 32px);
+  }
+}
+
+
+/* Final contrast and hero seam cleanup. */
+.uranus-landing-template p-link-tile,
+.uranus-landing-template p-link-tile::part(root),
+.uranus-landing-template p-link-tile::part(headline),
+.uranus-landing-template p-link-tile::part(label),
+.uranus-landing-template p-link-tile::part(description),
+.uranus-landing-template p-link-tile::part(link),
+.uranus-landing-template p-link-tile::part(icon) {
+  color: #fff !important;
+  --p-link-tile-color: #fff;
+  --p-text-color: #fff;
+}
+.uranus-template-entry-section p-link-tile,
+.uranus-featured-stories p-link-tile {
+  color: #fff !important;
+}
+.uranus-template-hero {
+  border: 0 !important;
+  border-bottom: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+.uranus-template-hero::before,
+.uranus-template-hero::after,
+.uranus-template-hero-video {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+.uranus-template-hero::after {
+  content: none !important;
+}

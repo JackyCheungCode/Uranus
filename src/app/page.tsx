@@ -57,7 +57,7 @@ function HeroVideo() {
         <PText color="contrast-high" className="uranus-template-hero-description">
           Wheel design, vehicle fitment and a more considered way to build your vehicle.
         </PText>
-        <PButton className="mt-fluid-md" variant="secondary" onClick={() => { window.location.href = "/wheels"; }}>
+        <PButton className="mt-fluid-md" variant="secondary" onClick={() => { window.location.href = "/fitment"; }}>
           Explore wheels
         </PButton>
       </div>
@@ -113,18 +113,18 @@ export default function HomePage() {
           </PLinkTile>
         </div>
       </section>
-      <section className="col-full grid grid-cols-subgrid py-fluid-xl" aria-label="Featured wheel stories">
+      <section className="uranus-featured-stories col-full grid grid-cols-subgrid py-fluid-xl" aria-label="Featured wheel stories">
         <PCarousel
           className="col-span-full"
-          slidesPerPage={{ base: 1, xs: 1, m: 1 }}
+          slidesPerPage={{ base: 1.12, xs: 1.12, m: 2 }}
           alignHeader="center"
           width="extended"
           heading="Discover the details"
         >
-          <PLinkTile gradient={true} href="/wheels" label="Form and proportion" description="Wheel design" compact={true} aspectRatio={{ base: "1/1", xs: "16/9" }} weight="regular">
+          <PLinkTile gradient={true} href="/wheels" label="Form and proportion" description="Wheel design" compact={true} aspectRatio={{ base: "4/3", xs: "16/9", m: "16/9" }} weight="regular">
             <img src={media.blackWheel} alt="Close-up of a dark alloy wheel" loading="lazy" />
           </PLinkTile>
-          <PLinkTile gradient={true} href="/wheels" label="Performance character" description="On the track" compact={true} aspectRatio={{ base: "1/1", xs: "16/9" }} weight="regular">
+          <PLinkTile gradient={true} href="/wheels" label="Performance character" description="On the track" compact={true} aspectRatio={{ base: "4/3", xs: "16/9", m: "16/9" }} weight="regular">
             <img src={media.raceCar} alt="Race car on circuit" loading="lazy" />
           </PLinkTile>
           <PLinkTile gradient={true} href="/visualizer" label="Your vehicle, reimagined" description="Wheel visualizer" compact={true} aspectRatio={{ base: "1/1", xs: "16/9" }} weight="regular">
@@ -136,15 +136,15 @@ export default function HomePage() {
         </PCarousel>
       </section>
 
-      <section className="col-basic grid grid-cols-subgrid gap-y-fluid-xl" aria-label="Uranus design and engineering">
-        <div className="col-span-full grid grid-cols-subgrid gap-y-fluid-lg">
+      <section className="uranus-editorial-stories col-basic grid grid-cols-subgrid gap-y-fluid-xl" aria-label="Uranus design and engineering">
+        <div className="uranus-editorial-row col-span-full grid grid-cols-subgrid gap-y-fluid-lg">
           <img
-            className="col-span-full md:col-start-1 md:col-end-7 md:row-start-1 w-full aspect-4/3 md:aspect-3/4 object-cover rounded-3xl"
+            className="uranus-editorial-image col-span-full md:col-start-1 md:col-end-7 md:row-start-1 w-full aspect-4/3 md:aspect-3/4 object-cover rounded-3xl"
             src={media.raceCar}
             alt="Formula race car on circuit"
             loading="lazy"
           />
-          <div className="col-span-full md:col-start-8 md:col-end-13 md:row-start-1 flex flex-col justify-center items-start">
+          <div className="uranus-editorial-copy col-span-full md:col-start-8 md:col-end-13 md:row-start-1 flex flex-col justify-center items-start">
             <PHeading tag="h2" size="md">Design in every detail.</PHeading>
             <PText className="mt-fluid-sm">
               A wheel changes the character of a vehicle. Explore considered proportions, finishes and forms created to make every build feel intentional.
@@ -155,14 +155,14 @@ export default function HomePage() {
             <a className="uranus-template-text-link mt-fluid-lg" href="/wheels">Explore wheel designs <span aria-hidden="true">↗</span></a>
           </div>
         </div>
-        <div className="col-span-full grid grid-cols-subgrid gap-y-fluid-lg">
+        <div className="uranus-editorial-row col-span-full grid grid-cols-subgrid gap-y-fluid-lg">
           <img
-            className="col-span-full md:col-start-7 md:col-end-13 md:row-start-1 w-full aspect-4/3 md:aspect-3/4 object-cover rounded-3xl"
+            className="uranus-editorial-image col-span-full md:col-start-7 md:col-end-13 md:row-start-1 w-full aspect-4/3 md:aspect-3/4 object-cover rounded-3xl"
             src={media.drift}
             alt="Performance car cornering on a race track"
             loading="lazy"
           />
-          <div className="col-span-full md:col-start-1 md:col-end-6 md:row-start-1 flex flex-col justify-center items-start">
+          <div className="uranus-editorial-copy col-span-full md:col-start-1 md:col-end-6 md:row-start-1 flex flex-col justify-center items-start">
             <PHeading tag="h2" size="md">Fitment, made clear.</PHeading>
             <PText className="mt-fluid-sm">
               Start with your vehicle. Review wheel dimensions and compatibility information before choosing a setup.
