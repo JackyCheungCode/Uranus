@@ -7,6 +7,7 @@ import {
   getIconLinks,
   getMetaTagsAndIconLinks,
 } from "@porsche-design-system/components-react/partials";
+import { SiteShell } from "@/components/layout/site-shell";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -28,7 +29,9 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         {getMetaTagsAndIconLinks({ appTitle: "URANUS Wheels", format: "jsx" })}
       </head>
       <body>
-        <PorscheDesignSystemProvider>{children}</PorscheDesignSystemProvider>
+        <PorscheDesignSystemProvider>
+          <SiteShell>{children}</SiteShell>
+        </PorscheDesignSystemProvider>
       </body>
     </html>
   );
