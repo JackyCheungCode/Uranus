@@ -1,14 +1,15 @@
-# Uranus Wheels
+# Uranus / Mayhem Wheels replica
 
-A precision-engineered wheel brand website, rebuilt on Next.js and Porsche Design System v4.
+A Next.js reconstruction of the Mayhem Wheels storefront experience.
 
-## Current foundation
+## Stack
 
-- Next.js 16 App Router, React 19, and TypeScript
-- Porsche Design System v4 React SSR provider and official stylesheet
-- Tailwind CSS 4 with the PDS theme
-- Initial responsive brand landing-page shell
-- Global typography, metadata, and PDS resource preloads
+- Next.js 16 App Router, React 19, TypeScript
+- Cloudflare Workers deployment through OpenNext
+- Responsive Mayhem-style storefront shell and shared footer
+- Product catalog and configuration data in `src/data/wheels.ts`
+- Verified SKU-level specification rows in `src/data/wheel-specs.ts`
+- Product pages, wheel comparison, saved garage, and illustrative visualizer
 
 ## Local development
 
@@ -25,16 +26,19 @@ npm run typecheck
 npm run build
 ```
 
-## Cloudflare deployment
+## Data and fitment boundaries
 
-- Next.js is deployed to Cloudflare Workers through `@opennextjs/cloudflare`.
-- `wrangler.jsonc` targets `.open-next/worker.js` with `nodejs_compat` and static assets binding.
-- Production builds run through Cloudflare Workers Builds on `main`; Preview deployments are disabled.
-- Run `npm run deploy` only when intentionally publishing directly from a configured Cloudflare environment.
+- The catalog contains 38 wheel configuration records based on the current All Wheels collection.
+- SKU specifications are shown only where sourced values are available. Missing rows are not inferred.
+- The vehicle selector and saved garage use browser-local storage.
+- Live vehicle-to-wheel fitment verification is not connected.
+- The visualizer is an illustrative composition using Mayhem campaign photography and wheel imagery. It is not a 3D vehicle model and does not certify physical fitment.
+- Product imagery currently references Mayhem's CDN directly; local asset mirroring has not been completed.
 
-## Project principles
+## Deployment
 
-- Keep `main` and the current production Worker unchanged until preview acceptance.
-- Keep wheel product, finish, configuration, SKU, and vehicle fitment data explicit and verifiable.
-- Treat visualizer previews separately from authoritative fitment validation.
-- Rebuild interaction and information architecture without copying third-party brand assets or protected content.
+- The reconstruction is isolated on `rebuild/mayhem-reference-replica`.
+- `main` and the production Worker remain unchanged pending review.
+- Cloudflare Preview deployments remain disabled.
+- GitHub Actions runs TypeScript and Next.js production-build checks on this branch.
+- Do not merge or deploy until visual and functional acceptance is complete.
