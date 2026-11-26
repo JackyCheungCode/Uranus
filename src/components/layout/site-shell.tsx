@@ -115,6 +115,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
               >
                 Find your fit
               </PButtonPure>
+                          <a className="uranus-template-login" href="/login" aria-label="Log in">Log in</a>
             </div>
 
             {searchOpen && (
