@@ -124,6 +124,7 @@ export function VehicleFitmentPicker({ initialVehicle, onClose, onSave }: Props)
       <p className="mw-kicker">URANUS / VEHICLE FITMENT</p>
       <PHeading tag="h2" size="large">Find your fit.</PHeading>
       <PText>Choose your exact vehicle to retrieve original equipment wheel and tire specifications from Wheel-Size.</PText>
+      {initialVehicle && <PText>Previously saved: {initialVehicle.year} {initialVehicle.make} {initialVehicle.model} / {initialVehicle.trim}</PText>}
       <div className="mw-vehicle-fields">
         <PSelect label="MAKE" value={make} onChange={change(setMake)}>
           {makes.map(item => <PSelectOption key={slugOf(item)} value={slugOf(item)}>{labelOf(item)}</PSelectOption>)}
