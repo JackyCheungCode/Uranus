@@ -99,3 +99,13 @@
   .uranus-template-hero-copy { padding-bottom: var(--p-spacing-fluid-lg); }
   .uranus-template-footer article { grid-template-columns: 1fr; }
 }
+
+
+/* Header alignment fix: keep the header as a full-width positioning layer.
+   The inner .col-wide wrapper owns the PDS grid; nesting the header itself
+   in another grid shifts that wrapper and its three-column content. */
+.uranus-template-header {
+  display: block !important;
+  width: 100%;
+  padding: 0;
+}
