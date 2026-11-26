@@ -48,9 +48,9 @@ export function SiteFooter() {
 
       <div className="col-extended grid sm:grid-cols-[auto_minmax(0,1fr)] items-center gap-x-fluid-lg gap-y-static-lg border-t border-[var(--p-color-contrast-lower)] pt-fluid-lg">
         <div className="flex gap-fluid-md" aria-label="Uranus quick links">
-          <PLinkPure href="/wheels" icon="disc" hideLabel={true} size="md">Wheels</PLinkPure>
+          <PLinkPure href="/wheels" icon="car" hideLabel={true} size="md">Wheels</PLinkPure>
           <PLinkPure href="/garage" icon="user" hideLabel={true} size="md">Garage</PLinkPure>
-          <PLinkPure href="/contact" icon="mail" hideLabel={true} size="md">Contact</PLinkPure>
+          <PLinkPure href="/contact" icon="search" hideLabel={true} size="md">Contact</PLinkPure>
         </div>
         <PText size="xs" color="contrast-medium">Wheel designs and fitment information for trucks, Jeep and SUVs.</PText>
       </div>
