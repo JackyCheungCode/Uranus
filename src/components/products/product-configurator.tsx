@@ -1,11 +1,13 @@
 "use client";
 import { useMemo, useState } from "react";
 import type { WheelItem } from "@/data/wheels";
+import { wheelSpecs } from "@/data/wheel-specs";
 export function ProductConfigurator({items}:{items:WheelItem[]}){
  const [activeId,setActiveId]=useState(items[0]?.id||"");
  const current=items.find(x=>x.id===activeId)||items[0];
  const [size,setSize]=useState(current?.sizes.split(" | ")[0]||"");
  const sizes=current?.sizes.split(" | ")||[];
+ const specRows=(wheelSpecs[current.slug]||[]).filter(spec=>spec.size===size&&current.lugs.split(/[ /]+/).includes(spec.lugCount));
  const finishes=Array.from(new Set(items.map(x=>x.finish)));
  const variantsByFinish=useMemo(()=>items.filter(x=>x.finish===current.finish),[items,current.finish]);
  const chooseVariant=(item:WheelItem)=>{setActiveId(item.id);const next=item.sizes.split(" | ");if(!next.includes(size))setSize(next[0]);};
@@ -34,7 +36,7 @@ export function ProductConfigurator({items}:{items:WheelItem[]}){
   <section className="mw-product-description"><p className="mw-kicker">MAYHEM / DESIGN & ENGINEERING</p><h2>{current.style} {current.name}</h2><p>Mayhem wheels are designed for truck, Jeep and SUV applications, combining distinctive styling with a broad range of sizes and fitments. Explore the available finishes and configurations, then confirm the exact setup with an authorized retailer.</p></section>
   <section className="mw-spec-table"><div><p className="mw-kicker">CONFIGURATION</p><h2>Selected wheel</h2><p>Published catalog information for the selected finish and lug configuration.</p></div>
    <div className="mw-product-configuration"><div><span>STYLE</span><strong>{current.style} {current.name}</strong></div><div><span>FINISH</span><strong>{current.finish}</strong></div><div><span>LUG CONFIGURATION</span><strong>{current.lugs}</strong></div><div><span>AVAILABLE SIZES</span><strong>{current.sizes}</strong></div></div>
-   <p className="mw-product-note">Exact SKU-level technical specifications vary by size and bolt pattern. They are not inferred from this summary; request the current specification sheet from a Mayhem dealer.</p>
+   {specRows.length>0?<div className="mw-table-scroll"><table><thead><tr>{["PART NUMBER","SIZE","BOLT PATTERN","OFFSET","HUB BORE","LOAD RATING","BACKSPACE"].map(x=><th key={x}>{x}</th>)}</tr></thead><tbody>{specRows.map(row=><tr key={row.partNumber}><td>{row.partNumber}</td><td>{row.size}</td><td>{row.boltPattern}</td><td>{row.offset}</td><td>{row.hubBore}</td><td>{row.loadRating}</td><td>{row.backspace}</td></tr>)}</tbody></table></div>:<p className="mw-product-note">No SKU-level specification rows are published here for this selected size and lug configuration. Request the exact current specification sheet from a Mayhem dealer.</p>}
   </section>
  </main>
 }
