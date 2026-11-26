@@ -1,0 +1,52 @@
+export type WheelItem = {
+  id: string; slug: string; style: string; name: string; finish: string; sizes: string;
+  lugs: string; category: ("STREET"|"TRAIL"|"DUALLY"|"COLOR SERIES"|"NEW ARRIVALS")[];
+  image: string; badge?: string; sourceUrl?: string;
+};
+const cdn="https://mayhemwheels.com/cdn/shop/files/";
+export const wheels: WheelItem[] = [
+ {id:"8121-6",slug:"8121-cyclone",style:"8121",name:"CYCLONE",finish:"GLOSS BLACK",sizes:"20x9 | 22x10",lugs:"6 Lug",category:["STREET","NEW ARRIVALS"],image:cdn+"Mayhem8121-6GB1.png?v=1789750230&width=1200",badge:"NEW STYLE"},
+ {id:"8121-8",slug:"8121-cyclone",style:"8121",name:"CYCLONE",finish:"GLOSS BLACK",sizes:"20x9 | 22x10",lugs:"8 Lug",category:["STREET","NEW ARRIVALS"],image:cdn+"Mayhem8121-8GB1.png?v=1789750230&width=1200",badge:"NEW STYLE"},
+ {id:"8120-6",slug:"8120-horizon",style:"8120",name:"HORIZON",finish:"GLOSS BLACK",sizes:"18x9 | 20x9 | 22x10",lugs:"6 Lug",category:["STREET","NEW ARRIVALS"],image:cdn+"Mayhem8120-6GB1.png?v=1789750229&width=1200",badge:"NEW STYLE"},
+ {id:"8122-6",slug:"8122-blizzard",style:"8122",name:"BLIZZARD",finish:"GLOSS BLACK",sizes:"17x8.5 | 18x9 | 20x9",lugs:"6 Lug",category:["STREET","NEW ARRIVALS"],image:cdn+"Mayhem8122-6GB1-CAN.png?v=1791917407&width=1200",badge:"NEW STYLE"},
+ {id:"8122-8",slug:"8122-blizzard",style:"8122",name:"BLIZZARD",finish:"GLOSS BLACK",sizes:"17x8.5 | 18x9 | 20x9",lugs:"8 Lug",category:["STREET","NEW ARRIVALS"],image:cdn+"Mayhem8122-8GB1-CAN.png?v=1791917407&width=1200",badge:"NEW STYLE"},
+ {id:"8119-56-milled",slug:"8119-vanquish-black-milled",style:"8119",name:"VANQUISH",finish:"GLOSS BLACK MILLED",sizes:"20x9 | 20x10 | 22x10",lugs:"5 / 6 Lug",category:["STREET","NEW ARRIVALS"],image:cdn+"Mayhem8119M1.png?v=1789750228&width=1200",badge:"NEW STYLE"},
+ {id:"8119-56-black",slug:"8119-vanquish-gloss-black",style:"8119",name:"VANQUISH",finish:"GLOSS BLACK",sizes:"20x9 | 20x10 | 22x10",lugs:"5 / 6 Lug",category:["STREET","NEW ARRIVALS"],image:cdn+"Mayhem8119GB1.png?v=1789750227&width=1200",badge:"NEW STYLE"},
+ {id:"8310-6-black",slug:"8310-vector-gloss-black",style:"8310",name:"VECTOR",finish:"GLOSS BLACK",sizes:"17x9 | 20x9",lugs:"6 Lug",category:["TRAIL","NEW ARRIVALS"],image:cdn+"Mayhem8310-6GB1.png?v=1789751560&width=1200",badge:"NEW STYLE"},
+ {id:"8310-8-black",slug:"8310-vector-gloss-black",style:"8310",name:"VECTOR",finish:"GLOSS BLACK",sizes:"17x9 | 20x9",lugs:"8 Lug",category:["TRAIL","NEW ARRIVALS"],image:cdn+"Mayhem8310-8GB1.png?v=1789751560&width=1200",badge:"NEW STYLE"},
+ {id:"8310-6-gunmetal",slug:"8310-vector-matte-gunmetal",style:"8310",name:"VECTOR",finish:"MATTE GUNMETAL BLACK LIP",sizes:"17x9 | 20x9",lugs:"6 Lug",category:["TRAIL","NEW ARRIVALS"],image:cdn+"Mayhem8310-6MGT1.png?v=1789751562&width=1200",badge:"NEW STYLE"},
+ {id:"8310-8-gunmetal",slug:"8310-vector-matte-gunmetal",style:"8310",name:"VECTOR",finish:"MATTE GUNMETAL BLACK LIP",sizes:"17x9 | 20x9",lugs:"8 Lug",category:["TRAIL","NEW ARRIVALS"],image:cdn+"Mayhem8310-8MGT1.png?v=1789751562&width=1200",badge:"NEW STYLE"},
+ {id:"8309-56-bronze",slug:"8309-granite-satin-bronze",style:"8309",name:"GRANITE",finish:"SATIN BRONZE",sizes:"17x9",lugs:"5 / 6 Lug",category:["TRAIL","NEW ARRIVALS"],image:cdn+"MAYHEM8309SB1_7a3444f1-4ed8-46aa-878f-623876684da8.png?v=1790169210&width=1200",badge:"NEW STYLE"},
+ {id:"8309-6-black",slug:"8309-granite-satin-black",style:"8309",name:"GRANITE",finish:"SATIN BLACK",sizes:"17x9",lugs:"6 Lug",category:["TRAIL","NEW ARRIVALS"],image:cdn+"MAYHEM8309SB1.png?v=1789751563&width=1200",badge:"NEW STYLE"},
+ {id:"8305-5-gunmetal",slug:"8305-compass-matte-gunmetal",style:"8305",name:"COMPASS",finish:"MATTE GUNMETAL",sizes:"15x7 | 17x9",lugs:"5 Lug",category:["STREET"],image:cdn+"MAYHEM83053MGT1.png?v=1789750238&width=1200"},
+ {id:"8306-568-bronze",slug:"8306-ridgeline-satin-bronze",style:"8306",name:"RIDGELINE",finish:"SATIN BRONZE / BLACK LIP",sizes:"17x8.5 | 18x9 | 20x9",lugs:"5 / 6 / 8 Lug",category:["TRAIL","NEW ARRIVALS"],image:cdn+"MAYHEM8306MZ1.png?v=1789751557&width=1200",badge:"NEW STYLE"},
+ {id:"8306-568-black",slug:"8306-ridgeline-satin-black",style:"8306",name:"RIDGELINE",finish:"SATIN BLACK",sizes:"17x8.5 | 18x9 | 20x9",lugs:"5 / 6 / 8 Lug",category:["TRAIL","NEW ARRIVALS"],image:cdn+"MAYHEM8306SB1.png?v=1789751556&width=1200",badge:"NEW STYLE"},
+ {id:"8307-56-black",slug:"8307-convoy-satin-black",style:"8307",name:"CONVOY",finish:"SATIN BLACK",sizes:"17x9",lugs:"5 / 6 Lug",category:["TRAIL","NEW ARRIVALS"],image:cdn+"MAYHEM8307SB1.png?v=1789751558&width=1200",badge:"NEW STYLE"},
+ {id:"8307-56-bronze",slug:"8307-convoy-satin-bronze",style:"8307",name:"CONVOY",finish:"SATIN BRONZE",sizes:"17x9",lugs:"5 / 6 Lug",category:["TRAIL","NEW ARRIVALS"],image:cdn+"MAYHEM8307MZ1.png?v=1789751568&width=1200",badge:"NEW STYLE"},
+ {id:"8118-56-bronze",slug:"8118-ordinance-matte-bronze",style:"8118",name:"ORDINANCE",finish:"MATTE BRONZE MILLED",sizes:"20x9",lugs:"5 / 6 Lug",category:["STREET"],image:cdn+"MAYHEM8118MZ1_154cfd9e-e8d7-4307-9776-7bee99c9a0e9.png?v=1790020749&width=1200"},
+ {id:"8117-68-black",slug:"8117-hermosa-gloss-black-milled",style:"8117",name:"HERMOSA",finish:"GLOSS BLACK MILLED",sizes:"20x10",lugs:"6 / 8 Lug",category:["STREET"],image:cdn+"MAYHEM8117BM1.png?v=1789750224&width=1200"},
+ {id:"8116-568-black",slug:"8116-intrepid-gloss-black",style:"8116",name:"INTREPID",finish:"GLOSS BLACK",sizes:"18x9 | 20x9 | 20x10",lugs:"5 / 6 / 8 Lug",category:["STREET"],image:cdn+"mayhem8116gb1_d8639c48-fde8-4f8f-ba26-ad52c5c545b0.png?v=1789749879&width=1200"},
+ {id:"8116-568-bronze",slug:"8116-intrepid-matte-bronze",style:"8116",name:"INTREPID",finish:"MATTE BRONZE",sizes:"18x9 | 20x9 | 20x10",lugs:"5 / 6 / 8 Lug",category:["STREET"],image:cdn+"mayhem8116mz1_28247a1a-de9e-4412-84b7-fd6befee7dda.png?v=1789749885&width=1200"},
+ {id:"8114-68-milled",slug:"8114-utopia-gloss-black-milled",style:"8114",name:"UTOPIA",finish:"GLOSS BLACK MILLED",sizes:"20x9 | 20x10 | 22x12",lugs:"6 / 8 Lug",category:["STREET"],image:cdn+"mayhem8114bm1_df074f55-929d-4d86-8c19-790b7dddb8aa.png?v=1789749867&width=1200"},
+ {id:"8115-6-red",slug:"8115-apollo-prism-red",style:"8115",name:"APOLLO",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"20x9 | 20x10",lugs:"6 Lug",category:["COLOR SERIES","STREET"],image:cdn+"mayhem8115btr1_59731667-f350-43ae-8a8c-7246508304a9.png?v=1789749875&width=1200"},
+ {id:"8115-6-milled",slug:"8115-apollo-gloss-black-milled",style:"8115",name:"APOLLO",finish:"GLOSS BLACK MILLED",sizes:"20x9",lugs:"6 Lug",category:["STREET"],image:cdn+"mayhem8115bm1_b3c96b0c-86a5-4498-9399-c88dced22a83.png?v=1789749871&width=1200"},
+ {id:"8304-568-gunmetal",slug:"8304-delta-matte-gunmetal",style:"8304",name:"DELTA",finish:"MATTE GUNMETAL",sizes:"17x9 | 20x9",lugs:"5 / 6 / 8 Lug",category:["TRAIL"],image:cdn+"MAYHEM8304MGT1.png?v=1789750236&width=1200"},
+ {id:"8304-568-machined",slug:"8304-delta-machined-silver-window",style:"8304",name:"DELTA",finish:"MACHINED WITH SILVER WINDOW",sizes:"17x9 | 20x9",lugs:"5 / 6 / 8 Lug",category:["TRAIL"],image:cdn+"Mayhem8304M1.png?v=1789750234&width=1200",badge:"NEW FINISH"},
+ {id:"8304-568-black",slug:"8304-delta-matte-black",style:"8304",name:"DELTA",finish:"MATTE BLACK",sizes:"17x9 | 20x9",lugs:"5 / 6 / 8 Lug",category:["TRAIL"],image:cdn+"MAYHEM8304MB1.png?v=1789750235&width=1200"},
+ {id:"8107D-8-polished",slug:"8107-cogent-dually-polished",style:"8107D",name:"COGENT DUALLY",finish:"POLISHED",sizes:"17x6.5",lugs:"8 Lug",category:["DUALLY"],image:cdn+"Mayhem8107DPF1.png?v=1789753224&width=1200"},
+ {id:"8107D-8-milled",slug:"8107-cogent-dually-black-milled",style:"8107D",name:"COGENT DUALLY",finish:"GLOSS BLACK MILLED",sizes:"20x8.25 | 22x8.25",lugs:"8 Lug",category:["DUALLY"],image:cdn+"MAYHEM8107DBMF1.png?v=1789753224&width=1200"},
+ {id:"8107D-8-black",slug:"8107-cogent-dually-gloss-black",style:"8107D",name:"COGENT DUALLY",finish:"GLOSS BLACK",sizes:"17x6.5 | 20x8.25",lugs:"8 Lug",category:["DUALLY"],image:cdn+"Mayhem8107DGBF1.png?v=1789753222&width=1200"},
+ {id:"8181-10-black",slug:"8181-challenger-dually-gloss-black",style:"8181",name:"CHALLENGER DUALLY",finish:"GLOSS BLACK",sizes:"22x8.25",lugs:"10 Lug",category:["DUALLY"],image:cdn+"MAYHEM8181BF1.png?v=1789750232&width=1200"},
+ {id:"8181-10-polished",slug:"8181-challenger-dually-polished",style:"8181",name:"CHALLENGER DUALLY",finish:"POLISHED",sizes:"22x8.25",lugs:"10 Lug",category:["DUALLY"],image:cdn+"MAYHEM8181P1F.png?v=1789750233&width=1200"},
+ {id:"8015-5-red",slug:"8015-warrior-prism-red",style:"8015",name:"WARRIOR",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"17x9 | 20x9",lugs:"5 Lug",category:["COLOR SERIES"],image:cdn+"mayhem8015btr1_b73050e9-a3ad-4a32-887e-fb5431fb572b.png?v=1789749232&width=1200"},
+ {id:"8015-6-red",slug:"8015-warrior-prism-red",style:"8015",name:"WARRIOR",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"17x9 | 18x9 | 20x9",lugs:"6 Lug",category:["COLOR SERIES"],image:cdn+"mayhem8015btr1_b73050e9-a3ad-4a32-887e-fb5431fb572b.png?v=1789749232&width=1200"},
+ {id:"8107-5-red",slug:"8107-cogent-prism-red",style:"8107",name:"COGENT",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"17x9 | 18x9 | 20x9",lugs:"5 Lug",category:["COLOR SERIES"],image:"https://mayhemwheels.com/wp-content/uploads/2021/05/MAYHEM8107GBRED1-150x150.png"},
+ {id:"8107-6-red",slug:"8107-cogent-prism-red",style:"8107",name:"COGENT",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"18x9 | 20x9 | 20x10",lugs:"6 Lug",category:["COLOR SERIES"],image:"https://mayhemwheels.com/wp-content/uploads/2021/05/MAYHEM8107GBRED1-150x150.png"},
+ {id:"8107-8-red",slug:"8107-cogent-prism-red",style:"8107",name:"COGENT",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"22x10",lugs:"8 Lug",category:["COLOR SERIES"],image:"https://mayhemwheels.com/wp-content/uploads/2021/05/MAYHEM8107GBRED1-150x150.png"},
+ {id:"8115-8-red",slug:"8115-apollo-prism-red",style:"8115",name:"APOLLO",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"20x9 | 20x10",lugs:"8 Lug",category:["COLOR SERIES"],image:cdn+"mayhem8115btr1_59731667-f350-43ae-8a8c-7246508304a9.png?v=1789749875&width=1200"}
+];
+export const wheelFilters = {
+ diameters:["15","17","18","20","22"],
+ lugCounts:["5","6","8","10"],
+ finishes:["GLOSS BLACK","GLOSS BLACK MILLED","MATTE BLACK","MATTE GUNMETAL","SATIN BLACK","SATIN BRONZE","POLISHED","MACHINED"]
+};
