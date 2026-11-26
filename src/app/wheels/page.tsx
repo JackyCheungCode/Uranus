@@ -7,7 +7,20 @@ export default function WheelsPage(){
  const [category,setCategory]=useState("ALL WHEELS"),[search,setSearch]=useState(""),[finish,setFinish]=useState("ALL"),[diameters,setDiameters]=useState<string[]>([]),[widths,setWidths]=useState<string[]>([]),[lugs,setLugs]=useState<string[]>([]),[boltPatterns,setBoltPatterns]=useState<string[]>([]),[sort,setSort]=useState("FEATURED"),[compare,setCompare]=useState<string[]>([]),[compareOpen,setCompareOpen]=useState(false),[filterOpen,setFilterOpen]=useState(false);
  useEffect(()=>{const q=new URLSearchParams(window.location.search);const c=q.get("category");if(c){const normalized=c.toUpperCase().replace(/-/g," ");if(categories.includes(normalized))setCategory(normalized);}if(q.get("sort")==="new")setCategory("NEW ARRIVALS");const term=q.get("q");if(term)setSearch(term);},[]);
  const boltPatternOptions=useMemo(()=>Array.from(new Set(Object.values(wheelSpecs).flat().flatMap(row=>row.boltPattern.split("/").map(value=>value.trim())))).sort(),[]);
- const filtered=useMemo(()=>wheels.filter(p=>(category==="ALL WHEELS"?p.allWheels!==false:p.category.includes(category as never))&&(finish==="ALL"||p.finish.includes(finish))&&(diameters.length===0||diameters.some(d=>p.sizes.split("|").some(s=>s.trim().startsWith(d+"x"))))&&(widths.length===0||widths.some(w=>p.sizes.split("|").some(s=>s.trim().split("x")[1]===w)))&&(lugs.length===0||lugs.some(l=>p.lugs.split(/[ /]+/).includes(l)))&&(boltPatterns.length===0||boltPatterns.some(pattern=>(wheelSpecs[p.slug]||[]).some(row=>row.boltPattern.split("/").map(value=>value.trim()).includes(pattern)&&p.lugs.split(/[ /]+/).includes(row.lugCount))))&&(p.name+" "+p.style+" "+p.finish).toLowerCase().includes(search.toLowerCase())).sort((a,b)=>sort==="A-Z"?a.name.localeCompare(b.name):sort==="Z-A"?b.name.localeCompare(a.name):sort==="NEW"?Number(b.category.includes("NEW ARRIVALS"))-Number(a.category.includes("NEW ARRIVALS")):0),[category,finish,diameters,widths,lugs,boltPatterns,search,sort]);if(category==="NEW ARRIVALS"||category==="COLOR SERIES"){const grouped=new Map<string,typeof results[number]>();for(const item of results){const existing=grouped.get(item.slug);if(!existing){grouped.set(item.slug,item);continue;}const lugValues=[existing.lugs,item.lugs].flatMap(value=>value.replace(" Lug","").split(" / ").map(v=>v.trim())).filter(Boolean);grouped.set(item.slug,{...existing,lugs:Array.from(new Set(lugValues)).join(" / ")+" Lug"});}results=Array.from(grouped.values());}return results;},[category,finish,diameters,widths,lugs,boltPatterns,search,sort]);
+  const filtered=useMemo(
+   ()=>wheels
+    .filter(p=>
+      (category==="ALL WHEELS"?p.allWheels!==false:p.category.includes(category as never))&&
+      (finish==="ALL"||p.finish.includes(finish))&&
+      (diameters.length===0||diameters.some(d=>p.sizes.split("|").some(s=>s.trim().startsWith(d+"x"))))&&
+      (widths.length===0||widths.some(w=>p.sizes.split("|").some(s=>s.trim().split("x")[1]===w)))&&
+      (lugs.length===0||lugs.some(l=>p.lugs.split(/[ /]+/).includes(l)))&&
+      (boltPatterns.length===0||boltPatterns.some(pattern=>(wheelSpecs[p.slug]||[]).some(row=>row.boltPattern.split("/").map(value=>value.trim()).includes(pattern)&&p.lugs.split(/[ /]+/).includes(row.lugCount))))&&
+      (p.name+" "+p.style+" "+p.finish).toLowerCase().includes(search.toLowerCase())
+    )
+    .sort((a,b)=>sort==="A-Z"?a.name.localeCompare(b.name):sort==="Z-A"?b.name.localeCompare(a.name):sort==="NEW"?Number(b.category.includes("NEW ARRIVALS"))-Number(a.category.includes("NEW ARRIVALS")):0),
+   [category,finish,diameters,widths,lugs,boltPatterns,search,sort]
+  );
  const compareItems=wheels.filter(p=>compare.includes(p.id));
  const clear=()=>{setCategory("ALL WHEELS");setFinish("ALL");setDiameters([]);setWidths([]);setLugs([]);setBoltPatterns([]);setSearch("");setSort("FEATURED");};
  const toggle=(v:string,arr:string[],setter:(x:string[])=>void)=>setter(arr.includes(v)?arr.filter(x=>x!==v):[...arr,v]);
