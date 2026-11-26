@@ -25,11 +25,12 @@ npm run typecheck
 npm run build
 ```
 
-## Cloudflare deployment boundary
+## Cloudflare deployment
 
-The existing `wrangler.jsonc` and `src/index.js` are retained as the current production Worker entrypoint. They are intentionally not repointed or replaced during this foundation phase.
-
-The Next.js-to-Workers adapter is not yet selected. The next technical gate is a preview-only compatibility spike covering Next.js App Router, PDS React SSR, Tailwind CSS 4, and the chosen Cloudflare runtime (including a comparison of Cloudflare's current Vinext recommendation with the OpenNext route). No production deployment is configured by this branch.
+- Next.js is deployed to Cloudflare Workers through `@opennextjs/cloudflare`.
+- `wrangler.jsonc` targets `.open-next/worker.js` with `nodejs_compat` and static assets binding.
+- Production builds run through Cloudflare Workers Builds on `main`; Preview deployments are disabled.
+- Run `npm run deploy` only when intentionally publishing directly from a configured Cloudflare environment.
 
 ## Project principles
 
