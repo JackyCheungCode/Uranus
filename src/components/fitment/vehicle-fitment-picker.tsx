@@ -10,7 +10,7 @@ import {
   PSpinner,
   PText,
   type SelectChangeEventDetail,
-} from "@porsche-design-system/components-react";
+} from "@porsche-design-system/components-react/ssr";
 
 type Vehicle = { year: string; make: string; model: string; trim: string; body: string };
 type Props = { initialVehicle: Vehicle | null; onClose: () => void; onSave: (vehicle: Vehicle) => void };
