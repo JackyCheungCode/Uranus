@@ -13,17 +13,23 @@ const options={
 };
 type Vehicle={year:string;make:string;model:string;trim:string;body:string};
 const emptyVehicle:Vehicle={year:"2025",make:"Ford",model:"F-150",trim:"Lariat",body:"Crew Cab"};
+type AccessPrefs={textSize:"small"|"normal"|"large"|"xlarge";highContrast:boolean;reduceMotion:boolean;highlightLinks:boolean;readableFont:boolean;moreSpacing:boolean};
+const defaultAccess:AccessPrefs={textSize:"normal",highContrast:false,reduceMotion:false,highlightLinks:false,readableFont:false,moreSpacing:false};
 const modelsByMake:Record<string,string[]>={Chevrolet:["Silverado 1500","Silverado 2500HD"],Ford:["F-150","F-250","F-350"],GMC:["Sierra 1500","Sierra 2500HD"],Jeep:["Wrangler","Gladiator"],Ram:["Ram 1500","Ram 2500"],Toyota:["Tundra","Tacoma"]};
 export function SiteShell({children}:{children:ReactNode}){
  const [menuOpen,setMenuOpen]=useState(false),[vehicleOpen,setVehicleOpen]=useState(false),[searchOpen,setSearchOpen]=useState(false),[query,setQuery]=useState("");
  const [vehicle,setVehicle]=useState<Vehicle>(emptyVehicle),[vehicleSaved,setVehicleSaved]=useState(false);
+ const [accessOpen,setAccessOpen]=useState(false),[access,setAccess]=useState<AccessPrefs>(defaultAccess);
  useEffect(()=>{
   const close=(event:KeyboardEvent)=>{if(event.key==="Escape"){setMenuOpen(false);setVehicleOpen(false);setSearchOpen(false);}};
   window.addEventListener("keydown",close);
+  const accessRaw=localStorage.getItem("mayhem-accessibility");
+  if(accessRaw){try{setAccess(JSON.parse(accessRaw) as AccessPrefs);}catch{localStorage.removeItem("mayhem-accessibility");}}
   const raw=localStorage.getItem("mayhem-vehicle");
   if(raw){try{setVehicle(JSON.parse(raw) as Vehicle);setVehicleSaved(true);}catch{localStorage.removeItem("mayhem-vehicle");}}
   return()=>window.removeEventListener("keydown",close);
  },[]);
+ useEffect(()=>{localStorage.setItem("mayhem-accessibility",JSON.stringify(access));const root=document.documentElement;root.dataset.textSize=access.textSize;root.classList.toggle("mw-high-contrast",access.highContrast);root.classList.toggle("mw-reduce-motion",access.reduceMotion);root.classList.toggle("mw-highlight-links",access.highlightLinks);root.classList.toggle("mw-readable-font",access.readableFont);root.classList.toggle("mw-more-spacing",access.moreSpacing);},[access]);
  const saveVehicle=(event:FormEvent)=>{event.preventDefault();localStorage.setItem("mayhem-vehicle",JSON.stringify(vehicle));setVehicleSaved(true);setVehicleOpen(false);};
  const vehicleLabel=vehicleSaved?vehicle.year+" "+vehicle.make+" "+vehicle.model:"SELECT VEHICLE";
  return <>
@@ -39,5 +45,7 @@ export function SiteShell({children}:{children:ReactNode}){
   {vehicleOpen&&<div className="mw-modal-backdrop" onClick={()=>setVehicleOpen(false)}><section className="mw-vehicle-modal" onClick={e=>e.stopPropagation()}><button className="mw-modal-close" onClick={()=>setVehicleOpen(false)} aria-label="Close">×</button><p className="mw-kicker">YOUR VEHICLE</p><h2>Find your fit.</h2><p>Save your vehicle to keep it available while you explore the Mayhem collection.</p><form onSubmit={saveVehicle}><div className="mw-vehicle-fields">{(["year","make","model","trim","body"] as const).map(key=><label key={key}>{key==="body"?"BODY / BED":key.toUpperCase()}<select value={vehicle[key]} onChange={e=>setVehicle(v=>({...v,[key]:e.target.value,...(key==="make"?{model:modelsByMake[e.target.value][0]}:{})}))}>{(key==="model"?modelsByMake[vehicle.make]:options[key]).map(v=><option key={v}>{v}</option>)}</select></label>)}</div><button type="submit" className="mw-button mw-button-dark">SAVE VEHICLE →</button></form><p className="mw-modal-note">Vehicle selection is saved locally. Live vehicle-to-wheel fitment verification is not connected yet; confirm exact part number, bolt pattern, offset and clearance with a dealer.</p>{vehicleSaved&&<button className="mw-clear-vehicle" onClick={()=>{localStorage.removeItem("mayhem-vehicle");setVehicle(emptyVehicle);setVehicleSaved(false);}}>CLEAR SAVED VEHICLE</button>}</section></div>}
   {children}
   <SiteFooter/>
+  <button className="mw-accessibility-launcher" onClick={()=>setAccessOpen(v=>!v)} aria-label="Accessibility options" aria-expanded={accessOpen}>♿</button>
+  {accessOpen&&<section className="mw-accessibility-panel" aria-label="Accessibility options"><button className="mw-accessibility-close" onClick={()=>setAccessOpen(false)} aria-label="Close accessibility options">×</button><p className="mw-kicker">ACCESSIBILITY OPTIONS</p><h2>Adjust your experience.</h2><label>TEXT SIZE<select value={access.textSize} onChange={e=>setAccess(a=>({...a,textSize:e.target.value as AccessPrefs["textSize"]}))}><option value="small">Small</option><option value="normal">Normal</option><option value="large">Large</option><option value="xlarge">Extra large</option></select></label><div className="mw-accessibility-toggles">{([{key:"highContrast",label:"High contrast"},{key:"reduceMotion",label:"Reduce motion"},{key:"highlightLinks",label:"Highlight links"},{key:"readableFont",label:"Readable font"},{key:"moreSpacing",label:"More text spacing"}] as const).map(item=><button key={item.key} aria-pressed={access[item.key]} className={access[item.key]?"active":""} onClick={()=>setAccess(a=>({...a,[item.key]:!a[item.key]}))}>{item.label}<span>{access[item.key]?"ON":"OFF"}</span></button>)}</div><button className="mw-accessibility-reset" onClick={()=>setAccess(defaultAccess)}>RESET PREFERENCES</button></section>}
  </>;
 }
