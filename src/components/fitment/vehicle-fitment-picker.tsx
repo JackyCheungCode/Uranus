@@ -65,8 +65,8 @@ export function VehicleFitmentPicker({ initialVehicle, onClose, onSave }: Props)
     if (!make || !model) { setMods([]); setModification(""); return; }
     let active = true;
     setLoading(true); setError(""); setModification(""); setFitment([]);
-    Promise.all([request("years", { make, model }), ...(year ? [request("modifications", { make, model, year })] : [])])
-      .then(([yearData, modData]) => { if (active) { setYears(yearData); setMods(modData || []); } })
+    request("years", { make, model })
+      .then(yearData => { if (active) setYears(yearData); })
       .catch(e => { if (active) setError(e.message); })
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
