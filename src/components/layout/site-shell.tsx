@@ -2,7 +2,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { VehicleFitmentPicker } from "@/components/fitment/vehicle-fitment-picker";
-import { PInputSearch } from "@porsche-design-system/components-react";
+import { PInputSearch } from "@porsche-design-system/components-react/ssr";
 import { PorscheDesignSystemProvider } from "@porsche-design-system/components-react/ssr";
 const links=[
  {label:"ALL WHEELS",href:"/wheels"},{label:"STREET",href:"/wheels?category=street"},{label:"TRAIL",href:"/wheels?category=trail"},{label:"DUALLY",href:"/wheels?category=dually"},{label:"COLOR SERIES",href:"/wheels?category=color-series"},{label:"NEW ARRIVALS",href:"/wheels?sort=new"}
