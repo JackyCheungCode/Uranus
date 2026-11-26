@@ -140,7 +140,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
           />
         )}
 
-        <main className="pds-content">{children}</main>
+        <div className="pds-content">{children}</div>
         <SiteFooter />
       </div>
     </PorscheDesignSystemProvider>
