@@ -1,3 +1,4 @@
+import { HeroVideoButton } from "@/components/hero-video-button";
 const cdn = "https://mayhemwheels.com/cdn/shop/files/";
 const wheels = [
   { name: "HORIZON", number: "8120", finish: "GLOSS BLACK", size: "18x9 | 20x9 | 22x10", image: cdn + "Mayhem8120-6GB1.png?v=1789750229&width=1200", href: "/products/8120-horizon" },
@@ -24,7 +25,7 @@ export default function HomePage() {
           <p className="mw-hero-subtitle">CONCAVE &amp; VENTED STYLE</p>
           <a href="/products/8120-horizon" className="mw-button mw-button-light">EXPLORE FITMENTS <span>↗</span></a>
         </div>
-        <div className="mw-hero-bottom"><span>01 / 04</span><span>SCROLL TO EXPLORE ↓</span><a href="https://www.youtube.com/watch?v=zXGecaz0hkw" target="_blank" rel="noreferrer">PLAY MAYHEM VIDEO ↗</a></div>
+        <div className="mw-hero-bottom"><span>01 / 04</span><span>SCROLL TO EXPLORE ↓</span><HeroVideoButton/></div>
       </section>
 
       <section className="mw-featured">
