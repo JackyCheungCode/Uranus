@@ -9,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
- return <html lang="en"><body><SiteShell>{children}</SiteShell></body></html>;
+ return <html lang="en" className="scheme-light bg-canvas"><body><SiteShell>{children}</SiteShell></body></html>;
 }
