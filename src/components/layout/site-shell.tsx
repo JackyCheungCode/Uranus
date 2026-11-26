@@ -2,6 +2,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { VehicleFitmentPicker } from "@/components/fitment/vehicle-fitment-picker";
+import { PInputSearch } from "@porsche-design-system/components-react";
 const links=[
  {label:"ALL WHEELS",href:"/wheels"},{label:"STREET",href:"/wheels?category=street"},{label:"TRAIL",href:"/wheels?category=trail"},{label:"DUALLY",href:"/wheels?category=dually"},{label:"COLOR SERIES",href:"/wheels?category=color-series"},{label:"NEW ARRIVALS",href:"/wheels?sort=new"}
 ];
@@ -26,7 +27,7 @@ export function SiteShell({children}:{children:ReactNode}){
    <a className="mw-wordmark" href="/" aria-label="Uranus home">URANUS</a>
    <nav className="mw-nav" aria-label="Main navigation"><div className="mw-nav-group"><a href="/wheels">WHEELS <span>⌄</span></a><div className="mw-dropdown">{links.map(item=><a key={item.label} href={item.href}>{item.label}</a>)}</div></div><a href="/visualizer">VISUALIZER</a><a href="/dealers">FIND A DEALER</a><a href="https://www.shoptwggear.com">MERCH</a></nav>
    <div className="mw-header-actions"><button onClick={()=>setSearchOpen(!searchOpen)} aria-label="Search" className="mw-icon-button">⌕</button><button onClick={()=>setVehicleOpen(true)} className="mw-vehicle-button"><span className="mw-vehicle-icon">＋</span>{vehicleSaved?vehicleLabel:"FIND YOUR FIT"}</button><a href="/garage" className="mw-garage-link">MY GARAGE</a></div>
-   {searchOpen&&<form className="mw-search" onSubmit={e=>{e.preventDefault();window.location.href="/wheels?q="+encodeURIComponent(query);}}><input autoFocus value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search wheels, styles and part numbers"/><button type="submit">SEARCH →</button></form>}
+   {searchOpen&&<form className="mw-search" onSubmit={e=>{e.preventDefault();window.location.href="/wheels?q="+encodeURIComponent(query);}}><PInputSearch autoFocus label="SEARCH WHEELS" hideLabel value={query} onInput={e=>setQuery((e.detail.target as HTMLInputElement).value)} placeholder="Search wheels, styles and part numbers" clear/><button type="submit">SEARCH →</button></form>}
   </header>
   {menuOpen&&<div className="mw-mobile-menu">{links.map(item=><a key={item.label} href={item.href} onClick={()=>setMenuOpen(false)}>{item.label}<span>↗</span></a>)}<a href="/visualizer" onClick={()=>setMenuOpen(false)}>VISUALIZER<span>↗</span></a><a href="/dealers" onClick={()=>setMenuOpen(false)}>FIND A DEALER<span>↗</span></a><button onClick={()=>{setVehicleOpen(true);setMenuOpen(false);}}>SELECT YOUR VEHICLE →</button></div>}
   {vehicleOpen&&<VehicleFitmentPicker initialVehicle={vehicleSaved?vehicle:null} onClose={()=>setVehicleOpen(false)} onSave={v=>{setVehicle(v);setVehicleSaved(true);}}/>}
