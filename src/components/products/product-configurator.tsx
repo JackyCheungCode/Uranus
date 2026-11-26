@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { wheels, type WheelItem } from "@/data/wheels";
 import { wheelSpecs } from "@/data/wheel-specs";
-import { PSelect, PSelectOption } from "@porsche-design-system/components-react";
+import { PSelect, PSelectOption } from "@porsche-design-system/components-react/ssr";
 
 export function ProductConfigurator({items}:{items:WheelItem[]}){
  const initialItem=items.find(x=>x.slug===items[0]?.slug&&x.allWheels===false)||items[0];
