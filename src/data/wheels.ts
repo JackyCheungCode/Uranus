@@ -7,7 +7,7 @@ const cdn="https://mayhemwheels.com/cdn/shop/files/";
 export const wheels: WheelItem[] = [
  {id:"8121-6",slug:"8121-cyclone",style:"8121",name:"CYCLONE",finish:"GLOSS BLACK",sizes:"20x9 | 22x10",lugs:"6 Lug",category:["STREET","NEW ARRIVALS"],image:cdn+"Mayhem8121-6GB1.png?v=1789750230&width=1200",badge:"NEW STYLE"},
  {id:"8121-8",slug:"8121-cyclone",style:"8121",name:"CYCLONE",finish:"GLOSS BLACK",sizes:"20x9 | 22x10",lugs:"8 Lug",category:["STREET","NEW ARRIVALS"],image:cdn+"Mayhem8121-8GB1.png?v=1789750230&width=1200",badge:"NEW STYLE"},
- {id:"8120-6",slug:"8120-horizon",style:"8120",name:"HORIZON",finish:"GLOSS BLACK",sizes:"18x9 | 20x10 | 22x10",lugs:"6 Lug",category:["STREET","NEW ARRIVALS"],image:cdn+"Mayhem8120-6GB1.png?v=1789750229&width=1200",badge:"NEW STYLE"},
+ {id:"8120-6",slug:"8120-horizon",style:"8120",name:"HORIZON",finish:"GLOSS BLACK",sizes:"18x9 | 20x9 | 22x10",lugs:"6 Lug",category:["STREET","NEW ARRIVALS"],image:cdn+"Mayhem8120-6GB1.png?v=1789750229&width=1200",badge:"NEW STYLE"},
  {id:"8122-6",slug:"8122-blizzard",style:"8122",name:"BLIZZARD",finish:"GLOSS BLACK",sizes:"17x8.5 | 18x9 | 20x9",lugs:"6 Lug",category:["STREET","NEW ARRIVALS"],image:cdn+"Mayhem8122-6GB1-CAN.png?v=1791917407&width=1200",badge:"NEW STYLE"},
  {id:"8122-8",slug:"8122-blizzard",style:"8122",name:"BLIZZARD",finish:"GLOSS BLACK",sizes:"17x8.5 | 18x9 | 20x9",lugs:"8 Lug",category:["STREET","NEW ARRIVALS"],image:cdn+"Mayhem8122-8GB1-CAN.png?v=1791917407&width=1200",badge:"NEW STYLE"},
  {id:"8119-56-milled",slug:"8119-vanquish-black-milled",style:"8119",name:"VANQUISH",finish:"GLOSS BLACK MILLED",sizes:"20x9 | 20x10 | 22x10",lugs:"5 / 6 Lug",category:["STREET","NEW ARRIVALS"],image:cdn+"Mayhem8119M1.png?v=1789750228&width=1200",badge:"NEW STYLE"},
