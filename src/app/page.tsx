@@ -81,35 +81,34 @@ export default function HomePage() {
       <HeroVideo />
 
       <section
-        className="scheme-dark col-full grid grid-cols-subgrid gap-y-fluid-md bg-canvas p-fluid-xl -mt-fluid-xl -mb-fluid-xl"
-        aria-label="Explore Uranus"
+        className="uranus-template-entry-section scheme-dark col-full grid grid-cols-subgrid gap-y-fluid-md bg-canvas p-fluid-xl -mt-fluid-xl -mb-fluid-xl"
+        aria-label="Start your Uranus build"
       >
         <div className="col-basic grid grid-cols-subgrid gap-y-fluid-md">
           <PLinkTile
             className="col-span-full sm:col-span-one-half"
-            href="/wheels?category=street"
-            label="Street collection"
-            description="A distinctive look for the everyday drive"
+            href="/fitment"
+            label="Find your fit"
+            description="Choose your vehicle and explore compatible wheels"
             compact={true}
             weight="regular"
             aspectRatio={{ base: "4/3", xs: "16/9", s: "3/4", m: "1/1" }}
           >
-            <img src={media.raceWheel} alt="Close-up of a performance wheel and tire" />
+            <img src={media.raceWheel} alt="Performance wheel detail for vehicle fitment" />
           </PLinkTile>
           <PLinkTile
             className="col-span-full sm:col-span-one-half"
-            href="/wheels?category=trail"
-            label="Off-road collection"
-            description="Built for the road beyond the pavement"
+            href="/visualizer"
+            label="Create your own wheel"
+            description="Customize a wheel design around your vision"
             compact={true}
             weight="regular"
             aspectRatio={{ base: "4/3", xs: "16/9", s: "3/4", m: "1/1" }}
           >
-            <img src={media.redWheel} alt="Sports car wheel on a race track" />
+            <img src={media.redWheel} alt="Custom performance wheel on a sports car" />
           </PLinkTile>
         </div>
       </section>
-
       <section className="col-full grid grid-cols-subgrid py-fluid-xl" aria-label="Featured wheel stories">
         <PCarousel
           className="col-span-full"
