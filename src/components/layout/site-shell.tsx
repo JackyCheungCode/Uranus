@@ -41,7 +41,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
       <div className="pds-app">
         <header className="uranus-pds-header">
           <div className="uranus-header-left">
-            <PButtonPure className="uranus-menu-trigger" type="button" onClick={() => setMenuOpen(!menuOpen)} aria={{ "aria-expanded": String(menuOpen), "aria-haspopup": "dialog" }} icon="menu-lines" hideLabel={false}>Menu</PButtonPure>
+            <PButtonPure className="uranus-menu-trigger" type="button" onClick={() => setMenuOpen(!menuOpen)} aria={{ "aria-expanded": menuOpen, "aria-haspopup": "dialog" }} icon="menu-lines" hideLabel={false}>Menu</PButtonPure>
           </div>
           <a className="uranus-header-wordmark" href="/" aria-label="Uranus home">URANUS</a>
           <div className="uranus-header-right">
