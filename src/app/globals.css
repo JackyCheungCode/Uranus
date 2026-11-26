@@ -1,5 +1,6 @@
 @import "@porsche-design-system/components-react";
 @import "tailwindcss";
+@import "@porsche-design-system/components-react/tailwindcss";
 @import "../styles/tokens.css";
 :root{color-scheme:light;--mw-black:#090a0b;--mw-charcoal:#17191b;--mw-white:#f7f7f5;--mw-muted:#8c8f91;--mw-line:#d8d8d5;--mw-red:#df2c22}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--mw-white);color:#101112;font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}button,input,select{font:inherit}button{cursor:pointer}img{display:block;max-width:100%}
@@ -566,4 +567,147 @@ body { font-family: var(--p-font-porsche-next); color: var(--p-color-primary); }
 .pds-app:has(.uranus-landing) .uranus-pds-header p-button-pure::part(button),
 .pds-app:has(.uranus-landing) .uranus-pds-header p-button-pure::part(icon) {
   color: #fff !important;
+}
+
+
+/* PDS v4 Landing Page template adaptation for Uranus */
+.uranus-pds-header {
+  min-height: 80px;
+  padding: 0;
+  position: relative;
+  color: var(--p-color-canvas);
+  background: transparent;
+}
+.uranus-pds-header::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 -60px;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgb(0 0 0 / 48%) 0%, rgb(0 0 0 / 0%) 100%);
+}
+.uranus-header-wordmark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: currentColor;
+  font-family: var(--p-font-porsche-next);
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-indent: .2em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.uranus-pds-header p-button-pure {
+  color-scheme: dark;
+  --p-button-pure-fg: var(--p-color-canvas);
+}
+.uranus-pds-header p-button-pure::part(button),
+.uranus-pds-header p-button-pure::part(icon) {
+  color: var(--p-color-canvas);
+}
+.uranus-search-panel {
+  position: absolute;
+  top: calc(100% - 4px);
+  right: max(24px, calc((100vw - 1440px) / 2));
+  z-index: 40;
+  display: flex;
+  align-items: end;
+  gap: var(--p-spacing-static-md);
+  padding: var(--p-spacing-fluid-md);
+  background: var(--p-color-surface);
+  color: var(--p-color-primary);
+  box-shadow: var(--p-shadow-lg);
+}
+.uranus-search-panel p-input-search { flex: 1; min-width: min(320px, 58vw); }
+.uranus-template-hero {
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--p-color-canvas);
+  background: #111;
+}
+.uranus-template-hero video {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.uranus-template-hero-shade {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  background: linear-gradient(0deg, rgb(0 0 0 / 66%) 0%, rgb(0 0 0 / 12%) 54%, rgb(0 0 0 / 22%) 100%);
+  pointer-events: none;
+}
+.uranus-template-hero-copy {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  position: relative;
+  z-index: 3;
+  align-self: end;
+  max-width: 880px;
+  color: #fff;
+}
+.uranus-template-hero-copy p-heading { color: #fff; }
+.uranus-template-primary-link,
+.uranus-template-text-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--p-spacing-fluid-md);
+  min-height: 48px;
+  padding: 0 var(--p-spacing-fluid-md);
+  border: 1px solid currentColor;
+  color: inherit;
+  font-size: var(--p-typescale-xs);
+  font-weight: var(--p-font-weight-semibold);
+  text-decoration: none;
+  transition: background var(--p-duration-moderate) var(--p-ease-in-out), color var(--p-duration-moderate) var(--p-ease-in-out);
+}
+.uranus-template-primary-link:hover {
+  background: #fff;
+  color: #111;
+}
+.uranus-template-text-link {
+  min-height: auto;
+  padding: 0 0 7px;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  justify-content: flex-start;
+}
+.uranus-template-text-link:hover { opacity: .65; }
+.uranus-landing p-carousel { display: block; width: 100%; }
+.uranus-landing p-link-tile { min-width: 0; }
+.uranus-landing p-link-tile img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.uranus-pds-footer { color: var(--p-color-primary); }
+.uranus-footer-wordmark {
+  display: inline-flex;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: .2em;
+  text-indent: .2em;
+}
+.uranus-pds-footer p-select { width: min(100%, 360px); }
+@media (min-width: 768px) {
+  .uranus-template-hero-copy { padding-bottom: var(--p-spacing-fluid-xl); }
+}
+@media (max-width: 767px) {
+  .uranus-pds-header { min-height: 64px; }
+  .uranus-header-wordmark { font-size: 19px; }
+  .uranus-header-right { gap: var(--p-spacing-static-xs); }
+  .uranus-search-panel {
+    left: var(--p-spacing-fluid-md);
+    right: var(--p-spacing-fluid-md);
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .uranus-search-panel p-input-search { min-width: 0; width: 100%; }
+  .uranus-template-hero { height: clamp(560px, 82svh, 900px); }
+  .uranus-template-hero-copy { padding-bottom: var(--p-spacing-fluid-xl); }
+  .uranus-pds-footer { padding-top: var(--p-spacing-fluid-xl); }
 }
