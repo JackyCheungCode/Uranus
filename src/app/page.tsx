@@ -33,12 +33,12 @@ function HeroVideo() {
 
   return (
     <section
-      className="scheme-dark z-0 col-full grid grid-cols-subgrid items-end h-[clamp(480px,80vh,1000px)] relative before:absolute before:inset-[50%_0_0_0] before:z-2 before:pointer-events-none before:bg-linear-to-t before:from-canvas before:to-transparent"
+      className="uranus-template-hero scheme-dark z-0 col-full grid grid-cols-subgrid items-end h-[clamp(560px,88svh,1000px)] relative before:absolute before:inset-[42%_0_0_0] before:z-2 before:pointer-events-none"
       aria-labelledby="heading-section-1"
     >
       <video
         ref={videoRef}
-        className="z-1 col-span-full row-span-full min-w-full w-full min-h-full h-full object-cover object-center"
+        className="uranus-template-hero-video z-1 col-span-full row-span-full min-w-full w-full min-h-full h-full object-cover object-center"
         poster={media.heroPoster}
         loop
         muted
@@ -49,7 +49,7 @@ function HeroVideo() {
       >
         <source src={media.heroVideo} type="video/mp4" />
       </video>
-      <div className="z-2 col-extended row-span-full mb-fluid-lg uranus-template-hero-copy">
+      <div className="z-2 col-extended row-span-full mb-fluid-xl uranus-template-hero-copy">
         <PHeading id="heading-section-1" className="pb-fluid-md" tag="h1" size="3xl">
           <span className="text-md block">URANUS</span>
           Engineered to move.
@@ -62,7 +62,7 @@ function HeroVideo() {
         </PButton>
       </div>
       <PButton
-        className="z-3 col-wide place-self-end row-span-full mb-fluid-lg"
+        className="uranus-template-video-control z-3 col-wide place-self-end row-span-full mb-fluid-xl"
         variant="secondary"
         compact={true}
         hideLabel={true}
@@ -140,8 +140,8 @@ export default function HomePage() {
         <div className="col-span-full grid grid-cols-subgrid gap-y-fluid-lg">
           <img
             className="col-span-full md:col-start-1 md:col-end-7 md:row-start-1 w-full aspect-4/3 md:aspect-3/4 object-cover rounded-3xl"
-            src={media.raceWheel}
-            alt="Detailed view of an automotive wheel"
+            src={media.raceCar}
+            alt="Formula race car on circuit"
             loading="lazy"
           />
           <div className="col-span-full md:col-start-8 md:col-end-13 md:row-start-1 flex flex-col justify-center items-start">
@@ -158,8 +158,8 @@ export default function HomePage() {
         <div className="col-span-full grid grid-cols-subgrid gap-y-fluid-lg">
           <img
             className="col-span-full md:col-start-7 md:col-end-13 md:row-start-1 w-full aspect-4/3 md:aspect-3/4 object-cover rounded-3xl"
-            src={media.redWheel}
-            alt="Performance wheel fitted to a sports car"
+            src={media.drift}
+            alt="Performance car cornering on a race track"
             loading="lazy"
           />
           <div className="col-span-full md:col-start-1 md:col-end-6 md:row-start-1 flex flex-col justify-center items-start">
@@ -170,7 +170,7 @@ export default function HomePage() {
             <PText className="mt-fluid-sm" size="xs" color="contrast-medium">
               VEHICLE / DIMENSIONS / COMPATIBILITY
             </PText>
-            <a className="uranus-template-text-link mt-fluid-lg" href="/wheels">Find your fit <span aria-hidden="true">↗</span></a>
+            <a className="uranus-template-text-link mt-fluid-lg" href="/fitment" onClick={(event) => { event.preventDefault(); window.dispatchEvent(new Event("uranus:open-fitment")); }}>Find your fit <span aria-hidden="true">↗</span></a>
           </div>
         </div>
       </section>
