@@ -4,8 +4,8 @@ import { SiteShell } from "@/components/layout/site-shell";
 import "./globals.css";
 
 export const metadata: Metadata = {
- title: { default: "Uranus | Wheels for Trucks, Jeep & SUVs", template: "%s | Uranus" },
- description: "Explore wheel styles, vehicle fitment data and technical specifications for trucks, Jeep and SUVs.",
+ title: { default: "Uranus | Wheel Design & Vehicle Fitment", template: "%s | Uranus" },
+ description: "Explore considered wheel design, vehicle fitment and technical specifications for your vehicle.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
