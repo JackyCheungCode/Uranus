@@ -15,12 +15,11 @@ const directions = [
 export default function HomePage() {
   return (
     <main className="mw-home">
-      <div className="mw-promo"><span>BLACK FRIDAY // CYBER MONDAY</span><strong>20% OFF</strong><span>NOV 9 – DEC 4, 2026</span><a href="/dealers">FIND A DEALER NEAR YOU ↗</a></div>
       <section className="mw-hero">
         <img className="mw-hero-image" src="https://mayhemwheels.com/cdn/shop/files/preview_images/8afaf56dea5c4eb3973c46668df55d16.thumbnail.0000000000.jpg?v=1793395054&width=2400" alt="Mayhem Wheels hero campaign" />
         <div className="mw-hero-shade" />
         <div className="mw-hero-copy">
-          <p className="mw-kicker">MAYHEM WHEELS / BUILT FOR YOUR DRIVE</p>
+          <p className="mw-kicker">URANUS / BUILT FOR YOUR DRIVE</p>
           <h1>HORIZON</h1>
           <p className="mw-hero-subtitle">CONCAVE &amp; VENTED STYLE</p>
           <a href="/products/8120-horizon" className="mw-button mw-button-light">EXPLORE FITMENTS <span>↗</span></a>
