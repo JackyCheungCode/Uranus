@@ -10,10 +10,10 @@ export const wheels: WheelItem[] = [
  {id:"8120-6",slug:"8120-horizon",style:"8120",name:"HORIZON",finish:"GLOSS BLACK",sizes:"18x9 | 20x9 | 22x10",lugs:"6 Lug",category:["STREET","NEW ARRIVALS"],image:cdn+"Mayhem8120-6GB1.png?v=1789750229&width=1200",badge:"NEW STYLE"},
  {id:"8122-6",slug:"8122-blizzard",style:"8122",name:"BLIZZARD",finish:"GLOSS BLACK",sizes:"17x8.5 | 18x9 | 20x9",lugs:"6 Lug",category:["STREET","NEW ARRIVALS"],image:cdn+"Mayhem8122-6GB1-CAN.png?v=1791917407&width=1200",badge:"NEW STYLE"},
  {id:"8122-8",slug:"8122-blizzard",style:"8122",name:"BLIZZARD",finish:"GLOSS BLACK",sizes:"17x8.5 | 18x9 | 20x9",lugs:"8 Lug",category:["STREET","NEW ARRIVALS"],image:cdn+"Mayhem8122-8GB1-CAN.png?v=1791917407&width=1200",badge:"NEW STYLE"},
- {id:"8119-56-milled",slug:"8119-vanquish-black-milled",style:"8119",name:"VANQUISH",finish:"GLOSS BLACK MILLED",sizes:"20x9 | 20x10 | 22x10",lugs:"5 / 6 Lug",category:["STREET","NEW ARRIVALS"],image:cdn+"Mayhem8119M1.png?v=1789750228&width=1200",badge:"NEW STYLE"},
- {id:"8119-56-black",slug:"8119-vanquish-gloss-black",style:"8119",name:"VANQUISH",finish:"GLOSS BLACK",sizes:"20x9 | 20x10 | 22x10",lugs:"5 / 6 Lug",category:["STREET","NEW ARRIVALS"],image:cdn+"Mayhem8119GB1.png?v=1789750227&width=1200",badge:"NEW STYLE"},
- {id:"8310-6-black",slug:"8310-vector-gloss-black",style:"8310",name:"VECTOR",finish:"GLOSS BLACK",sizes:"17x9 | 20x9",lugs:"6 Lug",category:["TRAIL","NEW ARRIVALS"],image:cdn+"Mayhem8310-6GB1.png?v=1789751560&width=1200",badge:"NEW STYLE"},
- {id:"8310-8-black",slug:"8310-vector-gloss-black",style:"8310",name:"VECTOR",finish:"GLOSS BLACK",sizes:"17x9 | 20x9",lugs:"8 Lug",category:["TRAIL","NEW ARRIVALS"],image:cdn+"Mayhem8310-8GB1.png?v=1789751560&width=1200",badge:"NEW STYLE"},
+ {id:"8119-56-milled",slug:"8119-vanquish-black-milled",style:"8119",name:"VANQUISH",finish:"GLOSS BLACK MILLED",sizes:"20x9 | 20x10 | 22x10",lugs:"5 / 6 Lug",category:["STREET"],image:cdn+"Mayhem8119M1.png?v=1789750228&width=1200",badge:"NEW STYLE"},
+ {id:"8119-56-black",slug:"8119-vanquish-gloss-black",style:"8119",name:"VANQUISH",finish:"GLOSS BLACK",sizes:"20x9 | 20x10 | 22x10",lugs:"5 / 6 Lug",category:["STREET"],image:cdn+"Mayhem8119GB1.png?v=1789750227&width=1200",badge:"NEW STYLE"},
+ {id:"8310-6-black",slug:"8310-vector-gloss-black",style:"8310",name:"VECTOR",finish:"GLOSS BLACK",sizes:"17x9 | 20x9",lugs:"6 Lug",category:["TRAIL"],image:cdn+"Mayhem8310-6GB1.png?v=1789751560&width=1200",badge:"NEW STYLE"},
+ {id:"8310-8-black",slug:"8310-vector-gloss-black",style:"8310",name:"VECTOR",finish:"GLOSS BLACK",sizes:"17x9 | 20x9",lugs:"8 Lug",category:["TRAIL"],image:cdn+"Mayhem8310-8GB1.png?v=1789751560&width=1200",badge:"NEW STYLE"},
  {id:"8310-6-gunmetal",slug:"8310-vector-matte-gunmetal",style:"8310",name:"VECTOR",finish:"MATTE GUNMETAL BLACK LIP",sizes:"17x9 | 20x9",lugs:"6 Lug",category:["TRAIL","NEW ARRIVALS"],image:cdn+"Mayhem8310-6MGT1.png?v=1789751562&width=1200",badge:"NEW STYLE"},
  {id:"8310-8-gunmetal",slug:"8310-vector-matte-gunmetal",style:"8310",name:"VECTOR",finish:"MATTE GUNMETAL BLACK LIP",sizes:"17x9 | 20x9",lugs:"8 Lug",category:["TRAIL","NEW ARRIVALS"],image:cdn+"Mayhem8310-8MGT1.png?v=1789751562&width=1200",badge:"NEW STYLE"},
  {id:"8309-56-bronze",slug:"8309-granite-satin-bronze",style:"8309",name:"GRANITE",finish:"SATIN BRONZE",sizes:"17x9",lugs:"5 / 6 Lug",category:["TRAIL","NEW ARRIVALS"],image:cdn+"MAYHEM8309SB1_7a3444f1-4ed8-46aa-878f-623876684da8.png?v=1790169210&width=1200",badge:"NEW STYLE"},
@@ -28,10 +28,10 @@ export const wheels: WheelItem[] = [
  {id:"8116-568-black",slug:"8116-intrepid-gloss-black",style:"8116",name:"INTREPID",finish:"GLOSS BLACK",sizes:"18x9 | 20x9 | 20x10",lugs:"5 / 6 / 8 Lug",category:["STREET"],image:cdn+"mayhem8116gb1_d8639c48-fde8-4f8f-ba26-ad52c5c545b0.png?v=1789749879&width=1200"},
  {id:"8116-568-bronze",slug:"8116-intrepid-matte-bronze",style:"8116",name:"INTREPID",finish:"MATTE BRONZE",sizes:"18x9 | 20x9 | 20x10",lugs:"5 / 6 / 8 Lug",category:["STREET"],image:cdn+"mayhem8116mz1_28247a1a-de9e-4412-84b7-fd6befee7dda.png?v=1789749885&width=1200"},
  {id:"8114-68-milled",slug:"8114-utopia-gloss-black-milled",style:"8114",name:"UTOPIA",finish:"GLOSS BLACK MILLED",sizes:"20x9 | 20x10 | 22x12",lugs:"6 / 8 Lug",category:["STREET"],image:cdn+"mayhem8114bm1_df074f55-929d-4d86-8c19-790b7dddb8aa.png?v=1789749867&width=1200"},
- {id:"8115-6-red",slug:"8115-apollo-prism-red",style:"8115",name:"APOLLO",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"20x9 | 20x10",lugs:"6 Lug",category:["COLOR SERIES","STREET"],image:cdn+"mayhem8115btr1_59731667-f350-43ae-8a8c-7246508304a9.png?v=1789749875&width=1200"},
+ {id:"8115-6-red",slug:"8115-apollo-prism-red",style:"8115",name:"APOLLO",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"20x9 | 20x10",lugs:"6 / 8 Lug",category:["COLOR SERIES","STREET"],image:cdn+"mayhem8115btr1_59731667-f350-43ae-8a8c-7246508304a9.png?v=1789749875&width=1200"},
  {id:"8115-6-milled",slug:"8115-apollo-gloss-black-milled",style:"8115",name:"APOLLO",finish:"GLOSS BLACK MILLED",sizes:"20x9",lugs:"6 Lug",category:["STREET"],image:cdn+"mayhem8115bm1_b3c96b0c-86a5-4498-9399-c88dced22a83.png?v=1789749871&width=1200"},
  {id:"8304-568-gunmetal",slug:"8304-delta-matte-gunmetal",style:"8304",name:"DELTA",finish:"MATTE GUNMETAL",sizes:"17x9 | 20x9",lugs:"5 / 6 / 8 Lug",category:["TRAIL"],image:cdn+"MAYHEM8304MGT1.png?v=1789750236&width=1200"},
- {id:"8304-568-machined",slug:"8304-delta-machined-silver-window",style:"8304",name:"DELTA",finish:"MACHINED WITH SILVER WINDOW",sizes:"17x9 | 20x9",lugs:"5 / 6 / 8 Lug",category:["TRAIL"],image:cdn+"Mayhem8304M1.png?v=1789750234&width=1200",badge:"NEW FINISH"},
+ {id:"8304-568-machined",slug:"8304-delta-machined-silver-window",style:"8304",name:"DELTA",finish:"MACHINED WITH SILVER WINDOW",sizes:"17x9 | 20x9",lugs:"5 / 6 / 8 Lug",category:["TRAIL","NEW ARRIVALS"],image:cdn+"Mayhem8304M1.png?v=1789750234&width=1200",badge:"NEW FINISH"},
  {id:"8304-568-black",slug:"8304-delta-matte-black",style:"8304",name:"DELTA",finish:"MATTE BLACK",sizes:"17x9 | 20x9",lugs:"5 / 6 / 8 Lug",category:["TRAIL"],image:cdn+"MAYHEM8304MB1.png?v=1789750235&width=1200"},
  {id:"8107D-8-polished",slug:"8107-cogent-dually-polished",style:"8107D",name:"COGENT DUALLY",finish:"POLISHED",sizes:"17x6.5",lugs:"8 Lug",category:["DUALLY"],image:cdn+"Mayhem8107DPF1.png?v=1789753224&width=1200"},
  {id:"8107D-8-milled",slug:"8107-cogent-dually-black-milled",style:"8107D",name:"COGENT DUALLY",finish:"GLOSS BLACK MILLED",sizes:"20x8.25 | 22x8.25",lugs:"8 Lug",category:["DUALLY"],image:cdn+"MAYHEM8107DBMF1.png?v=1789753224&width=1200"},
@@ -46,6 +46,7 @@ export const wheels: WheelItem[] = [
 ];
 export const wheelFilters = {
  diameters:["15","17","18","20","22"],
+ widths:["7","7.5","8.25","8.5","9","9.5","10","12"],
  lugCounts:["5","6","8","10"],
  finishes:["GLOSS BLACK","GLOSS BLACK MILLED","MATTE BLACK","MATTE GUNMETAL","SATIN BLACK","SATIN BRONZE","POLISHED","MACHINED"]
 };
