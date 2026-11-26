@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { wheels } from "@/data/wheels";
 import { wheelSpecs } from "@/data/wheel-specs";
-import { PSelect, PSelectOption } from "@porsche-design-system/components-react";
+import { PSelect, PSelectOption } from "@porsche-design-system/components-react/ssr";
 const scenes=[
  {name:"STREET",image:"https://mayhemwheels.com/cdn/shop/files/Mayhem_Street_8119_Vanquish_1.jpg?v=1793656266&width=1800"},
  {name:"TRAIL",image:"https://mayhemwheels.com/cdn/shop/files/Mayhem_Trail_8306_Ridgeline.jpg?v=1791914224&width=1800"},
