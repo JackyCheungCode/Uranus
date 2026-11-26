@@ -2,40 +2,65 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { VehicleFitmentPicker } from "@/components/fitment/vehicle-fitment-picker";
-import { PInputSearch } from "@porsche-design-system/components-react/ssr";
-import { PorscheDesignSystemProvider } from "@porsche-design-system/components-react/ssr";
-const links=[
- {label:"ALL WHEELS",href:"/wheels"},{label:"STREET",href:"/wheels?category=street"},{label:"TRAIL",href:"/wheels?category=trail"},{label:"DUALLY",href:"/wheels?category=dually"},{label:"COLOR SERIES",href:"/wheels?category=color-series"},{label:"NEW ARRIVALS",href:"/wheels?sort=new"}
-];
-type Vehicle={year:string;make:string;model:string;trim:string;body:string};
-const emptyVehicle:Vehicle={year:"",make:"",model:"",trim:"",body:""};
-export function SiteShell({children}:{children:ReactNode}){
- const [menuOpen,setMenuOpen]=useState(false),[vehicleOpen,setVehicleOpen]=useState(false),[searchOpen,setSearchOpen]=useState(false),[query,setQuery]=useState("");
- const [vehicle,setVehicle]=useState<Vehicle>(emptyVehicle),[vehicleSaved,setVehicleSaved]=useState(false);
- const [supportOpen,setSupportOpen]=useState(false);
- useEffect(()=>{
-  const close=(event:KeyboardEvent)=>{if(event.key==="Escape"){setMenuOpen(false);setVehicleOpen(false);setSearchOpen(false);setSupportOpen(false);}};
-  window.addEventListener("keydown",close);
-  const raw=localStorage.getItem("mayhem-vehicle");
-  if(raw){try{setVehicle(JSON.parse(raw) as Vehicle);setVehicleSaved(true);}catch{localStorage.removeItem("mayhem-vehicle");}}
-  return()=>window.removeEventListener("keydown",close);
- },[]);
- const vehicleLabel=vehicleSaved?vehicle.year+" "+vehicle.make+" "+vehicle.model:"FIND YOUR FIT";
- return <PorscheDesignSystemProvider cdn="auto"><>
-  
-  <header className="mw-header">
-   <button className="mw-menu-button" onClick={()=>setMenuOpen(!menuOpen)} aria-label="Toggle menu" aria-expanded={menuOpen}><span/><span/><span/></button>
-   <a className="mw-wordmark" href="/" aria-label="Uranus home">URANUS</a>
-   <nav className="mw-nav" aria-label="Main navigation"><div className="mw-nav-group"><a href="/wheels">WHEELS <span>⌄</span></a><div className="mw-dropdown">{links.map(item=><a key={item.label} href={item.href}>{item.label}</a>)}</div></div><a href="/visualizer">VISUALIZER</a><a href="/dealers">FIND A DEALER</a></nav>
-   <div className="mw-header-actions"><button onClick={()=>setSearchOpen(!searchOpen)} aria-label="Search" className="mw-icon-button">⌕</button><button onClick={()=>setVehicleOpen(true)} className="mw-vehicle-button"><span className="mw-vehicle-icon">＋</span>{vehicleSaved?vehicleLabel:"FIND YOUR FIT"}</button><a href="/garage" className="mw-garage-link">MY GARAGE</a></div>
-   {searchOpen&&<form className="mw-search" onSubmit={e=>{e.preventDefault();window.location.href="/wheels?q="+encodeURIComponent(query);}}><PInputSearch autoFocus name="site-search" label="SEARCH WHEELS" hideLabel value={query} onInput={e=>setQuery((e.detail.target as HTMLInputElement).value)} placeholder="Search wheels, styles and part numbers" clear/><button type="submit">SEARCH →</button></form>}
-  </header>
-  {menuOpen&&<div className="mw-mobile-menu">{links.map(item=><a key={item.label} href={item.href} onClick={()=>setMenuOpen(false)}>{item.label}<span>↗</span></a>)}<a href="/visualizer" onClick={()=>setMenuOpen(false)}>VISUALIZER<span>↗</span></a><a href="/dealers" onClick={()=>setMenuOpen(false)}>FIND A DEALER<span>↗</span></a><button onClick={()=>{setVehicleOpen(true);setMenuOpen(false);}}>SELECT YOUR VEHICLE →</button></div>}
-  {vehicleOpen&&<VehicleFitmentPicker initialVehicle={vehicleSaved?vehicle:null} onClose={()=>setVehicleOpen(false)} onSave={v=>{setVehicle(v);setVehicleSaved(true);}}/>}
-  {children}
-  <SiteFooter/>
-  <button className="mw-support-launcher" onClick={()=>setSupportOpen(v=>!v)} aria-label="Contact Uranus support" aria-expanded={supportOpen}>?</button>
-  {supportOpen&&<section className="mw-support-panel" aria-label="Mayhem support"><button className="mw-accessibility-close" onClick={()=>setSupportOpen(false)} aria-label="Close support">×</button><p className="mw-kicker">URANUS SUPPORT</p><h2>Contact our team.</h2><p>Tell us how we can help. Our team will reply by email.</p><div className="mw-support-options"><a href="/fitment">WHAT FITS MY VEHICLE? <span>›</span></a><a href="/warranty">WARRANTY / DAMAGED WHEEL <span>›</span></a><a href="/contact?topic=product">PRODUCT QUESTION <span>›</span></a><a href="/dealers">FIND A DEALER <span>›</span></a><a href="/contact">SOMETHING ELSE <span>›</span></a></div><a className="mw-button mw-button-dark" href="mailto:customerservice@mayhemwheels.com">EMAIL CUSTOMER SUPPORT →</a><p className="mw-modal-note">AI-assisted product information can be incomplete. Confirm fitment and installation with a qualified professional.</p></section>}
+import { PButton, PButtonPure, PInputSearch, PorscheDesignSystemProvider } from "@porsche-design-system/components-react/ssr";
 
- </></PorscheDesignSystemProvider>;
+const links = [
+  { label: "All wheels", href: "/wheels" },
+  { label: "Street", href: "/wheels?category=street" },
+  { label: "Trail", href: "/wheels?category=trail" },
+  { label: "Dually", href: "/wheels?category=dually" },
+  { label: "Color series", href: "/wheels?category=color-series" },
+  { label: "New arrivals", href: "/wheels?sort=new" },
+  { label: "Visualizer", href: "/visualizer" },
+  { label: "My Garage", href: "/garage" },
+  { label: "Find a Dealer", href: "/dealers" },
+  { label: "Contact", href: "/contact" },
+];
+type Vehicle = { year: string; make: string; model: string; trim: string; body: string };
+const emptyVehicle: Vehicle = { year: "", make: "", model: "", trim: "", body: "" };
+
+export function SiteShell({ children }: { children: ReactNode }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [vehicleOpen, setVehicleOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [vehicle, setVehicle] = useState<Vehicle>(emptyVehicle);
+  const [vehicleSaved, setVehicleSaved] = useState(false);
+  useEffect(() => {
+    const close = (event: KeyboardEvent) => {
+      if (event.key === "Escape") { setMenuOpen(false); setVehicleOpen(false); setSearchOpen(false); }
+    };
+    window.addEventListener("keydown", close);
+    const raw = localStorage.getItem("mayhem-vehicle");
+    if (raw) { try { setVehicle(JSON.parse(raw) as Vehicle); setVehicleSaved(true); } catch { localStorage.removeItem("mayhem-vehicle"); } }
+    return () => window.removeEventListener("keydown", close);
+  }, []);
+  const vehicleLabel = vehicleSaved ? [vehicle.year, vehicle.make, vehicle.model].filter(Boolean).join(" ") : "Find your fit";
+  return (
+    <PorscheDesignSystemProvider cdn="auto">
+      <div className="pds-app">
+        <header className="uranus-pds-header">
+          <div className="uranus-header-left">
+            <PButtonPure className="uranus-menu-trigger" type="button" onClick={() => setMenuOpen(!menuOpen)} aria={{ "aria-expanded": menuOpen, "aria-haspopup": "dialog" }} icon="menu-lines" hideLabel={false}>Menu</PButtonPure>
+          </div>
+          <a className="uranus-header-wordmark" href="/" aria-label="Uranus home">URANUS</a>
+          <div className="uranus-header-right">
+            <PButtonPure className="uranus-header-icon" type="button" onClick={() => setSearchOpen(!searchOpen)} title="Search" icon="search" hideLabel>Search</PButtonPure>
+            <PButton onClick={() => setVehicleOpen(true)} icon="car">{vehicleLabel}</PButton>
+          </div>
+          {searchOpen && <form className="uranus-search-panel" onSubmit={event => { event.preventDefault(); window.location.href = "/wheels?q=" + encodeURIComponent(query); }}>
+            <PInputSearch name="site-search" label="Search wheels" value={query} onInput={event => setQuery((event.detail.target as HTMLInputElement).value)} placeholder="Search wheels, styles and part numbers" clear />
+            <PButton type="submit">Search</PButton>
+          </form>}
+        </header>
+        {menuOpen && <><button className="uranus-menu-backdrop" onClick={() => setMenuOpen(false)} aria-label="Close navigation" /><nav className="uranus-menu-panel" aria-label="Main navigation">
+          <div className="uranus-menu-panel-heading"><span>EXPLORE URANUS</span><button type="button" onClick={() => setMenuOpen(false)} aria-label="Close menu">×</button></div>
+          <div className="uranus-menu-links">{links.map((link, index) => <a href={link.href} key={link.href} onClick={() => setMenuOpen(false)}><span>{String(index + 1).padStart(2, "0")}</span>{link.label}<b>↗</b></a>)}</div>
+        </nav></>}
+        {vehicleOpen && <VehicleFitmentPicker initialVehicle={vehicleSaved ? vehicle : null} onClose={() => setVehicleOpen(false)} onSave={selected => { setVehicle(selected); setVehicleSaved(true); }} />}
+        <main className="pds-content">{children}</main>
+        <SiteFooter />
+      </div>
+    </PorscheDesignSystemProvider>
+  );
 }
