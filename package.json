@@ -9,8 +9,7 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "deploy:preview": "echo \"Cloudflare preview adapter is pending runtime validation\"",
-    "deploy": "echo \"Production deployment is intentionally disabled during rebuild\""
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy"
   },
   "dependencies": {
     "@porsche-design-system/components-react": "^4.10.1",
