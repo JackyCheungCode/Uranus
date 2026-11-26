@@ -1,16 +1,55 @@
 "use client";
-import { useState } from "react";
-const wheelOptions=[
- {name:"8120 HORIZON",img:"https://mayhemwheels.com/cdn/shop/files/Mayhem8120-6GB1.png?v=1789750229&width=1000"},
- {name:"8121 CYCLONE",img:"https://mayhemwheels.com/cdn/shop/files/Mayhem8121-6GB1.png?v=1789750230&width=1000"},
- {name:"8122 BLIZZARD",img:"https://mayhemwheels.com/cdn/shop/files/Mayhem8122-6GB1-CAN.png?v=1791917407&width=1000"},
- {name:"8310 VECTOR",img:"https://mayhemwheels.com/cdn/shop/files/Mayhem8310-6GB1.png?v=1789751560&width=1000"}
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { wheels } from "@/data/wheels";
+const scenes=[
+ {name:"STREET",image:"https://mayhemwheels.com/cdn/shop/files/Mayhem_Street_8119_Vanquish_1.jpg?v=1793656266&width=1800"},
+ {name:"TRAIL",image:"https://mayhemwheels.com/cdn/shop/files/Mayhem_Trail_8306_Ridgeline.jpg?v=1791914224&width=1800"},
+ {name:"DUALLY",image:"https://mayhemwheels.com/cdn/shop/files/Mayhem_Dually_8107D_CogentDually.jpg?v=1791914232&width=1800"}
 ];
+const years=["2026","2025","2024","2023","2022","2021","2020","2019","2018"];
+const makes=["Ford","Chevrolet","GMC","Ram","Jeep","Toyota"];
+const models:Record<string,string[]>={Ford:["F-150","F-250","F-350","Ranger"],Chevrolet:["Silverado 1500","Silverado 2500HD","Colorado"],GMC:["Sierra 1500","Sierra 2500HD","Canyon"],Ram:["1500","2500","3500"],Jeep:["Wrangler","Gladiator"],Toyota:["Tacoma","Tundra","4Runner"]};
 export default function VisualizerPage(){
- const [vehicle,setVehicle]=useState({year:"2025",make:"Ford",model:"F-150",trim:"Lariat",body:"Crew Cab"}),[wheel,setWheel]=useState(0),[view,setView]=useState("SIDE"),[color,setColor]=useState("BLACK"),[height,setHeight]=useState("LEVEL");
- return <main className="mw-visualizer"><div className="mw-breadcrumb">HOME / VISUALIZER</div><header className="mw-catalog-heading"><p className="mw-kicker">BUILT FOR YOUR DRIVE</p><h1>SEE MAYHEM ON YOUR TRUCK.</h1><p>Choose your vehicle, then explore styles and finishes.</p></header>
-  <div className="mw-visualizer-layout"><aside className="mw-visualizer-controls"><p className="mw-kicker">01 / YOUR VEHICLE</p><h2>Find your fit.</h2>{(["year","make","model","trim","body"] as const).map((key)=><label key={key}>{key.toUpperCase()}<select value={vehicle[key]} onChange={e=>setVehicle({...vehicle,[key]:e.target.value})}>{(key==="year"?["2026","2025","2024","2023","2022","2021"]:key==="make"?["Ford","Chevrolet","GMC","Ram","Jeep","Toyota"]:key==="model"?["F-150","Silverado 1500","Sierra 1500","Ram 1500","Wrangler","Tundra"]:key==="trim"?["XL","XLT","Lariat","King Ranch","Platinum","Limited"]:["Crew Cab","SuperCrew","Regular Cab","Double Cab"]).map(v=><option key={v}>{v}</option>)}</select></label>)}<button className="mw-button mw-button-dark" onClick={()=>alert("Vehicle selected. Verify exact fitment by part number before ordering.")}>SEE WHEELS ON MY VEHICLE →</button><p className="mw-kicker mw-viz-space">02 / CUSTOMIZE PREVIEW</p><label>VEHICLE COLOR<select value={color} onChange={e=>setColor(e.target.value)}><option>BLACK</option><option>WHITE</option><option>GREY</option><option>RED</option><option>BLUE</option></select></label><label>RIDE HEIGHT<select value={height} onChange={e=>setHeight(e.target.value)}><option>LEVEL</option><option>STOCK</option><option>LIFTED</option></select></label></aside>
-   <section className="mw-visualizer-stage"><div className="mw-visualizer-top"><span>{vehicle.year} {vehicle.make} {vehicle.model} / {vehicle.trim}</span><span>ILLUSTRATIVE PREVIEW</span></div><div className={"mw-truck-preview color-"+color.toLowerCase()+" height-"+height.toLowerCase()}><img src="https://mayhemwheels.com/cdn/shop/files/Mayhem_Street_8119_Vanquish_1.jpg?v=1793656266&width=1800" alt="Mayhem wheel fitted truck preview"/><div className="mw-preview-wheel"><img src={wheelOptions[wheel].img} alt={wheelOptions[wheel].name}/></div></div><div className="mw-view-switch">{["FRONT","SIDE","REAR"].map(v=><button className={view===v?"active":""} onClick={()=>setView(v)} key={v}>{v}</button>)}</div><div className="mw-wheel-picker"><div><p className="mw-kicker">03 / WHEEL STYLE</p><h3>{wheelOptions[wheel].name}</h3></div><div className="mw-wheel-options">{wheelOptions.map((w,i)=><button onClick={()=>setWheel(i)} className={wheel===i?"active":""} key={w.name}><img src={w.img} alt=""/><span>{w.name}</span></button>)}</div></div><p className="mw-visualizer-disclaimer">Ride height and tire changes affect the illustration only. This preview does not confirm physical fitment. Verify the exact wheel size, offset, bolt pattern and vehicle configuration with your dealer.</p></section>
+ const params=useSearchParams();
+ const [vehicle,setVehicle]=useState({year:"2025",make:"Ford",model:"F-150",trim:"Lariat",body:"Crew Cab"});
+ const [wheelId,setWheelId]=useState(wheels[0].id),[scene,setScene]=useState(0),[color,setColor]=useState("BLACK"),[height,setHeight]=useState("LEVEL"),[tire,setTire]=useState("35"),[background,setBackground]=useState("DAYLIGHT"),[mode,setMode]=useState("MAYHEM"),[saved,setSaved]=useState(false);
+ const selected=wheels.find(w=>w.id===wheelId)||wheels[0];
+ const sameStyle=useMemo(()=>wheels.filter(w=>w.style===selected.style),[selected.style]);
+ useEffect(()=>{const slug=params.get("style");if(slug){const found=wheels.find(w=>w.slug===slug);if(found)setWheelId(found.id);}},[params]);
+ const saveVehicle=()=>{localStorage.setItem("mayhem-vehicle",JSON.stringify(vehicle));setSaved(true);};
+ const saveSetup=()=>{localStorage.setItem("mayhem-setup",JSON.stringify({vehicle,wheelId,scene,color,height,tire,background}));setSaved(true);};
+ const share=()=>{const url=window.location.origin+"/visualizer?style="+encodeURIComponent(selected.slug);if(navigator.clipboard?.writeText)navigator.clipboard.writeText(url);};
+ return <main className="mw-visualizer"><div className="mw-breadcrumb">HOME / VISUALIZER</div>
+  <header className="mw-catalog-heading"><p className="mw-kicker">BUILT FOR YOUR DRIVE</p><h1>SEE MAYHEM ON YOUR TRUCK.</h1><p>Choose your vehicle, then explore wheel styles, finishes and sizes.</p></header>
+  <div className="mw-visualizer-layout">
+   <aside className="mw-visualizer-controls"><p className="mw-kicker">01 / YOUR VEHICLE</p><h2>Find your fit.</h2>
+    {(["year","make","model","trim","body"] as const).map(key=><label key={key}>{key.toUpperCase()}<select value={vehicle[key]} onChange={e=>{setVehicle(v=>({...v,[key]:e.target.value,...(key==="make"?{model:models[e.target.value][0]}:{})}));setSaved(false);}}>{(key==="year"?years:key==="make"?makes:key==="model"?models[vehicle.make]:key==="trim"?["XL","XLT","Lariat","King Ranch","Platinum","Limited","TRD Pro","Rubicon"]:["Crew Cab","SuperCrew","Regular Cab","Double Cab","CrewMax","Short Bed","Long Bed"]).map(v=><option key={v}>{v}</option>)}</select></label>)}
+    <button className="mw-button mw-button-dark" onClick={saveVehicle}>{saved?"VEHICLE SAVED ✓":"SAVE VEHICLE →"}</button>
+    <p className="mw-modal-note">Vehicle details are saved locally. This preview does not query a live fitment database.</p>
+    <p className="mw-kicker mw-viz-space">02 / CUSTOMIZE PREVIEW</p>
+    <label>VEHICLE COLOR<select value={color} onChange={e=>setColor(e.target.value)}>{["BLACK","WHITE","GREY","RED","BLUE"].map(v=><option key={v}>{v}</option>)}</select></label>
+    <label>RIDE HEIGHT<select value={height} onChange={e=>setHeight(e.target.value)}><option>STOCK</option><option>LEVEL</option><option>LIFTED</option></select></label>
+    <label>TIRE SIZE PREVIEW<select value={tire} onChange={e=>setTire(e.target.value)}><option value="33">33 INCH</option><option value="35">35 INCH</option><option value="37">37 INCH</option><option value="40">40 INCH</option></select></label>
+    <label>BACKGROUND<select value={background} onChange={e=>setBackground(e.target.value)}><option>DAYLIGHT</option><option>STUDIO</option><option>DARK</option></select></label>
+   </aside>
+   <section className="mw-visualizer-stage">
+    <div className="mw-visualizer-top"><span>{vehicle.year} {vehicle.make} {vehicle.model} / {vehicle.trim}</span><span>ILLUSTRATIVE SIDE PROFILE</span></div>
+    <div className={"mw-truck-preview color-"+color.toLowerCase()+" height-"+height.toLowerCase()+" bg-"+background.toLowerCase()+" tire-"+tire}>
+     <img className="mw-visualizer-scene" src={scenes[scene].image} alt={scenes[scene].name+" Mayhem truck scene"}/>
+     <div className="mw-vehicle-color-tint"/>
+     {mode==="MAYHEM"&&<><div className="mw-preview-wheel wheel-front"><img src={selected.image} alt={selected.style+" "+selected.name+" wheel preview"}/></div><div className="mw-preview-wheel wheel-rear"><img src={selected.image} alt=""/></div></>}
+     <span className="mw-preview-mode">{mode==="MAYHEM"?"MAYHEM SETUP":"STOCK IMAGE"}</span>
+    </div>
+    <div className="mw-scene-switch">{scenes.map((s,i)=><button key={s.name} className={scene===i?"active":""} onClick={()=>setScene(i)}>{s.name}</button>)}</div>
+    <div className="mw-view-switch"><button className={mode==="MAYHEM"?"active":""} onClick={()=>setMode("MAYHEM")}>MY MAYHEM SETUP</button><button className={mode==="STOCK"?"active":""} onClick={()=>setMode("STOCK")}>STOCK IMAGE</button></div>
+    <div className="mw-wheel-picker"><div><p className="mw-kicker">03 / WHEEL STYLE</p><h3>{selected.style} {selected.name}</h3><p>{selected.finish} / {selected.lugs}</p></div>
+     <div className="mw-wheel-select"><select value={wheelId} onChange={e=>setWheelId(e.target.value)}>{wheels.map(w=><option key={w.id} value={w.id}>{w.style} {w.name} — {w.finish} — {w.lugs}</option>)}</select></div>
+    </div>
+    <div className="mw-wheel-options">{sameStyle.map(w=><button onClick={()=>setWheelId(w.id)} className={wheelId===w.id?"active":""} key={w.id}><img src={w.image} alt={w.finish}/><span>{w.finish} / {w.lugs}</span></button>)}</div>
+    <div className="mw-visualizer-actions"><button className="mw-button mw-button-dark" onClick={saveSetup}>{saved?"SETUP SAVED ✓":"SAVE SETUP"}</button><button className="mw-button mw-button-light" onClick={share}>SHARE SETUP ↗</button><a className="mw-button mw-button-light" href={"/products/"+selected.slug}>VIEW THIS WHEEL ↗</a></div>
+    <p className="mw-visualizer-disclaimer">This is an illustrative styling preview using Mayhem campaign photography and wheel imagery. Vehicle color, ride height and tire-size controls do not alter a 3D vehicle model. It does not confirm physical fitment. Verify part number, wheel size, offset, bolt pattern and clearance with a dealer.</p>
+   </section>
   </div>
  </main>
 }
