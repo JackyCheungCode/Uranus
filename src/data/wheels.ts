@@ -1,7 +1,7 @@
 export type WheelItem = {
   id: string; slug: string; style: string; name: string; finish: string; sizes: string;
   lugs: string; category: ("STREET"|"TRAIL"|"DUALLY"|"COLOR SERIES"|"NEW ARRIVALS")[];
-  image: string; gallery?: string[]; description?: string; badge?: string; sourceUrl?: string;
+  image: string; gallery?: string[]; description?: string; allWheels?: boolean; badge?: string; sourceUrl?: string;
 };
 const cdn="https://mayhemwheels.com/cdn/shop/files/";
 export const wheels: WheelItem[] = [
@@ -38,11 +38,18 @@ export const wheels: WheelItem[] = [
  {id:"8107D-8-black",slug:"8107-cogent-dually-gloss-black",style:"8107D",name:"COGENT DUALLY",finish:"GLOSS BLACK",sizes:"17x6.5 | 20x8.25",lugs:"8 Lug",category:["DUALLY"],image:cdn+"Mayhem8107DGBF1.png?v=1789753222&width=1200"},
  {id:"8181-10-black",slug:"8181-challenger-dually-gloss-black",style:"8181",name:"CHALLENGER DUALLY",finish:"GLOSS BLACK",sizes:"22x8.25",lugs:"10 Lug",category:["DUALLY"],image:cdn+"MAYHEM8181BF1.png?v=1789750232&width=1200"},
  {id:"8181-10-polished",slug:"8181-challenger-dually-polished",style:"8181",name:"CHALLENGER DUALLY",finish:"POLISHED",sizes:"22x8.25",lugs:"10 Lug",category:["DUALLY"],image:cdn+"MAYHEM8181P1F.png?v=1789750233&width=1200"},
- {id:"8015-red",slug:"8015-warrior-prism-red",style:"8015",name:"WARRIOR",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"17x9 | 18x9 | 20x9 | 20x10",lugs:"5 / 6 Lug",category:["COLOR SERIES"],image:cdn+"mayhem8015btr1_b73050e9-a3ad-4a32-887e-fb5431fb572b.png?v=1789749232&width=1200"},
+ {id:"8015-red",slug:"8015-warrior-prism-red",style:"8015",name:"WARRIOR",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"17x9 | 18x9 | 20x9 | 20x10",lugs:"5 / 6 Lug",category:["STREET"],image:cdn+"mayhem8015btr1_b73050e9-a3ad-4a32-887e-fb5431fb572b.png?v=1789749232&width=1200"},
  {id:"8015-blue",slug:"8015-warrior-prism-blue",style:"8015",name:"WARRIOR",finish:"BLACK W/ PRISM BLUE",sizes:"17x9 | 18x9 | 20x9 | 20x10",lugs:"5 / 6 / 8 Lug",category:["COLOR SERIES"],image:"https://www.mayhemwheels.com/wp-content/uploads/2021/05/MAYHEM8015BPB1-1-150x150.png"},
  {id:"8110-red",slug:"8110-tripwire-prism-red",style:"8110",name:"TRIPWIRE",finish:"BLACK W/ PRISM RED",sizes:"20x9 | 20x10",lugs:"5 / 6 / 8 Lug",category:["COLOR SERIES"],image:"https://www.mayhemwheels.com/wp-content/uploads/2021/05/MAYHEM8110BMRED1-150x150.png"},
- {id:"8107-56-red",slug:"8107-cogent-prism-red",style:"8107",name:"COGENT",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"17x9 | 18x9 | 20x9 | 20x10 | 20x12 | 22x10",lugs:"5 / 6 Lug",category:["COLOR SERIES"],image:"https://mayhemwheels.com/wp-content/uploads/2021/05/MAYHEM8107GBRED1.png"},
- {id:"8107-8-red",slug:"8107-cogent-prism-red",style:"8107",name:"COGENT",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"20x9 | 22x10",lugs:"8 Lug",category:["COLOR SERIES"],image:"https://mayhemwheels.com/wp-content/uploads/2021/05/MAYHEM8107GBRED1.png"},
+ {id:"8107-56-red",slug:"8107-cogent-prism-red",style:"8107",name:"COGENT",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"17x9 | 18x9 | 20x9 | 20x10 | 20x12 | 22x10",lugs:"5 / 6 Lug",category:["STREET"],image:"https://mayhemwheels.com/wp-content/uploads/2021/05/MAYHEM8107GBRED1.png"},
+ {id:"8107-8-red",slug:"8107-cogent-prism-red",style:"8107",name:"COGENT",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"20x9 | 22x10",lugs:"8 Lug",category:["STREET"],image:"https://mayhemwheels.com/wp-content/uploads/2021/05/MAYHEM8107GBRED1.png"},
+ {id:"8015-red-5-series",slug:"8015-warrior-prism-red",style:"8015",name:"WARRIOR",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"17x9 | 20x9",lugs:"5 Lug",category:["COLOR SERIES","STREET"],allWheels:false,image:cdn+"mayhem8015btr1_b73050e9-a3ad-4a32-887e-fb5431fb572b.png?v=1789749232&width=1200"},
+ {id:"8015-red-6-series",slug:"8015-warrior-prism-red",style:"8015",name:"WARRIOR",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"17x9 | 18x9 | 20x9",lugs:"6 Lug",category:["COLOR SERIES","STREET"],allWheels:false,image:cdn+"mayhem8015btr1_b73050e9-a3ad-4a32-887e-fb5431fb572b.png?v=1789749232&width=1200"},
+ {id:"8107-red-5-series",slug:"8107-cogent-prism-red",style:"8107",name:"COGENT",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"17x9 | 18x9 | 20x9",lugs:"5 Lug",category:["COLOR SERIES","STREET"],allWheels:false,image:"https://mayhemwheels.com/wp-content/uploads/2021/05/MAYHEM8107GBRED1.png"},
+ {id:"8107-red-6-series",slug:"8107-cogent-prism-red",style:"8107",name:"COGENT",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"18x9 | 20x9 | 20x10",lugs:"6 Lug",category:["COLOR SERIES","STREET"],allWheels:false,image:"https://mayhemwheels.com/wp-content/uploads/2021/05/MAYHEM8107GBRED1.png"},
+ {id:"8107-red-8-series",slug:"8107-cogent-prism-red",style:"8107",name:"COGENT",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"22x10",lugs:"8 Lug",category:["COLOR SERIES","STREET"],allWheels:false,image:"https://mayhemwheels.com/wp-content/uploads/2021/05/MAYHEM8107GBRED1.png"},
+ {id:"8115-red-6-series",slug:"8115-apollo-prism-red",style:"8115",name:"APOLLO",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"20x10",lugs:"6 Lug",category:["COLOR SERIES","STREET"],allWheels:false,image:cdn+"mayhem8115btr1_59731667-f350-43ae-8a8c-7246508304a9.png?v=1789749875&width=1200"},
+ {id:"8115-red-8-series",slug:"8115-apollo-prism-red",style:"8115",name:"APOLLO",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"20x9 | 20x10",lugs:"8 Lug",category:["COLOR SERIES","STREET"],allWheels:false,image:cdn+"mayhem8115btr1_59731667-f350-43ae-8a8c-7246508304a9.png?v=1789749875&width=1200"},
 ];
 export const wheelFilters = {
  diameters:["15","17","18","20","22"],
