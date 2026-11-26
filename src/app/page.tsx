@@ -114,63 +114,35 @@ export default function HomePage() {
         </div>
       </section>
       <section className="uranus-featured-stories col-full grid grid-cols-subgrid py-fluid-xl" aria-label="Explore wheel design dimensions">
-        <div className="col-span-full">
-          <PHeading tag="h2" size="xl">Explore wheels by design detail.</PHeading>
-          <PText className="mt-fluid-sm" color="contrast-medium">
-            Find the details that define your style — from spoke architecture and face depth to construction, finish and purpose.
-          </PText>
-        </div>
-        <div className="uranus-wheel-discovery-grid col-span-full">
-          <a className="uranus-wheel-discovery-card" href="/wheels?style=spoke-design">
-            <img src="https://s.alicdn.com/@sc04/kf/H6e21dc48041a43b6a3009f94462e227fW/For-HRE-Forged-Alloy-Wheels-18-19-20-21-Inch-New-35mm-ET-Compatible-with-Mercedes-for-BMW-for-Xiaomi-Tesla-Hongxin-for-Passenger.png" alt="Forged alloy wheels with multi-spoke, split-spoke and mesh designs" loading="lazy" />
-            <span className="uranus-wheel-discovery-index">01 / FORM</span>
-            <h3>Spoke Design</h3>
-            <p>Explore the character of five-spoke, split-spoke, Y-spoke, mesh and multi-spoke patterns.</p>
-            <span className="uranus-wheel-discovery-link">Explore spoke styles ↗</span>
-          </a>
-          <a className="uranus-wheel-discovery-card" href="/wheels?style=face-depth">
-            <img src="https://postimg.easyarticlemarketing.com/illustrations/2c1b66b2-a332-4805-8a53-e6d1ca08db9c/visual-comparison-of-five-wheel-concavity-levels-from-flat-face-to-super-concave.jpg" alt="Comparison of flat, shallow, medium, deep and super-concave wheel faces" loading="lazy" />
-            <span className="uranus-wheel-discovery-index">02 / PROFILE</span>
-            <h3>Face Depth</h3>
-            <p>Compare flat, shallow and deep-concave profiles to find the right visual depth and stance.</p>
-            <span className="uranus-wheel-discovery-link">Explore face profiles ↗</span>
-          </a>
-          <a className="uranus-wheel-discovery-card" href="/wheels?style=construction">
-            <img src="https://cdn.shoptop.com/1791019793052323841.png" alt="One-piece, two-piece and three-piece alloy wheel construction comparison" loading="lazy" />
-            <span className="uranus-wheel-discovery-index">03 / ENGINEERING</span>
-            <h3>Wheel Construction</h3>
-            <p>Understand monoblock, two-piece and three-piece construction — each with its own balance of design and customization.</p>
-            <span className="uranus-wheel-discovery-link">Explore construction ↗</span>
-          </a>
-          <a className="uranus-wheel-discovery-card" href="/wheels?style=lip">
-            <img src="https://s.alicdn.com/@sc04/kf/H64a5faa46a804000aa9cd7e8a5ef6c8al/15-16-17-18-19-20-21-22-Inch-Deep-Dish-Chrome-Five-Spoke-Car-Rims-Racing-Wheels-2-piece-Custom-Forged-Wheels-for-bmw-Z3-G80.jpg" alt="Polished deep-lip multi-piece alloy wheel fitted to a sports car" loading="lazy" />
-            <span className="uranus-wheel-discovery-index">04 / DETAIL</span>
-            <h3>Lip Profile</h3>
-            <p>From a clean flush edge to a pronounced step lip or deep dish, explore the finishing line of the wheel.</p>
-            <span className="uranus-wheel-discovery-link">Explore lip styles ↗</span>
-          </a>
-          <a className="uranus-wheel-discovery-card" href="/wheels?style=manufacturing">
-            <img src="https://mazdashop.ca/cdn/shop/products/Fast-Wheels-FC09-Alloy-Wheel-Metallic-Gunmetal-17-18-20-3_1200x.jpg?v=1678473348" alt="Illustration of the alloy wheel flow-forming manufacturing process" loading="lazy" />
-            <span className="uranus-wheel-discovery-index">05 / PROCESS</span>
-            <h3>Manufacturing Process</h3>
-            <p>Discover cast, flow-formed and forged production methods, and how each process shapes the wheel.</p>
-            <span className="uranus-wheel-discovery-link">Explore processes ↗</span>
-          </a>
-          <a className="uranus-wheel-discovery-card" href="/wheels?style=finish">
-            <img src="https://static.wixstatic.com/media/d86eeb_6dd930f2fa7d4a7ebbd88039720f943a~mv2.png/v1/fill/w_1000%2Ch_497%2Cal_c%2Cq_90%2Cusm_0.66_1.00_0.01/d86eeb_6dd930f2fa7d4a7ebbd88039720f943a~mv2.png" alt="Alloy wheel surface finishes including polished, brushed, satin and bronze" loading="lazy" />
-            <span className="uranus-wheel-discovery-index">06 / MATERIAL</span>
-            <h3>Surface & Finish</h3>
-            <p>Compare colour and surface treatments, from polished aluminium and brushed metal to satin, gloss and two-tone finishes.</p>
-            <span className="uranus-wheel-discovery-link">Explore finishes ↗</span>
-          </a>
-          <a className="uranus-wheel-discovery-card" href="/wheels?style=purpose">
-            <img src="https://www.carce.cc/img/ckeditor/5359ef6cde728.jpg" alt="Wheel style references spanning sport, off-road, luxury and street looks" loading="lazy" />
-            <span className="uranus-wheel-discovery-index">07 / CHARACTER</span>
-            <h3>Purpose & Style</h3>
-            <p>Browse styles shaped by their setting — motorsport, performance road, luxury, street and off-road.</p>
-            <span className="uranus-wheel-discovery-link">Explore wheel styles ↗</span>
-          </a>
-        </div>
+        <PCarousel
+          className="col-span-full"
+          slidesPerPage={{ base: 1.12, xs: 1.12, m: 2 }}
+          alignHeader="center"
+          width="extended"
+          heading="Explore wheels by design detail"
+        >
+          <PLinkTile gradient={true} href="/wheels?style=spoke-design" label="Spoke design" description="Five-spoke, split-spoke, Y-spoke, mesh and multi-spoke" compact={true} aspectRatio={{ base: "4/3", xs: "16/9", m: "16/9" }} weight="regular">
+            <img src="https://s.alicdn.com/@sc04/kf/H6e21dc48041a43b6a3009f94462e227fW/For-HRE-Forged-Alloy-Wheels-18-19-20-21-Inch-New-35mm-ET-Compatible-with-Mercedes-for-BMW-for-Xiaomi-Tesla-Hongxin-for-Passenger.png" alt="Alloy wheel spoke design reference" loading="lazy" />
+          </PLinkTile>
+          <PLinkTile gradient={true} href="/wheels?style=face-depth" label="Face depth" description="Flat, shallow, medium, deep and super-concave profiles" compact={true} aspectRatio={{ base: "4/3", xs: "16/9", m: "16/9" }} weight="regular">
+            <img src="https://postimg.easyarticlemarketing.com/illustrations/2c1b66b2-a332-4805-8a53-e6d1ca08db9c/visual-comparison-of-five-wheel-concavity-levels-from-flat-face-to-super-concave.jpg" alt="Comparison of wheel face depth and concavity" loading="lazy" />
+          </PLinkTile>
+          <PLinkTile gradient={true} href="/wheels?style=construction" label="Wheel construction" description="Monoblock, two-piece and three-piece construction" compact={true} aspectRatio={{ base: "4/3", xs: "16/9", m: "16/9" }} weight="regular">
+            <img src="https://cdn.shoptop.com/1791019793052323841.png" alt="One-piece, two-piece and three-piece wheel construction" loading="lazy" />
+          </PLinkTile>
+          <PLinkTile gradient={true} href="/wheels?style=lip" label="Lip profile" description="Flush edge, step lip and deep-dish designs" compact={true} aspectRatio={{ base: "4/3", xs: "16/9", m: "16/9" }} weight="regular">
+            <img src="https://s.alicdn.com/@sc04/kf/H64a5faa46a804000aa9cd7e8a5ef6c8al/15-16-17-18-19-20-21-22-Inch-Deep-Dish-Chrome-Five-Spoke-Car-Rims-Racing-Wheels-2-piece-Custom-Forged-Wheels-for-bmw-Z3-G80.jpg" alt="Deep-lip multi-piece alloy wheel" loading="lazy" />
+          </PLinkTile>
+          <PLinkTile gradient={true} href="/wheels?style=manufacturing" label="Manufacturing process" description="Cast, flow-formed and forged production methods" compact={true} aspectRatio={{ base: "4/3", xs: "16/9", m: "16/9" }} weight="regular">
+            <img src="https://mazdashop.ca/cdn/shop/products/Fast-Wheels-FC09-Alloy-Wheel-Metallic-Gunmetal-17-18-20-3_1200x.jpg?v=1678473348" alt="Alloy wheel manufacturing reference" loading="lazy" />
+          </PLinkTile>
+          <PLinkTile gradient={true} href="/wheels?style=finish" label="Surface & finish" description="Polished, brushed, satin, gloss and two-tone finishes" compact={true} aspectRatio={{ base: "4/3", xs: "16/9", m: "16/9" }} weight="regular">
+            <img src="https://static.wixstatic.com/media/d86eeb_6dd930f2fa7d4a7ebbd88039720f943a~mv2.png/v1/fill/w_1000%2Ch_497%2Cal_c%2Cq_90%2Cusm_0.66_1.00_0.01/d86eeb_6dd930f2fa7d4a7ebbd88039720f943a~mv2.png" alt="Wheel surface finishes and colour treatments" loading="lazy" />
+          </PLinkTile>
+          <PLinkTile gradient={true} href="/wheels?style=purpose" label="Purpose & style" description="Motorsport, performance road, luxury, street and off-road" compact={true} aspectRatio={{ base: "4/3", xs: "16/9", m: "16/9" }} weight="regular">
+            <img src="https://www.carce.cc/img/ckeditor/5359ef6cde728.jpg" alt="Wheel styles for motorsport, road, luxury and off-road use" loading="lazy" />
+          </PLinkTile>
+        </PCarousel>
       </section>
 
       <section className="uranus-editorial-stories col-basic grid grid-cols-subgrid gap-y-fluid-xl" aria-label="Uranus design and engineering">
