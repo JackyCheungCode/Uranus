@@ -1,13 +1,14 @@
 @import "@porsche-design-system/components-react";
 @import "tailwindcss";
 @import "@porsche-design-system/components-react/tailwindcss";
+@import "../styles/tokens.css";
 
 :root {
   color-scheme: light;
-  --uranus-ink: #111214;
-  --uranus-muted: #777b80;
-  --uranus-line: #dedfe1;
-  --uranus-paper: #f5f5f3;
+  --uranus-ink: var(--u-color-ink);
+  --uranus-muted: var(--u-color-muted);
+  --uranus-line: var(--u-color-line);
+  --uranus-paper: var(--u-color-paper);
 }
 
 * {
@@ -20,9 +21,11 @@ html {
 
 body {
   margin: 0;
-  background: var(--uranus-paper);
-  color: var(--uranus-ink);
-  font-family: "Porsche Next", Arial, sans-serif;
+  background: var(--u-color-paper);
+  color: var(--u-color-ink);
+  font-family: var(--u-font-family);
+  font-size: var(--u-type-body);
+  line-height: var(--u-leading-body);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -36,7 +39,131 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
+:focus-visible {
+  outline: 2px solid var(--u-color-focus);
+  outline-offset: 3px;
+}
+
 ::selection {
   background: #c9cdd1;
   color: #111214;
+}
+
+/* Shared layout and editorial primitives */
+.u-container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--u-page-gutter);
+}
+
+.u-container--content {
+  max-width: 76rem;
+}
+
+.u-container--wide {
+  max-width: var(--u-content-max);
+}
+
+.u-container--full {
+  max-width: none;
+}
+
+.u-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--u-space-3);
+  margin: 0;
+  color: var(--u-color-muted);
+  font-size: var(--u-type-micro);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: var(--u-tracking-label);
+  text-transform: uppercase;
+}
+
+.u-eyebrow__index {
+  color: var(--u-color-ink);
+  font-family: var(--u-font-mono);
+  letter-spacing: 0;
+}
+
+.u-section-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--u-space-5);
+  max-width: 54rem;
+}
+
+.u-section-heading--center {
+  align-items: center;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.u-heading-2 {
+  margin: 0;
+  color: var(--u-color-ink);
+  font-size: var(--u-type-h2);
+  font-weight: 500;
+  line-height: var(--u-leading-heading);
+  letter-spacing: -0.045em;
+}
+
+.u-section-heading__description {
+  max-width: 42rem;
+  color: var(--u-color-muted);
+  font-size: var(--u-type-body);
+  line-height: var(--u-leading-body);
+}
+
+.u-action-link {
+  display: inline-flex;
+  min-height: 3.25rem;
+  align-items: center;
+  justify-content: center;
+  gap: var(--u-space-8);
+  padding: 0.9rem 1.5rem;
+  border: var(--u-border-width) solid transparent;
+  font-size: var(--u-type-micro);
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition:
+    color var(--u-duration-standard) var(--u-ease-standard),
+    background-color var(--u-duration-standard) var(--u-ease-standard),
+    border-color var(--u-duration-standard) var(--u-ease-standard);
+}
+
+.u-action-link--dark {
+  background: var(--u-color-ink);
+  color: var(--u-color-surface);
+}
+
+.u-action-link--dark:hover {
+  background: var(--u-color-ink-soft);
+}
+
+.u-action-link--light {
+  background: var(--u-color-surface);
+  color: var(--u-color-ink);
+}
+
+.u-action-link--light:hover {
+  background: var(--u-color-surface-muted);
+}
+
+.u-action-link--outline {
+  border-color: currentColor;
+  background: transparent;
+  color: inherit;
+}
+
+.u-action-link--outline:hover {
+  background: rgb(127 127 127 / 10%);
+}
+
+.u-action-link__arrow {
+  font-size: 1rem;
+  line-height: 1;
 }
