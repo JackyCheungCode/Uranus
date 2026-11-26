@@ -1,12 +1,5 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  experimental: {
-    useLightningcss: true,
-    lightningCssFeatures: {
-      exclude: ["light-dark"],
-    },
-  },
-};
+const nextConfig: NextConfig = {};
 
 export default nextConfig;
