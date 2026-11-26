@@ -26,5 +26,6 @@ export default function WheelsPage(){
    </section>
   </div>
   {compare.length>0&&<div className="mw-compare-bar"><span>{compare.length} WHEELS SELECTED FOR COMPARISON</span><button onClick={()=>setCompare([])}>CLEAR</button><button onClick={()=>setCompareOpen(true)}>COMPARE NOW →</button></div>}
+  {compareOpen&&<div className="mw-modal-backdrop" onClick={()=>setCompareOpen(false)}><section className="mw-compare-modal" onClick={e=>e.stopPropagation()}><button className="mw-modal-close" onClick={()=>setCompareOpen(false)}>×</button><p className="mw-kicker">MAYHEM / SIDE BY SIDE</p><h2>Compare wheels.</h2><div className="mw-compare-grid">{compareItems.map(p=><article key={p.id}><img src={p.image} alt={p.style+" "+p.name}/><h3>{p.style} {p.name}</h3><p>{p.finish}</p><dl><dt>SIZE</dt><dd>{p.sizes}</dd><dt>LUGS</dt><dd>{p.lugs}</dd><dt>COLLECTION</dt><dd>{p.category.filter(c=>c!=="NEW ARRIVALS").join(", ")}</dd></dl><button onClick={()=>setCompare(v=>v.filter(x=>x!==p.id))}>REMOVE</button></article>)}</div><button className="mw-button mw-button-dark" onClick={()=>setCompareOpen(false)}>DONE</button></section></div>}
  </main>
 }
