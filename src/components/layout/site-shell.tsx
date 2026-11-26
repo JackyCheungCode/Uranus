@@ -3,6 +3,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { VehicleFitmentPicker } from "@/components/fitment/vehicle-fitment-picker";
 import { PInputSearch } from "@porsche-design-system/components-react";
+import { PorscheDesignSystemProvider } from "@porsche-design-system/components-react/ssr";
 const links=[
  {label:"ALL WHEELS",href:"/wheels"},{label:"STREET",href:"/wheels?category=street"},{label:"TRAIL",href:"/wheels?category=trail"},{label:"DUALLY",href:"/wheels?category=dually"},{label:"COLOR SERIES",href:"/wheels?category=color-series"},{label:"NEW ARRIVALS",href:"/wheels?sort=new"}
 ];
@@ -20,7 +21,7 @@ export function SiteShell({children}:{children:ReactNode}){
   return()=>window.removeEventListener("keydown",close);
  },[]);
  const vehicleLabel=vehicleSaved?vehicle.year+" "+vehicle.make+" "+vehicle.model:"FIND YOUR FIT";
- return <>
+ return <PorscheDesignSystemProvider cdn="auto"><>
   
   <header className="mw-header">
    <button className="mw-menu-button" onClick={()=>setMenuOpen(!menuOpen)} aria-label="Toggle menu" aria-expanded={menuOpen}><span/><span/><span/></button>
@@ -36,5 +37,5 @@ export function SiteShell({children}:{children:ReactNode}){
   <button className="mw-support-launcher" onClick={()=>setSupportOpen(v=>!v)} aria-label="Contact Uranus support" aria-expanded={supportOpen}>?</button>
   {supportOpen&&<section className="mw-support-panel" aria-label="Mayhem support"><button className="mw-accessibility-close" onClick={()=>setSupportOpen(false)} aria-label="Close support">×</button><p className="mw-kicker">URANUS SUPPORT</p><h2>Contact our team.</h2><p>Tell us how we can help. Our team will reply by email.</p><div className="mw-support-options"><a href="/fitment">WHAT FITS MY VEHICLE? <span>›</span></a><a href="/warranty">WARRANTY / DAMAGED WHEEL <span>›</span></a><a href="/contact?topic=product">PRODUCT QUESTION <span>›</span></a><a href="/dealers">FIND A DEALER <span>›</span></a><a href="/contact">SOMETHING ELSE <span>›</span></a></div><a className="mw-button mw-button-dark" href="mailto:customerservice@mayhemwheels.com">EMAIL CUSTOMER SUPPORT →</a><p className="mw-modal-note">AI-assisted product information can be incomplete. Confirm fitment and installation with a qualified professional.</p></section>}
 
- </>;
+ </></PorscheDesignSystemProvider>;
 }
