@@ -8,8 +8,16 @@ A Next.js reconstruction of the Mayhem Wheels storefront experience.
 - Cloudflare Workers deployment through OpenNext
 - Responsive Mayhem-style storefront shell and shared footer
 - Product catalog and configuration data in `src/data/wheels.ts`
-- Verified SKU-level specification rows in `src/data/wheel-specs.ts`
+- SKU-level specification rows in `src/data/wheel-specs.ts`
 - Product pages, wheel comparison, saved garage, and illustrative visualizer
+
+## Catalog model
+
+- The All Wheels view contains 38 catalog entries.
+- New Arrivals groups 18 fitment/configuration records into 14 product styles.
+- Color Series contains seven lug-specific records across three product styles.
+- Dually is a separate five-entry category.
+- SKU specifications are shown only where sourced values are available. Missing rows are not inferred.
 
 ## Local development
 
@@ -28,8 +36,6 @@ npm run build
 
 ## Data and fitment boundaries
 
-- The catalog contains 38 wheel configuration records based on the current All Wheels collection.
-- SKU specifications are shown only where sourced values are available. Missing rows are not inferred.
 - The vehicle selector and saved garage use browser-local storage.
 - Live vehicle-to-wheel fitment verification is not connected.
 - The visualizer is an illustrative composition using Mayhem campaign photography and wheel imagery. It is not a 3D vehicle model and does not certify physical fitment.
