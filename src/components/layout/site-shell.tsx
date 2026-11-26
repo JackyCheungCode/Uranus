@@ -1,134 +1,85 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
-const primaryLinks = [
-  { label: "Wheels", href: "/wheels", index: "01" },
-  { label: "Visualizer", href: "/visualizer", index: "02" },
-  { label: "Fitment", href: "/fitment", index: "03" },
-  { label: "Technology", href: "/technology", index: "04" },
-  { label: "Gallery", href: "/gallery", index: "05" },
-  { label: "Dealers", href: "/dealers", index: "06" },
+const links = [
+  { label: "ALL WHEELS", href: "/wheels" },
+  { label: "STREET", href: "/wheels?category=street" },
+  { label: "TRAIL", href: "/wheels?category=trail" },
+  { label: "DUALLY", href: "/wheels?category=dually" },
+  { label: "COLOR SERIES", href: "/wheels?category=color-series" },
+  { label: "NEW ARRIVALS", href: "/wheels?sort=new" },
 ];
 
 export function SiteShell({ children }: { children: ReactNode }) {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(true);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [vehicleOpen, setVehicleOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") setMobileMenuOpen(false);
-    }
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    const close = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        setVehicleOpen(false);
+        setSearchOpen(false);
+      }
+    };
+    window.addEventListener("keydown", close);
+    return () => window.removeEventListener("keydown", close);
   }, []);
 
-  const shellStyle = {
-    "--u-sidebar-current-width": sidebarCollapsed ? "68px" : "224px",
-  } as CSSProperties;
-
   return (
-    <div style={shellStyle}>
-      <header className="fixed inset-x-0 top-0 z-[var(--u-z-header)] flex h-[var(--u-header-height)] items-center justify-between border-b border-[var(--u-color-line)] bg-[color-mix(in_srgb,var(--u-color-paper)_95%,transparent)] px-[var(--u-page-gutter)] backdrop-blur-xl">
-        <a href="/" aria-label="Uranus Wheels home" className="text-[19px] font-semibold tracking-[0.24em]">
-          URANUS<span className="ml-2 text-[10px] font-normal tracking-[0.28em] text-[var(--u-color-muted)]">WHEELS</span>
-        </a>
-
-        <nav aria-label="Primary navigation" className="hidden items-center gap-8 lg:flex">
-          {primaryLinks.slice(0, 4).map((item) => (
-            <a key={item.index} href={item.href} className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[var(--u-color-ink-soft)] transition-colors hover:text-black">
-              {item.label}
-            </a>
-          ))}
+    <>
+      <div className="mw-utility">
+        <a href="/dealers">BECOME A DEALER</a>
+        <a href="/dealers">FIND A DEALER</a>
+        <a href="/contact">CONTACT US</a>
+      </div>
+      <header className="mw-header">
+        <button className="mw-menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu" aria-expanded={menuOpen}>
+          <span /><span /><span />
+        </button>
+        <a className="mw-wordmark" href="/" aria-label="Mayhem Wheels home">MAYHEM<span>WHEELS</span></a>
+        <nav className="mw-nav" aria-label="Main navigation">
+          <div className="mw-nav-group">
+            <a href="/wheels">WHEELS <span>⌄</span></a>
+            <div className="mw-dropdown">{links.map((item) => <a key={item.label} href={item.href}>{item.label}</a>)}</div>
+          </div>
+          <a href="/visualizer">VISUALIZER</a>
+          <a href="/dealers">FIND A DEALER</a>
+          <a href="/merch">MERCH</a>
         </nav>
-
-        <div className="flex items-center gap-3">
-          <a href="/fitment" className="hidden border border-[var(--u-color-ink)] px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.16em] transition-colors hover:bg-[var(--u-color-ink)] hover:text-white sm:inline-flex">
-            Find Your Fit
-          </a>
-          <button
-            type="button"
-            className="inline-flex h-11 w-11 items-center justify-center border border-[var(--u-color-line-strong)] text-[var(--u-color-ink)] lg:hidden"
-            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-            aria-expanded={mobileMenuOpen}
-            aria-controls="uranus-mobile-navigation"
-            onClick={() => setMobileMenuOpen((open) => !open)}
-          >
-            <span aria-hidden="true" className="text-xl leading-none">{mobileMenuOpen ? "×" : "☰"}</span>
-          </button>
+        <div className="mw-header-actions">
+          <button onClick={() => setSearchOpen(!searchOpen)} aria-label="Search" className="mw-icon-button">⌕</button>
+          <button onClick={() => setVehicleOpen(true)} className="mw-vehicle-button"><span className="mw-vehicle-icon">＋</span> SELECT VEHICLE</button>
+          <a href="/garage" className="mw-garage-link">MY GARAGE</a>
         </div>
+        {searchOpen && <form className="mw-search" onSubmit={(e) => { e.preventDefault(); window.location.href = "/wheels?q=" + encodeURIComponent(query); }}>
+          <input autoFocus value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search wheels, styles and part numbers" />
+          <button type="submit">SEARCH →</button>
+        </form>}
       </header>
-
-      <aside
-        aria-label="Section navigation"
-        className={[
-          "fixed bottom-0 left-0 top-[var(--u-header-height)] z-[var(--u-z-sidebar)] hidden flex-col border-r border-[var(--u-color-line)] bg-[var(--u-color-paper)] py-6 transition-[width] duration-[var(--u-duration-standard)] lg:flex",
-          sidebarCollapsed ? "w-[68px]" : "w-[224px]",
-        ].join(" ")}
-      >
-        <div className="flex flex-1 flex-col gap-2 px-3">
-          {primaryLinks.map((item) => (
-            <a
-              key={item.index}
-              href={item.href}
-              title={sidebarCollapsed ? item.label : undefined}
-              className={[
-                "flex min-h-11 items-center gap-3 px-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-[var(--u-color-ink-soft)] transition-colors hover:bg-[var(--u-color-surface-muted)]",
-                sidebarCollapsed ? "justify-center" : "justify-start",
-              ].join(" ")}
-            >
-              <span className="font-mono text-[9px] text-[var(--u-color-muted)]">{item.index}</span>
-              {!sidebarCollapsed ? <span>{item.label}</span> : <span className="sr-only">{item.label}</span>}
-            </a>
-          ))}
-        </div>
-
-        <div className="flex flex-col gap-4 border-t border-[var(--u-color-line)] px-3 pt-5">
-          <button
-            type="button"
-            onClick={() => setSidebarCollapsed((collapsed) => !collapsed)}
-            className="flex min-h-10 items-center justify-center gap-3 px-2 text-[9px] font-semibold uppercase tracking-[0.12em] text-[var(--u-color-muted)] hover:text-[var(--u-color-ink)]"
-            aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-            aria-expanded={!sidebarCollapsed}
-          >
-            <span aria-hidden="true">{sidebarCollapsed ? "»" : "«"}</span>
-            {!sidebarCollapsed ? <span>Collapse</span> : <span className="sr-only">Expand sidebar</span>}
-          </button>
-          {!sidebarCollapsed ? (
-            <span className="px-3 text-[9px] uppercase tracking-[0.18em] text-[var(--u-color-muted)]">Precision Engineering</span>
-          ) : (
-            <span className="mx-auto [writing-mode:vertical-rl] text-[9px] uppercase tracking-[0.2em] text-[var(--u-color-muted)]">UR / 2026</span>
-          )}
-        </div>
-      </aside>
-
-      {mobileMenuOpen ? (
-        <div className="fixed inset-0 z-[var(--u-z-overlay)] bg-black/35 lg:hidden" onClick={() => setMobileMenuOpen(false)}>
-          <nav
-            id="uranus-mobile-navigation"
-            aria-label="Mobile navigation"
-            className="absolute inset-x-0 top-[var(--u-header-height)] border-b border-[var(--u-color-line)] bg-[var(--u-color-paper)] px-[var(--u-page-gutter)] py-5 shadow-[var(--u-shadow-overlay)]"
-            onClick={(event) => event.stopPropagation()}
-          >
-            {primaryLinks.map((item) => (
-              <a
-                key={item.index}
-                href={item.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex min-h-14 items-center justify-between border-b border-[var(--u-color-line)] text-sm font-medium"
-              >
-                <span>{item.label}</span>
-                <span className="font-mono text-[10px] text-[var(--u-color-muted)]">{item.index}</span>
-              </a>
-            ))}
-            <a href="/fitment" onClick={() => setMobileMenuOpen(false)} className="mt-5 flex min-h-12 items-center justify-center bg-[var(--u-color-ink)] text-[10px] font-semibold uppercase tracking-[0.16em] text-white">
-              Find Your Fit
-            </a>
-          </nav>
-        </div>
-      ) : null}
-
-      <div className="pt-[var(--u-header-height)]">{children}</div>
-    </div>
+      {menuOpen && <div className="mw-mobile-menu">
+        {links.map((item) => <a key={item.label} href={item.href} onClick={() => setMenuOpen(false)}>{item.label}<span>↗</span></a>)}
+        <a href="/visualizer" onClick={() => setMenuOpen(false)}>VISUALIZER<span>↗</span></a>
+        <a href="/dealers" onClick={() => setMenuOpen(false)}>FIND A DEALER<span>↗</span></a>
+        <button onClick={() => { setVehicleOpen(true); setMenuOpen(false); }}>SELECT YOUR VEHICLE →</button>
+      </div>}
+      {vehicleOpen && <div className="mw-modal-backdrop" onClick={() => setVehicleOpen(false)}>
+        <section className="mw-vehicle-modal" onClick={(e) => e.stopPropagation()}>
+          <button className="mw-modal-close" onClick={() => setVehicleOpen(false)}>×</button>
+          <p className="mw-kicker">YOUR VEHICLE</p>
+          <h2>Find wheels that fit.</h2>
+          <p>Select your vehicle to see matching wheel configurations.</p>
+          <div className="mw-vehicle-fields">
+            {["Year", "Make", "Model", "Trim", "Body / Bed"].map((field) => <label key={field}>{field}<select defaultValue=""><option value="" disabled>Select {field.toLowerCase()}</option>{(field === "Year" ? ["2026", "2025", "2024", "2023", "2022", "2021", "2020"] : field === "Make" ? ["Chevrolet", "Ford", "GMC", "Jeep", "Ram", "Toyota"] : field === "Model" ? ["1500", "F-150", "Silverado", "Sierra", "Wrangler", "Tundra"] : ["Standard", "Crew Cab", "Double Cab"]).map((v) => <option key={v}>{v}</option>)}</select></label>)}
+          </div>
+          <button className="mw-button mw-button-dark" onClick={() => { setVehicleOpen(false); window.location.href = "/wheels"; }}>FIND WHEELS →</button>
+          <p className="mw-modal-note">Vehicle selection is a visual starting point. Confirm exact fitment by wheel configuration.</p>
+        </section>
+      </div>}
+      {children}
+    </>
   );
 }
