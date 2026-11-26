@@ -1,0 +1,101 @@
+/* Uranus adaptation of the official Porsche Design System v4 Landing Page template.
+   Layout utilities and components intentionally follow the upstream template structure. */
+.uranus-landing-template {
+  width: 100%;
+  overflow: clip;
+  background: var(--p-color-canvas);
+}
+.uranus-template-header {
+  min-height: 80px;
+  color: var(--p-color-canvas);
+  background: transparent;
+}
+.uranus-template-header::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 -60px;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgb(0 0 0 / 38%), transparent);
+}
+.uranus-template-header nav { display: flex; align-items: center; }
+.uranus-template-header p-button-pure,
+.uranus-template-header p-button-pure::part(button),
+.uranus-template-header p-button-pure::part(icon) {
+  color: #fff;
+  --p-button-pure-fg: #fff;
+  color-scheme: dark;
+}
+.uranus-template-wordmark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-family: var(--p-font-porsche-next);
+  font-size: 27px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-indent: .22em;
+  white-space: nowrap;
+}
+.uranus-template-header-actions { color: #fff; }
+.uranus-template-header-actions p-button-pure { color: #fff; }
+.uranus-template-hero-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  padding-bottom: var(--p-spacing-fluid-lg);
+  color: #fff;
+}
+.uranus-template-hero-copy p-heading { color: #fff; }
+.uranus-template-hero-description {
+  max-width: 42rem;
+  color: #fff;
+}
+.uranus-template-hero-copy p-button { margin-top: var(--p-spacing-fluid-md); }
+.uranus-template-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--p-spacing-fluid-md);
+  padding-bottom: 7px;
+  border-bottom: 1px solid currentColor;
+  color: inherit;
+  font-size: var(--p-typescale-xs);
+  font-weight: var(--p-font-weight-semibold);
+  text-decoration: none;
+}
+.uranus-template-text-link:hover { opacity: .65; }
+.uranus-landing-template p-carousel { display: block; width: 100%; }
+.uranus-landing-template p-link-tile { min-width: 0; }
+.uranus-landing-template p-link-tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.uranus-template-footer {
+  color: var(--p-color-primary);
+  background: var(--p-color-surface);
+}
+.uranus-template-footer p-select { width: min(100%, 420px); }
+.uranus-template-footer-wordmark {
+  display: inline-flex;
+  color: var(--p-color-primary);
+  font-family: var(--p-font-porsche-next);
+  font-size: 27px;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-indent: .22em;
+}
+.uranus-template-footer article { border-top: 1px solid var(--p-color-contrast-lower); padding-top: var(--p-spacing-fluid-lg); }
+.uranus-template-footer article img { max-height: 28px; width: auto; }
+.uranus-template-footer p-link-pure { max-width: 100%; }
+@media (max-width: 767px) {
+  .uranus-template-header { min-height: 64px; }
+  .uranus-template-wordmark { font-size: 20px; letter-spacing: .14em; text-indent: .14em; }
+  .uranus-template-header-actions { gap: var(--p-spacing-static-xs); }
+  .uranus-template-hero-copy { padding-bottom: var(--p-spacing-fluid-lg); }
+  .uranus-template-footer article { grid-template-columns: 1fr; }
+}

@@ -47,45 +47,49 @@ export function SiteShell({ children }: { children: ReactNode }) {
   return (
     <PorscheDesignSystemProvider cdn="auto">
       <div className="pds-app">
-        <header className="uranus-pds-header grid-template absolute inset-x-0 top-0 z-30">
-          <div className="col-wide grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-fluid-md min-h-[80px]">
-            <nav className="flex items-center justify-start" aria-label="Main navigation">
-              <PButtonPure
-                className="uranus-menu-trigger scheme-dark p-static-xs -m-static-xs"
-                type="button"
-                icon="menu-lines"
-                hideLabel={true}
-                onClick={() => setMenuOpen(true)}
-                aria={{ "aria-haspopup": "dialog", "aria-expanded": menuOpen, "aria-label": "Open menu" }}
-              >
-                Menu
-              </PButtonPure>
-              <PDrilldown open={menuOpen} onDismiss={() => setMenuOpen(false)}>
-                <PDrilldownItem identifier="wheels" label="Wheels">
-                  <PDrilldownLink href="/wheels">All wheels</PDrilldownLink>
-                  <PDrilldownLink href="/wheels?category=street">Street</PDrilldownLink>
-                  <PDrilldownLink href="/wheels?category=trail">Trail</PDrilldownLink>
-                  <PDrilldownLink href="/wheels?category=dually">Dually</PDrilldownLink>
-                  <PDrilldownLink href="/wheels?category=color-series">Color series</PDrilldownLink>
-                  <PDrilldownLink href="/wheels?sort=new">New arrivals</PDrilldownLink>
-                </PDrilldownItem>
-                <PDrilldownItem identifier="tools" label="Tools">
-                  <PDrilldownLink href="/visualizer">Wheel visualizer</PDrilldownLink>
-                  <PDrilldownLink href="/garage">My garage</PDrilldownLink>
-                  <PDrilldownLink href="/dealers">Find a dealer</PDrilldownLink>
-                  <PDrilldownLink href="/contact">Contact</PDrilldownLink>
-                </PDrilldownItem>
-                <PDrilldownItem identifier="fitment" label="Vehicle fitment">
-                  <PDrilldownLink href="/wheels">Explore compatible wheels</PDrilldownLink>
-                </PDrilldownItem>
-              </PDrilldown>
-            </nav>
+        <header className="uranus-pds-header uranus-template-header z-1 grid-template absolute inset-x-0 top-0 before:absolute before:inset-[0_0_-60px_0] before:-z-1 before:pointer-events-none">
+          <div className="col-wide grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] gap-fluid-md items-center min-h-[80px]">
+            <div className="flex flex-wrap gap-static-md items-center justify-start">
+              <nav aria-label="Main navigation">
+                <PButtonPure
+                  id="uranus-nav-button"
+                  className="scheme-dark p-static-xs -m-static-xs"
+                  type="button"
+                  icon="menu-lines"
+                  hideLabel={{ base: true, s: false }}
+                  onClick={() => setMenuOpen(true)}
+                  aria={{ "aria-haspopup": "dialog", "aria-expanded": menuOpen, "aria-label": "Menu" }}
+                >
+                  Menu
+                </PButtonPure>
+                <PDrilldown open={menuOpen} onDismiss={() => setMenuOpen(false)}>
+                  <PDrilldownItem identifier="wheels" label="Wheel collections">
+                    <PDrilldownItem identifier="street" label="Street collection">
+                      <PDrilldownLink href="/wheels?category=street">Explore street wheels</PDrilldownLink>
+                    </PDrilldownItem>
+                    <PDrilldownItem identifier="off-road" label="Off-road collection">
+                      <PDrilldownLink href="/wheels?category=trail">Explore off-road wheels</PDrilldownLink>
+                    </PDrilldownItem>
+                    <PDrilldownLink href="/wheels">All wheel designs</PDrilldownLink>
+                  </PDrilldownItem>
+                  <PDrilldownItem identifier="fitment" label="Vehicle fitment">
+                    <PDrilldownLink href="/wheels">Find compatible wheels</PDrilldownLink>
+                    <PDrilldownLink href="/garage">My garage</PDrilldownLink>
+                  </PDrilldownItem>
+                  <PDrilldownItem identifier="discover" label="Discover Uranus">
+                    <PDrilldownLink href="/visualizer">Wheel visualizer</PDrilldownLink>
+                    <PDrilldownLink href="/dealers">Find a dealer</PDrilldownLink>
+                    <PDrilldownLink href="/contact">Contact</PDrilldownLink>
+                  </PDrilldownItem>
+                </PDrilldown>
+              </nav>
+            </div>
 
-            <a className="uranus-header-wordmark scheme-dark" href="/" aria-label="Uranus home">URANUS</a>
+            <a className="uranus-template-wordmark scheme-dark" href="/" aria-label="Uranus home">URANUS</a>
 
-            <div className="uranus-header-right scheme-dark flex items-center justify-end gap-static-md">
+            <div className="scheme-dark flex flex-wrap gap-static-md items-center justify-end uranus-template-header-actions">
               <PButtonPure
-                className="uranus-header-icon p-static-xs -m-static-xs"
+                className="p-static-xs -m-static-xs"
                 type="button"
                 icon="search"
                 hideLabel={true}
@@ -96,7 +100,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
                 Search
               </PButtonPure>
               <PButtonPure
-                className="uranus-header-icon uranus-fitment-icon p-static-xs -m-static-xs"
+                className="p-static-xs -m-static-xs"
                 type="button"
                 icon="car"
                 hideLabel={true}
@@ -121,7 +125,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
                   label="Search wheels"
                   value={query}
                   onInput={event => setQuery((event.detail.target as HTMLInputElement).value)}
-                  placeholder="Search wheels, styles and part numbers"
+                  placeholder="Search wheel designs and specifications"
                   clear
                 />
               </form>
