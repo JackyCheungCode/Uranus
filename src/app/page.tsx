@@ -17,7 +17,9 @@ export default function HomePage() {
   return (
     <main className="uranus-landing">
       <section className="uranus-landing-hero" aria-labelledby="home-heading">
-        <video className="uranus-hero-video" poster={heroImage} loop muted autoPlay playsInline aria-hidden="true" />
+        <video className="uranus-hero-video" poster={heroImage} loop muted autoPlay playsInline preload="metadata" aria-hidden="true">
+          <source src="https://videos.pexels.com/video-files/33968285/14411956_1920_1080_60fps.mp4" type="video/mp4" />
+        </video>
         <div className="uranus-landing-hero-shade" />
         <div className="uranus-landing-hero-copy">
           <p className="uranus-eyebrow">URANUS / BUILT FOR YOUR DRIVE</p>
