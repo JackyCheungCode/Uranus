@@ -1,9 +1,9 @@
 const cdn = "https://mayhemwheels.com/cdn/shop/files/";
 const wheels = [
   { name: "HORIZON", number: "8120", finish: "GLOSS BLACK", size: "18x9 | 20x9 | 22x10", image: cdn + "Mayhem8120-6GB1.png?v=1789750229&width=1200", href: "/products/8120-horizon" },
-  { name: "CYCLONE", number: "8121", finish: "GLOSS BLACK", size: "20x9 | 22x10", image: cdn + "Mayhem8121-6GB1.png?width=1200", href: "/products/8121-cyclone" },
-  { name: "BLIZZARD", number: "8122", finish: "GLOSS BLACK", size: "17x8.5 | 18x9 | 20x9", image: cdn + "mayhem8122-6gb1.png?width=1200", href: "/products/8122-blizzard" },
-  { name: "VECTOR", number: "8310", finish: "GLOSS BLACK", size: "17x9 | 20x9", image: cdn + "Mayhem8310-6GB1.png?width=1200", href: "/products/8310-vector" },
+  { name: "CYCLONE", number: "8121", finish: "GLOSS BLACK", size: "20x9 | 22x10", image: cdn + "Mayhem8121-6GB1.png?v=1789750230&width=1200", href: "/products/8121-cyclone" },
+  { name: "BLIZZARD", number: "8122", finish: "GLOSS BLACK", size: "17x8.5 | 18x9 | 20x9", image: cdn + "Mayhem8122-6GB1-CAN.png?v=1791917407&width=1200", href: "/products/8122-blizzard" },
+  { name: "VECTOR", number: "8310", finish: "GLOSS BLACK", size: "17x9 | 20x9", image: cdn + "Mayhem8310-6GB1.png?v=1789751560&width=1200", href: "/products/8310-vector" },
 ];
 const directions = [
   { number: "01", title: "STREET", copy: "Make a statement on the street.", image: cdn + "Mayhem_Street_8119_Vanquish_1.jpg?v=1793656266&width=1800", href: "/wheels?category=street" },
