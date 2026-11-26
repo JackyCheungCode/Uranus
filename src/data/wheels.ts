@@ -43,7 +43,6 @@ export const wheels: WheelItem[] = [
  {id:"8107-5-red",slug:"8107-cogent-prism-red",style:"8107",name:"COGENT",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"17x9 | 18x9 | 20x9",lugs:"5 Lug",category:["COLOR SERIES"],image:"https://mayhemwheels.com/wp-content/uploads/2021/05/MAYHEM8107GBRED1-150x150.png"},
  {id:"8107-6-red",slug:"8107-cogent-prism-red",style:"8107",name:"COGENT",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"18x9 | 20x9 | 20x10",lugs:"6 Lug",category:["COLOR SERIES"],image:"https://mayhemwheels.com/wp-content/uploads/2021/05/MAYHEM8107GBRED1-150x150.png"},
  {id:"8107-8-red",slug:"8107-cogent-prism-red",style:"8107",name:"COGENT",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"22x10",lugs:"8 Lug",category:["COLOR SERIES"],image:"https://mayhemwheels.com/wp-content/uploads/2021/05/MAYHEM8107GBRED1-150x150.png"},
- {id:"8115-8-red",slug:"8115-apollo-prism-red",style:"8115",name:"APOLLO",finish:"GLOSS BLACK MILLED PRISM RED",sizes:"20x9 | 20x10",lugs:"8 Lug",category:["COLOR SERIES"],image:cdn+"mayhem8115btr1_59731667-f350-43ae-8a8c-7246508304a9.png?v=1789749875&width=1200"}
 ];
 export const wheelFilters = {
  diameters:["15","17","18","20","22"],
