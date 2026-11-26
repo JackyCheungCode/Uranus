@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { SiteFooter } from "@/components/layout/site-footer";
 const links=[
  {label:"ALL WHEELS",href:"/wheels"},{label:"STREET",href:"/wheels?category=street"},{label:"TRAIL",href:"/wheels?category=trail"},{label:"DUALLY",href:"/wheels?category=dually"},{label:"COLOR SERIES",href:"/wheels?category=color-series"},{label:"NEW ARRIVALS",href:"/wheels?sort=new"}
 ];
@@ -37,5 +38,6 @@ export function SiteShell({children}:{children:ReactNode}){
   {menuOpen&&<div className="mw-mobile-menu">{links.map(item=><a key={item.label} href={item.href} onClick={()=>setMenuOpen(false)}>{item.label}<span>↗</span></a>)}<a href="/visualizer" onClick={()=>setMenuOpen(false)}>VISUALIZER<span>↗</span></a><a href="/dealers" onClick={()=>setMenuOpen(false)}>FIND A DEALER<span>↗</span></a><button onClick={()=>{setVehicleOpen(true);setMenuOpen(false);}}>SELECT YOUR VEHICLE →</button></div>}
   {vehicleOpen&&<div className="mw-modal-backdrop" onClick={()=>setVehicleOpen(false)}><section className="mw-vehicle-modal" onClick={e=>e.stopPropagation()}><button className="mw-modal-close" onClick={()=>setVehicleOpen(false)} aria-label="Close">×</button><p className="mw-kicker">YOUR VEHICLE</p><h2>Find your fit.</h2><p>Save your vehicle to keep it available while you explore the Mayhem collection.</p><form onSubmit={saveVehicle}><div className="mw-vehicle-fields">{(["year","make","model","trim","body"] as const).map(key=><label key={key}>{key==="body"?"BODY / BED":key.toUpperCase()}<select value={vehicle[key]} onChange={e=>setVehicle(v=>({...v,[key]:e.target.value,...(key==="make"?{model:modelsByMake[e.target.value][0]}:{})}))}>{(key==="model"?modelsByMake[vehicle.make]:options[key]).map(v=><option key={v}>{v}</option>)}</select></label>)}</div><button type="submit" className="mw-button mw-button-dark">SAVE VEHICLE →</button></form><p className="mw-modal-note">Vehicle selection is saved locally. Live vehicle-to-wheel fitment verification is not connected yet; confirm exact part number, bolt pattern, offset and clearance with a dealer.</p>{vehicleSaved&&<button className="mw-clear-vehicle" onClick={()=>{localStorage.removeItem("mayhem-vehicle");setVehicle(emptyVehicle);setVehicleSaved(false);}}>CLEAR SAVED VEHICLE</button>}</section></div>}
   {children}
+  <SiteFooter/>
  </>;
 }
