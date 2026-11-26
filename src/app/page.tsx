@@ -124,7 +124,7 @@ export default function HomePage() {
           <PLinkTile gradient={true} href="/wheels" label="Form and proportion" description="Wheel design" compact={true} aspectRatio={{ base: "4/3", xs: "16/9", m: "16/9" }} weight="regular">
             <img src={media.blackWheel} alt="Close-up of a dark alloy wheel" loading="lazy" />
           </PLinkTile>
-          <PLinkTile gradient={true} href="/wheels" label="Performance character" description="On the track" compact={true} aspectRatio={{ base: "1/1", xs: "16/9" }} weight="regular">
+          <PLinkTile gradient={true} href="/wheels" label="Performance character" description="On the track" compact={true} aspectRatio={{ base: "4/3", xs: "16/9", m: "16/9" }} weight="regular">
             <img src={media.raceCar} alt="Race car on circuit" loading="lazy" />
           </PLinkTile>
           <PLinkTile gradient={true} href="/visualizer" label="Your vehicle, reimagined" description="Wheel visualizer" compact={true} aspectRatio={{ base: "1/1", xs: "16/9" }} weight="regular">
@@ -155,7 +155,7 @@ export default function HomePage() {
             <a className="uranus-template-text-link mt-fluid-lg" href="/wheels">Explore wheel designs <span aria-hidden="true">↗</span></a>
           </div>
         </div>
-        <div className="col-span-full grid grid-cols-subgrid gap-y-fluid-lg">
+        <div className="uranus-editorial-row col-span-full grid grid-cols-subgrid gap-y-fluid-lg">
           <img
             className="uranus-editorial-image col-span-full md:col-start-7 md:col-end-13 md:row-start-1 w-full aspect-4/3 md:aspect-3/4 object-cover rounded-3xl"
             src={media.drift}
