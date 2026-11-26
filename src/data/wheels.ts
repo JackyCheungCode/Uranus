@@ -1,7 +1,7 @@
 export type WheelItem = {
   id: string; slug: string; style: string; name: string; finish: string; sizes: string;
   lugs: string; category: ("STREET"|"TRAIL"|"DUALLY"|"COLOR SERIES"|"NEW ARRIVALS")[];
-  image: string; badge?: string; sourceUrl?: string;
+  image: string; gallery?: string[]; badge?: string; sourceUrl?: string;
 };
 const cdn="https://mayhemwheels.com/cdn/shop/files/";
 export const wheels: WheelItem[] = [
@@ -12,7 +12,7 @@ export const wheels: WheelItem[] = [
  {id:"8122-8",slug:"8122-blizzard",style:"8122",name:"BLIZZARD",finish:"GLOSS BLACK",sizes:"17x8.5 | 18x9 | 20x9",lugs:"8 Lug",category:["STREET","NEW ARRIVALS"],image:cdn+"Mayhem8122-8GB1-CAN.png?v=1791917407&width=1200",badge:"NEW STYLE"},
  {id:"8119-56-milled",slug:"8119-vanquish-black-milled",style:"8119",name:"VANQUISH",finish:"GLOSS BLACK MILLED",sizes:"20x9 | 20x10 | 22x10",lugs:"5 / 6 Lug",category:["STREET"],image:cdn+"Mayhem8119M1.png?v=1789750228&width=1200",badge:"NEW STYLE"},
  {id:"8119-56-black",slug:"8119-vanquish-gloss-black",style:"8119",name:"VANQUISH",finish:"GLOSS BLACK",sizes:"20x9 | 20x10 | 22x10",lugs:"5 / 6 Lug",category:["STREET"],image:cdn+"Mayhem8119GB1.png?v=1789750227&width=1200",badge:"NEW STYLE"},
- {id:"8310-6-black",slug:"8310-vector-gloss-black",style:"8310",name:"VECTOR",finish:"GLOSS BLACK",sizes:"17x9 | 20x9",lugs:"6 Lug",category:["TRAIL"],image:cdn+"Mayhem8310-6GB1.png?v=1789751560&width=1200",badge:"NEW STYLE"},
+ {id:"8310-6-black",slug:"8310-vector-gloss-black",style:"8310",name:"VECTOR",finish:"GLOSS BLACK",sizes:"17x9 | 20x9",lugs:"6 Lug",category:["TRAIL"],image:cdn+"Mayhem8310-6GB1.png?v=1789751560&width=1200",gallery:["https://mayhemwheels.com/cdn/shop/files/DSC07420.png?v=1793654275&width=1800","https://mayhemwheels.com/cdn/shop/files/DSC07367.jpg?v=1793654271&width=1800","https://mayhemwheels.com/cdn/shop/files/DSC00968.jpg?v=1793654271&width=1800","https://mayhemwheels.com/cdn/shop/files/RGB_Cave_-_8310GB1-6Lug.jpg?v=1793654271&width=1800"],badge:"NEW STYLE"},
  {id:"8310-8-black",slug:"8310-vector-gloss-black",style:"8310",name:"VECTOR",finish:"GLOSS BLACK",sizes:"17x9 | 20x9",lugs:"8 Lug",category:["TRAIL"],image:cdn+"Mayhem8310-8GB1.png?v=1789751560&width=1200",badge:"NEW STYLE"},
  {id:"8310-6-gunmetal",slug:"8310-vector-matte-gunmetal",style:"8310",name:"VECTOR",finish:"MATTE GUNMETAL BLACK LIP",sizes:"17x9 | 20x9",lugs:"6 Lug",category:["TRAIL","NEW ARRIVALS"],image:cdn+"Mayhem8310-6MGT1.png?v=1789751562&width=1200",badge:"NEW STYLE"},
  {id:"8310-8-gunmetal",slug:"8310-vector-matte-gunmetal",style:"8310",name:"VECTOR",finish:"MATTE GUNMETAL BLACK LIP",sizes:"17x9 | 20x9",lugs:"8 Lug",category:["TRAIL","NEW ARRIVALS"],image:cdn+"Mayhem8310-8MGT1.png?v=1789751562&width=1200",badge:"NEW STYLE"},
