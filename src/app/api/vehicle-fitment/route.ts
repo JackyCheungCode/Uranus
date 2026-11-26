@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 const API_BASE = "https://api.wheel-size.com/v2";
 const RESOURCES: Record<string, string> = {
@@ -11,7 +12,8 @@ const RESOURCES: Record<string, string> = {
 const ALLOWED_PARAMS = new Set(["make", "model", "year", "generation", "modification", "region", "trim", "body"]);
 
 export async function GET(request: NextRequest) {
-  const apiKey = process.env.WHEEL_SIZE_API_KEY;
+  const { env } = getCloudflareContext();
+  const apiKey = (env as typeof env & { WHEEL_SIZE_API_KEY?: string }).WHEEL_SIZE_API_KEY;
   if (!apiKey) {
     return NextResponse.json(
       { error: "Wheel-size API credentials are not configured. Add WHEEL_SIZE_API_KEY as a server-side Cloudflare Worker secret." },
