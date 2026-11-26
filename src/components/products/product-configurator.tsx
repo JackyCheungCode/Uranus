@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { wheels, type WheelItem } from "@/data/wheels";
 import { wheelSpecs } from "@/data/wheel-specs";
+import { PSelect, PSelectOption } from "@porsche-design-system/components-react/ssr";
 
 export function ProductConfigurator({items}:{items:WheelItem[]}){
  const initialItem=items.find(x=>x.slug===items[0]?.slug&&x.allWheels===false)||items[0];
@@ -43,10 +44,10 @@ export function ProductConfigurator({items}:{items:WheelItem[]}){
     <h3>AVAILABLE SIZES</h3>
     <div className="mw-size-choice">{sizes.map(s=><button key={s} className={size===s?"active":""} onClick={()=>{setSize(s);setSetupSaved(false);}}>{s}</button>)}</div>
     <div className="mw-product-price">{diameter}" DIAMETER <span> / </span> {width}" WIDTH</div>
-    {specRows.length>0&&<div className="mw-product-part-number"><label>CHOOSE CONFIGURATION<select value={selectedSpec?.partNumber||""} onChange={e=>{setPartNumber(e.target.value);setSetupSaved(false);}}>{specRows.map(row=><option key={row.partNumber} value={row.partNumber}>{row.partNumber} / {row.boltPattern}</option>)}</select></label><button onClick={()=>selectedSpec&&navigator.clipboard?.writeText(selectedSpec.partNumber)}>COPY PART NUMBER ↗</button></div>}
+    {specRows.length>0&&<div className="mw-product-part-number"><PSelect name="wheel-configuration" label="CHOOSE CONFIGURATION" value={selectedSpec?.partNumber||""} onChange={e=>{setPartNumber(String(e.detail.value ?? ""));setSetupSaved(false);}}>{specRows.map(row=><PSelectOption key={row.partNumber} value={row.partNumber}>{row.partNumber} / {row.boltPattern}</PSelectOption>)}</PSelect><button onClick={()=>selectedSpec&&navigator.clipboard?.writeText(selectedSpec.partNumber)}>COPY PART NUMBER ↗</button></div>}
     <div className="mw-product-buttons"><a href={"/visualizer?style="+encodeURIComponent(current.slug)+"&size="+encodeURIComponent(size)} className="mw-button mw-button-dark">VIEW ON VEHICLE ↗</a><a href="https://mayhemwheels.com/pages/dealers" target="_blank" rel="noreferrer" className="mw-button mw-button-light">FIND A DEALER ↗</a></div>
     <div className="mw-product-setup-actions"><button onClick={saveSetup}>{setupSaved?"SETUP SAVED ✓":"SAVE SETUP"}</button><button onClick={shareSetup}>SHARE SETUP ↗</button><button onClick={addCompare}>{compareAdded?"ADDED TO COMPARE ✓":"COMPARE +"}</button><button onClick={()=>setSetupOpen(true)}>SETUP DETAILS / PRINT</button></div>
-    <p className="mw-product-note">This page lists the published style, finish, lug configuration and available sizes. A matching lug count or diameter does not confirm vehicle fitment. Confirm the exact part number, bolt pattern, offset, hub bore, load rating and brake clearance with your dealer before ordering.</p>
+    <p className="mw-product-note">This page lists the published style, finish, lug configuration and available sizes. A matching lug count or diameter does not confirm vehicle fitment. Confirm the exact part number, bolt pattern, offset, hub bore, load rating and brake clearance with your dealer before selecting a retailer.</p>
    </section>
   </div>
   <section className="mw-product-description"><p className="mw-kicker">MAYHEM / DESIGN & ENGINEERING</p><h2>{current.style} {current.name}</h2><p>{current.description||"Mayhem wheels are designed for truck, Jeep and SUV applications, combining distinctive styling with a broad range of sizes and fitments. Explore the available finishes and configurations, then confirm the exact setup with an authorized retailer."}</p></section>
