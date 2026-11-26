@@ -1,245 +1,69 @@
-import { ActionLink } from "@/components/ui/action-link";
-import { Container } from "@/components/ui/container";
-import { Eyebrow } from "@/components/ui/eyebrow";
-import { SectionHeading } from "@/components/ui/section-heading";
-
-const images = {
-  hero: "https://images.unsplash.com/photo-1772289093693-60c4de650e65?auto=format&fit=crop&fm=jpg&q=85&w=2400",
-  wheel: "https://images.unsplash.com/photo-1760018247832-7b0a8f615353?auto=format&fit=crop&fm=jpg&q=85&w=1800",
-  trail: "https://images.unsplash.com/photo-1745193592657-05dc10ce804f?auto=format&fit=crop&fm=jpg&q=85&w=1400",
-  overland: "https://images.unsplash.com/photo-1748446468465-7a4063143be1?auto=format&fit=crop&fm=jpg&q=85&w=1400",
-};
-
+const cdn = "https://mayhemwheels.com/cdn/shop/files/";
+const wheels = [
+  { name: "HORIZON", number: "8120", finish: "GLOSS BLACK", size: "18x9 | 20x9 | 22x10", image: cdn + "Mayhem8120-6GB1.png?v=1789750229&width=1200", href: "/products/8120-horizon" },
+  { name: "CYCLONE", number: "8121", finish: "GLOSS BLACK", size: "20x9 | 22x10", image: cdn + "Mayhem8121-6GB1.png?width=1200", href: "/products/8121-cyclone" },
+  { name: "BLIZZARD", number: "8122", finish: "GLOSS BLACK", size: "17x8.5 | 18x9 | 20x9", image: cdn + "mayhem8122-6gb1.png?width=1200", href: "/products/8122-blizzard" },
+  { name: "VECTOR", number: "8310", finish: "GLOSS BLACK", size: "17x9 | 20x9", image: cdn + "Mayhem8310-6GB1.png?width=1200", href: "/products/8310-vector" },
+];
 const directions = [
-  {
-    number: "01",
-    name: "STREET",
-    descriptor: "Urban performance",
-    copy: "A confident stance. Clean geometry. Built to make every arrival count.",
-    href: "/wheels/street",
-    image: images.wheel,
-    imageAlt: "Close-up detail of an automotive alloy wheel",
-  },
-  {
-    number: "02",
-    name: "TRAIL",
-    descriptor: "Beyond the pavement",
-    copy: "Purposeful design for routes that leave the ordinary behind.",
-    href: "/wheels/trail",
-    image: images.trail,
-    imageAlt: "Off-road SUV travelling across rugged terrain",
-  },
-  {
-    number: "03",
-    name: "DUALLY",
-    descriptor: "Heavy-duty presence",
-    copy: "A wider footprint and a stronger visual statement for dual rear wheel builds.",
-    href: "/wheels/dually",
-    image: images.overland,
-    imageAlt: "Off-road vehicle in an expansive outdoor landscape",
-  },
+  { number: "01", title: "STREET", copy: "Make a statement on the street.", image: cdn + "Mayhem_Street_8119_Vanquish_1.jpg?v=1793656266&width=1800", href: "/wheels?category=street" },
+  { number: "02", title: "TRAIL", copy: "Take your style beyond the pavement.", image: cdn + "Mayhem_Trail_8306_Ridgeline.jpg?v=1791914224&width=1800", href: "/wheels?category=trail" },
+  { number: "03", title: "DUALLY", copy: "A bold look for your dually.", image: cdn + "Mayhem_Dually_8107D_CogentDually.jpg?v=1791914232&width=1800", href: "/wheels?category=dually" },
 ];
-
-const engineeringDetails = [
-  { index: "A", title: "Hub interface", detail: "Center bore and mounting interface" },
-  { index: "B", title: "Mounting geometry", detail: "Offset, backspace and brake clearance" },
-  { index: "C", title: "Structural design", detail: "Load requirements and application" },
-];
-
-function ImageSurface({
-  src,
-  alt,
-  className = "",
-}: {
-  src: string;
-  alt: string;
-  className?: string;
-}) {
-  return (
-    <div
-      role="img"
-      aria-label={alt}
-      className={["u-image-surface", className].filter(Boolean).join(" ")}
-      style={{ backgroundImage: `url("${src}")` }}
-    />
-  );
-}
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen">
-      <section className="u-home-hero lg:ml-[var(--u-sidebar-current-width)]">
-        <ImageSurface src={images.hero} alt="Pickup truck crossing an open desert landscape" className="u-home-hero__image" />
-        <div className="u-home-hero__shade" aria-hidden="true" />
-        <div className="u-home-hero__content">
-          <Eyebrow className="!text-white/75">Precision engineered / Made to move</Eyebrow>
-          <h1 className="u-home-hero__title">Built with<br />intent.</h1>
-          <p className="u-home-hero__copy">
-            Wheel design shaped by engineering discipline, purposeful form, and the freedom to take the long way.
-          </p>
-          <div className="mt-9 flex flex-wrap gap-3">
-            <ActionLink href="/wheels" tone="light">Explore wheel systems</ActionLink>
-            <ActionLink href="/fitment" tone="outline">Find your fit</ActionLink>
-          </div>
+    <main className="mw-home">
+      <div className="mw-promo"><span>BLACK FRIDAY // CYBER MONDAY</span><strong>20% OFF</strong><span>NOV 9 – DEC 4, 2026</span><a href="/dealers">FIND A DEALER NEAR YOU ↗</a></div>
+      <section className="mw-hero">
+        <img className="mw-hero-image" src="https://mayhemwheels.com/cdn/shop/files/preview_images/8afaf56dea5c4eb3973c46668df55d16.thumbnail.0000000000.jpg?v=1793395054&width=2400" alt="Mayhem Wheels hero campaign" />
+        <div className="mw-hero-shade" />
+        <div className="mw-hero-copy">
+          <p className="mw-kicker">MAYHEM WHEELS / BUILT FOR YOUR DRIVE</p>
+          <h1>HORIZON</h1>
+          <p className="mw-hero-subtitle">CONCAVE &amp; VENTED STYLE</p>
+          <a href="/products/8120-horizon" className="mw-button mw-button-light">EXPLORE FITMENTS <span>↗</span></a>
         </div>
-        <div className="u-home-hero__meta">
-          <span>UR / 001</span>
-          <span>Designed for the drive</span>
-        </div>
-        <a className="u-home-hero__scroll" href="#collections">
-          <span className="u-scroll-line" />
-          Scroll to explore
-        </a>
+        <div className="mw-hero-bottom"><span>01 / 04</span><span>SCROLL TO EXPLORE ↓</span><span>M / W</span></div>
       </section>
 
-      <div className="u-home-indexbar lg:ml-[var(--u-sidebar-current-width)]">
-        <span>Engineered for every direction</span>
-        <span className="hidden sm:inline">Form / Function / Fitment</span>
-        <span>URANUS WHEELS — 2026</span>
-      </div>
-
-      <section id="collections" className="u-home-section lg:ml-[var(--u-sidebar-current-width)]">
-        <Container width="wide">
-          <div className="u-collection-intro">
-            <div>
-              <Eyebrow index="01">The collection</Eyebrow>
-              <h2 className="u-display-heading">Choose your<br /><span>direction.</span></h2>
-            </div>
-            <div className="u-collection-intro__aside">
-              <p>Three distinct applications. One uncompromising approach to proportion, detail, and fit.</p>
-              <a href="/wheels" className="u-text-link">View all wheel systems <span aria-hidden="true">↗</span></a>
-            </div>
-          </div>
-
-          <div className="u-direction-grid">
-            {directions.map((item) => (
-              <a href={item.href} className="u-direction-card" key={item.number}>
-                <div className="u-direction-card__media">
-                  <ImageSurface src={item.image} alt={item.imageAlt} />
-                  <span className="u-direction-card__number">{item.number}</span>
-                  <span className="u-direction-card__arrow" aria-hidden="true">↗</span>
-                </div>
-                <div className="u-direction-card__body">
-                  <div>
-                    <p className="u-direction-card__descriptor">{item.descriptor}</p>
-                    <h3>{item.name}<span>+</span></h3>
-                  </div>
-                  <p className="u-direction-card__copy">{item.copy}</p>
-                </div>
-              </a>
-            ))}
-          </div>
-        </Container>
+      <section className="mw-featured">
+        <div className="mw-section-top"><div><p className="mw-kicker">A CLOSER LOOK</p><h2>Break the ordinary.</h2></div><a href="/wheels" className="mw-text-link">VIEW ALL WHEELS ↗</a></div>
+        <div className="mw-product-grid">
+          {wheels.map((wheel) => <a href={wheel.href} className="mw-product-card" key={wheel.number}>
+            <div className="mw-product-image"><img src={wheel.image} alt={wheel.number + " " + wheel.name + " " + wheel.finish} loading="lazy" /><span className="mw-product-arrow">↗</span></div>
+            <div className="mw-product-meta"><span>{wheel.name}</span><span>{wheel.finish}</span></div>
+            <h3>{wheel.number} {wheel.name}</h3>
+            <p>{wheel.finish}</p>
+            <span className="mw-product-cta">EXPLORE THIS STYLE <b>→</b></span>
+          </a>)}
+        </div>
+        <div className="mw-featured-footer"><span>8120 HORIZON</span><span>8121 CYCLONE</span><span>8122 BLIZZARD</span><span>8310 VECTOR</span></div>
       </section>
 
-      <section className="u-wheel-feature lg:ml-[var(--u-sidebar-current-width)]">
-        <div className="u-wheel-feature__visual">
-          <ImageSurface src={images.wheel} alt="Detailed close-up of a machined automotive alloy wheel" />
-          <div className="u-wheel-feature__image-label">
-            <span>DETAIL STUDY / 001</span>
-            <span>Surface · Geometry · Structure</span>
-          </div>
-        </div>
-        <div className="u-wheel-feature__content">
-          <Eyebrow index="02">Design philosophy</Eyebrow>
-          <h2>Every line<br />has a reason.</h2>
-          <p>
-            A wheel is more than a visual signature. It is the connection between vehicle and road — where design decisions meet real-world demands.
-          </p>
-          <a href="/technology" className="u-text-link">Explore our approach <span aria-hidden="true">↗</span></a>
-          <div className="u-wheel-feature__specimen">
-            <span>FORM STUDY / A-01</span>
-            <span>Proportion is performance.</span>
-          </div>
+      <section className="mw-directions">
+        <div className="mw-section-top"><div><p className="mw-kicker">FIND YOUR STYLE</p><h2>Choose your direction.</h2></div><p className="mw-section-note">Purpose-built wheel styles for every kind of drive.</p></div>
+        <div className="mw-direction-grid">
+          {directions.map((item) => <a href={item.href} className="mw-direction-card" key={item.number}>
+            <img src={item.image} alt={item.title + " Mayhem Wheels collection"} loading="lazy" />
+            <div className="mw-direction-overlay"><span>{item.number}</span><b>+</b><h3>{item.title}<i>+</i></h3><p>{item.copy}</p><span className="mw-direction-link">EXPLORE {item.title} ↗</span></div>
+          </a>)}
         </div>
       </section>
 
-      <section className="u-engineering lg:ml-[var(--u-sidebar-current-width)]">
-        <Container width="wide">
-          <div className="u-engineering__header">
-            <Eyebrow index="03">Precision engineering</Eyebrow>
-            <h2>Fit is engineered.<br /><span>Never assumed.</span></h2>
-            <p>Every application depends on the complete mounting geometry. The details matter — from hub interface to brake clearance.</p>
-          </div>
-          <div className="u-engineering__body">
-            <div className="u-engineering-drawing" aria-label="Illustrative wheel mounting geometry diagram">
-              <div className="u-engineering-drawing__outer">
-                <div className="u-engineering-drawing__inner">
-                  <div className="u-engineering-drawing__hub" />
-                </div>
-              </div>
-              <span className="u-drawing-label u-drawing-label--top">CENTERLINE</span>
-              <span className="u-drawing-label u-drawing-label--left">HUB FACE</span>
-              <span className="u-drawing-label u-drawing-label--right">OFFSET</span>
-              <span className="u-drawing-cross u-drawing-cross--horizontal" />
-              <span className="u-drawing-cross u-drawing-cross--vertical" />
-              <span className="u-engineering-drawing__note">SCHEMATIC / NOT TO SCALE</span>
-            </div>
-            <div className="u-engineering-list">
-              {engineeringDetails.map((item) => (
-                <div className="u-engineering-list__item" key={item.index}>
-                  <span>{item.index}</span>
-                  <div>
-                    <h3>{item.title}</h3>
-                    <p>{item.detail}</p>
-                  </div>
-                  <span aria-hidden="true">↗</span>
-                </div>
-              ))}
-              <p className="u-engineering-list__disclaimer">Illustrative engineering concepts only. Product-specific specifications and vehicle compatibility must be verified against the selected configuration.</p>
-            </div>
-          </div>
-        </Container>
+      <section className="mw-brand-story">
+        <div className="mw-brand-image"><img src={cdn + "Mayhem_Street_8119_Vanquish_1.jpg?v=1793656266&width=1800"} alt="Mayhem wheel fitted on a truck" loading="lazy" /></div>
+        <div className="mw-brand-copy"><p className="mw-kicker">MAYHEM / WHEEL CULTURE</p><h2>Built to stand apart.</h2><p>Mayhem Wheels has a mission to create a brand that provides unique styling, precision and quality with solid functionality. Targeted for trucks, Jeep and SUV fitments, we deploy a wide variety of sizes and fitments which supply a custom look that’s unmistakable.</p><a href="/wheels" className="mw-text-link">EXPLORE THE COLLECTION ↗</a></div>
       </section>
 
-      <section className="u-fitment-banner lg:ml-[var(--u-sidebar-current-width)]">
-        <div className="u-fitment-banner__backdrop" aria-hidden="true" />
-        <Container width="wide">
-          <div className="u-fitment-banner__content">
-            <Eyebrow className="!text-white/65">Your vehicle / Your setup</Eyebrow>
-            <h2>Start with<br />what you drive.</h2>
-            <p>Explore wheel options by vehicle. Final fitment is confirmed against the exact wheel configuration and vehicle specifications.</p>
-            <ActionLink href="/fitment" tone="light">Find wheels for your vehicle</ActionLink>
-          </div>
-          <div className="u-fitment-banner__coordinates" aria-hidden="true">
-            <span>FITMENT SYSTEM / 01</span>
-            <span>VEHICLE DATA REQUIRED</span>
-          </div>
-        </Container>
+      <section className="mw-fitment-cta">
+        <div><p className="mw-kicker">YOUR VEHICLE / YOUR SETUP</p><h2>Find your fit.</h2><p>Start with your vehicle and discover wheels made for your build.</p></div>
+        <a href="/wheels" className="mw-button mw-button-light">SELECT YOUR VEHICLE ↗</a>
       </section>
 
-      <section className="u-home-outro lg:ml-[var(--u-sidebar-current-width)]">
-        <Container width="wide">
-          <div className="u-home-outro__top">
-            <Eyebrow index="04">Uranus / Wheel systems</Eyebrow>
-            <h2>Driven by detail.<br /><span>Defined by purpose.</span></h2>
-          </div>
-          <div className="u-home-outro__bottom">
-            <p>Engineering-led wheel design for drivers who know the difference is in the details.</p>
-            <ActionLink href="/wheels" tone="dark">Discover the collection</ActionLink>
-          </div>
-        </Container>
-      </section>
-
-      <footer className="u-home-footer lg:ml-[var(--u-sidebar-current-width)]">
-        <Container width="wide">
-          <div className="u-home-footer__main">
-            <a href="/" className="u-home-footer__brand">URANUS<span>WHEELS</span></a>
-            <div className="u-home-footer__links">
-              <a href="/wheels">Wheels</a>
-              <a href="/visualizer">Visualizer</a>
-              <a href="/technology">Technology</a>
-              <a href="/dealers">Dealers</a>
-              <a href="/faq">FAQ</a>
-              <a href="/contact">Contact</a>
-            </div>
-          </div>
-          <div className="u-home-footer__legal">
-            <span>© 2026 URANUS WHEELS</span>
-            <span>PRECISION IN MOTION</span>
-            <a href="/privacy">Privacy & legal</a>
-          </div>
-        </Container>
+      <footer className="mw-footer">
+        <div className="mw-footer-main"><div><a href="/" className="mw-wordmark mw-footer-logo">MAYHEM<span>WHEELS</span></a><p>BUILT FOR YOUR DRIVE.</p></div><div className="mw-footer-column"><b>WHEELS</b><a href="/wheels">ALL WHEELS</a><a href="/wheels?category=street">STREET</a><a href="/wheels?category=trail">TRAIL</a><a href="/wheels?category=dually">DUALLY</a><a href="/wheels?sort=new">NEW ARRIVALS</a></div><div className="mw-footer-column"><b>EXPLORE</b><a href="/visualizer">VISUALIZER</a><a href="/dealers">FIND A DEALER</a><a href="/dealers">BECOME A DEALER</a><a href="/merch">MERCH</a></div><div className="mw-footer-column"><b>INFORMATION</b><a href="/contact">CONTACT US</a><a href="/faq">WHEEL FAQS</a><a href="/warranty">WARRANTY</a><a href="/privacy">PRIVACY</a></div></div>
+        <div className="mw-footer-bottom"><span>© 2026 THE WHEEL GROUP. ALL RIGHTS RESERVED.</span><span>MAYHEM WHEELS</span><a href="/accessibility">ACCESSIBILITY</a></div>
       </footer>
     </main>
   );
