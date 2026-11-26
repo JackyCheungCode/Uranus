@@ -57,7 +57,7 @@ function HeroVideo() {
         <PText color="contrast-high" className="uranus-template-hero-description">
           Wheel design, vehicle fitment and a more considered way to build your vehicle.
         </PText>
-        <PButton className="mt-fluid-md" variant="secondary" href="/wheels">
+        <PButton className="mt-fluid-md" variant="secondary" onClick={() => { window.location.href = "/wheels"; }}>
           Explore wheels
         </PButton>
       </div>
