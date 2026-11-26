@@ -6,18 +6,20 @@ export function ProductConfigurator({items}:{items:WheelItem[]}){
  const [activeId,setActiveId]=useState(items[0]?.id||"");
  const current=items.find(x=>x.id===activeId)||items[0];
  const [size,setSize]=useState(current?.sizes.split(" | ")[0]||"");
+ const [activeImage,setActiveImage]=useState(items[0]?.image||"");
+ const galleryImages=Array.from(new Set(items.flatMap(item=>[item.image,...(item.gallery||[])])));
  const sizes=current?.sizes.split(" | ")||[];
  const specRows=(wheelSpecs[current.slug]||[]).filter(spec=>spec.size===size&&current.lugs.split(/[ /]+/).includes(spec.lugCount));
  const finishes=Array.from(new Set(items.map(x=>x.finish)));
  const variantsByFinish=useMemo(()=>items.filter(x=>x.finish===current.finish),[items,current.finish]);
- const chooseVariant=(item:WheelItem)=>{setActiveId(item.id);const next=item.sizes.split(" | ");if(!next.includes(size))setSize(next[0]);};
+ const chooseVariant=(item:WheelItem)=>{setActiveId(item.id);setActiveImage(item.image);const next=item.sizes.split(" | ");if(!next.includes(size))setSize(next[0]);};
  const diameter=size.split("x")[0]||"—",width=size.split("x")[1]||"—";
  return <main className="mw-product-page">
   <div className="mw-breadcrumb">HOME / WHEELS / {current.style} {current.name}</div>
   <div className="mw-product-detail">
    <div className="mw-product-gallery">
-    <div className="mw-product-main-image"><img src={current.image} alt={current.style+" "+current.name+" "+current.finish}/></div>
-    <div className="mw-product-gallery-strip">{items.map(item=><button key={item.id} className={item.id===current.id?"active":""} onClick={()=>chooseVariant(item)}><img src={item.image} alt={item.finish+" wheel finish"}/></button>)}</div>
+    <div className="mw-product-main-image"><img src={activeImage||current.image} alt={current.style+" "+current.name+" "+current.finish}/></div>
+    <div className="mw-product-gallery-strip">{galleryImages.map((src,i)=><button key={src} className={activeImage===src?"active":""} onClick={()=>setActiveImage(src)}><img src={src} alt={current.style+" "+current.name+" gallery image "+(i+1)}/></button>)}</div>
    </div>
    <section className="mw-product-information">
     <p className="mw-kicker">{current.style} / MAYHEM WHEELS</p><h1>{current.style} {current.name}</h1><p className="mw-finish">{current.finish}</p>
