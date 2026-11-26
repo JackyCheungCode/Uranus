@@ -499,3 +499,17 @@ body { font-family: var(--p-font-porsche-next); color: var(--p-color-primary); }
   .uranus-footer-bottom { flex-direction: column; }
   .uranus-menu-panel { padding: var(--p-spacing-fluid-lg) var(--p-spacing-fluid-md); }
 }
+
+
+/* Header mode: overlay only on the landing page; interior pages keep a solid PDS bar. */
+.uranus-pds-header { position: relative; color: var(--p-color-primary); background: var(--p-color-canvas); }
+.uranus-pds-header::before { display: none; }
+.pds-app:has(.uranus-landing) .uranus-pds-header { position: absolute; color: var(--p-color-canvas); background: transparent; }
+.pds-app:has(.uranus-landing) .uranus-pds-header::before { display: block; }
+.uranus-pds-header p-button-pure { color-scheme: dark; --p-button-pure-fg: var(--p-color-canvas); }
+.uranus-menu-trigger, .uranus-header-icon { color: inherit; }
+.uranus-menu-trigger::part(button), .uranus-header-icon::part(button) { color: inherit; }
+@media (max-width: 760px) {
+  .uranus-pds-header { min-height: 64px; }
+  .uranus-pds-header p-button-pure { --p-button-pure-py: 0; }
+}
