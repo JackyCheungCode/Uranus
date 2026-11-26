@@ -26,10 +26,17 @@ export function SiteFooter() {
         >
           <PSelectOption value="us">🇺🇸 United States</PSelectOption>
           <PSelectOption value="ca">🇨🇦 Canada</PSelectOption>
-          <PSelectOption value="gb">🇬🇧 United Kingdom</PSelectOption>
-          <PSelectOption value="de">🇩🇪 Germany</PSelectOption>
+          <PSelectOption value="cn">🇨🇳 China</PSelectOption>
+          <PSelectOption value="jp">🇯🇵 Japan</PSelectOption>
+          <PSelectOption value="kr">🇰🇷 South Korea</PSelectOption>
+          <PSelectOption value="at">🇦🇹 Austria</PSelectOption>
           <PSelectOption value="fr">🇫🇷 France</PSelectOption>
-          <PSelectOption value="au">🇦🇺 Australia</PSelectOption>
+          <PSelectOption value="de">🇩🇪 Germany</PSelectOption>
+          <PSelectOption value="gb">🇬🇧 Great Britain</PSelectOption>
+          <PSelectOption value="it">🇮🇹 Italy</PSelectOption>
+          <PSelectOption value="pt">🇵🇹 Portugal</PSelectOption>
+          <PSelectOption value="es">🇪🇸 Spain</PSelectOption>
+          <PSelectOption value="ca">🇨🇦 Canada</PSelectOption>
         </PSelect>
       </div>
 
@@ -49,7 +56,6 @@ export function SiteFooter() {
         <div className="flex flex-col gap-fluid-sm">
           <PHeading tag="h3" size="2xs" color="contrast-medium">Uranus</PHeading>
           <ul className="grid gap-fluid-sm">
-            <li><PLinkPure href="/about" icon="none">About us</PLinkPure></li>
             <li><PLinkPure href="/dealers" icon="none">Find a dealer</PLinkPure></li>
             <li><PLinkPure href="/contact" icon="none">Contact</PLinkPure></li>
             <li><PLinkPure href="/faq" icon="none">Frequently asked questions</PLinkPure></li>
@@ -60,8 +66,7 @@ export function SiteFooter() {
           <ul className="grid gap-fluid-sm">
             <li><PLinkPure href="/warranty" icon="none">Warranty</PLinkPure></li>
             <li><PLinkPure href="/prop65" icon="none">Product notices</PLinkPure></li>
-            <li><PLinkPure href="/privacy" icon="none">Privacy notice</PLinkPure></li>
-            <li><PLinkPure href="/terms" icon="none">Terms of use</PLinkPure></li>
+            <li><PLinkPure href="/accessibility" icon="none">Accessibility</PLinkPure></li>
           </ul>
         </div>
       </nav>
@@ -85,8 +90,6 @@ export function SiteFooter() {
         <a className="uranus-template-footer-wordmark" href="/" aria-label="Uranus home">URANUS</a>
         <PText size="2xs" color="contrast-medium">© 2026 Uranus. All rights reserved.</PText>
         <ul className="flex flex-wrap justify-center gap-fluid-md">
-          <li><PLinkPure icon="none" size="xs" underline={true} href="/terms">Terms of use</PLinkPure></li>
-          <li><PLinkPure icon="none" size="xs" underline={true} href="/privacy">Privacy notice</PLinkPure></li>
           <li><PLinkPure icon="none" size="xs" underline={true} href="/contact">Contact</PLinkPure></li>
           <li><PLinkPure icon="none" size="xs" underline={true} href="/faq">FAQs</PLinkPure></li>
         </ul>
