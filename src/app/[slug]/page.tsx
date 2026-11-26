@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState } from "react";\nimport { useParams } from "next/navigation";
 const photos=[
  "https://mayhemwheels.com/cdn/shop/files/Mayhem_Street_8119_Vanquish_1.jpg?v=1793656266&width=1800",
  "https://mayhemwheels.com/cdn/shop/files/Mayhem_Trail_8306_Ridgeline.jpg?v=1791914224&width=1800",
@@ -25,5 +25,5 @@ export default function InformationPage({params}:{params:{slug:string}}){
  if(slug==="fitment")return <main className="mw-info-page"><header className="mw-catalog-heading"><p className="mw-kicker">MAYHEM / FITMENT</p><h1>FIND YOUR FIT.</h1><p>Start with your vehicle. Finish with the right configuration.</p></header><section className="mw-dealer-search"><h2>Vehicle selection</h2><p>Choose your vehicle from the selector in the top navigation, then review available wheel sizes, bolt patterns, offset and load rating.</p><a className="mw-button mw-button-dark" href="/wheels">EXPLORE WHEELS →</a></section></main>;
  if(slug==="garage")return <main className="mw-info-page"><header className="mw-catalog-heading"><p className="mw-kicker">MAYHEM / YOUR GARAGE</p><h1>YOUR WHEEL SETUP.</h1><p>Saved setups and comparisons will appear here.</p></header><section className="mw-info-cta"><h2>No saved setups yet.</h2><a href="/wheels" className="mw-button mw-button-dark">EXPLORE WHEELS →</a></section></main>;
  if(slug==="warranty")return <main className="mw-info-page"><header className="mw-catalog-heading"><p className="mw-kicker">THE WHEEL GROUP</p><h1>LIMITED WARRANTY.</h1><p>Warranty coverage and care information for Mayhem Wheels.</p></header><section className="mw-info-cta"><h2>Product care</h2><p>Clean wheels when cool using mild car-wash soap and water. Dry with a soft cloth. Avoid harsh household chemicals, abrasive cleaners and automatic car washes. For warranty claims, contact the dealer where the wheel was purchased with proof of purchase.</p><a href="https://mayhemwheels.com/warranty/" target="_blank" rel="noreferrer">READ FULL WARRANTY ↗</a></section></main>;
- return <main className="mw-info-page"><header className="mw-catalog-heading"><p className="mw-kicker">MAYHEM WHEELS</p><h1>{slug.replaceAll("-"," ").toUpperCase()}.</h1><p>Built for your drive.</p></header><section className="mw-info-cta"><a href="/" className="mw-button mw-button-dark">BACK TO HOME →</a></section></main>;
+ return <main className="mw-info-page"><header className="mw-catalog-heading"><p className="mw-kicker">MAYHEM WHEELS</p><h1>{slug.replace(/-/g," ").toUpperCase()}.</h1><p>Built for your drive.</p></header><section className="mw-info-cta"><a href="/" className="mw-button mw-button-dark">BACK TO HOME →</a></section></main>;
 }
