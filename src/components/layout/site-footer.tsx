@@ -7,6 +7,7 @@ import {
   PSelect,
   PSelectOption,
   PText,
+  type SelectChangeEventDetail,
 } from "@porsche-design-system/components-react/ssr";
 
 export function SiteFooter() {
@@ -21,7 +22,7 @@ export function SiteFooter() {
           name="region"
           value={region}
           label="Change your region"
-          onChange={event => setRegion(event.detail.value)}
+          onChange={(event: CustomEvent<SelectChangeEventDetail>) => setRegion(String(event.detail.value ?? "us"))}
         >
           <PSelectOption value="us">🇺🇸 United States</PSelectOption>
           <PSelectOption value="ca">🇨🇦 Canada</PSelectOption>
