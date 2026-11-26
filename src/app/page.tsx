@@ -61,10 +61,6 @@ export default function HomePage() {
         <a href="/wheels" className="mw-button mw-button-light">SELECT YOUR VEHICLE ↗</a>
       </section>
 
-      <footer className="mw-footer">
-        <div className="mw-footer-main"><div><a href="/" className="mw-wordmark mw-footer-logo">MAYHEM<span>WHEELS</span></a><p>BUILT FOR YOUR DRIVE.</p></div><div className="mw-footer-column"><b>WHEELS</b><a href="/wheels">ALL WHEELS</a><a href="/wheels?category=street">STREET</a><a href="/wheels?category=trail">TRAIL</a><a href="/wheels?category=dually">DUALLY</a><a href="/wheels?sort=new">NEW ARRIVALS</a></div><div className="mw-footer-column"><b>EXPLORE</b><a href="/visualizer">VISUALIZER</a><a href="/dealers">FIND A DEALER</a><a href="/dealers">BECOME A DEALER</a><a href="https://www.shoptwggear.com">MERCH</a></div><div className="mw-footer-column"><b>INFORMATION</b><a href="/contact">CONTACT US</a><a href="/faq">WHEEL FAQS</a><a href="/warranty">WARRANTY</a><a href="/privacy">PRIVACY</a></div></div>
-        <div className="mw-footer-bottom"><span>© 2026 THE WHEEL GROUP. ALL RIGHTS RESERVED.</span><span>MAYHEM WHEELS</span><a href="/accessibility">ACCESSIBILITY</a></div>
-      </footer>
     </main>
   );
 }
