@@ -32,6 +32,8 @@ export function SiteShell({ children }: { children: ReactNode }) {
       }
     };
     window.addEventListener("keydown", close);
+    const openFitment = () => setVehicleOpen(true);
+    window.addEventListener("uranus:open-fitment", openFitment);
     const raw = localStorage.getItem("mayhem-vehicle");
     if (raw) {
       try {
@@ -41,7 +43,10 @@ export function SiteShell({ children }: { children: ReactNode }) {
         localStorage.removeItem("mayhem-vehicle");
       }
     }
-    return () => window.removeEventListener("keydown", close);
+    return () => {
+      window.removeEventListener("keydown", close);
+      window.removeEventListener("uranus:open-fitment", openFitment);
+    };
   }, []);
 
   return (
