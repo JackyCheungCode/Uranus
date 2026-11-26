@@ -16,7 +16,8 @@
     "@porsche-design-system/components-react": "^4.10.1",
     "next": "^16.0.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "@opennextjs/cloudflare": "^1.20.19"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.0.0",
