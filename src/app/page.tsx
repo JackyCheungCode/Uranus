@@ -1,66 +1,82 @@
-import { HeroVideoButton } from "@/components/hero-video-button";
+import { PCarousel, PLinkTile } from "@porsche-design-system/components-react/ssr";
+
 const cdn = "https://mayhemwheels.com/cdn/shop/files/";
+const heroImage = "https://mayhemwheels.com/cdn/shop/files/preview_images/8afaf56dea5c4eb3973c46668df55d16.thumbnail.0000000000.jpg?v=1793395054&width=2400";
 const wheels = [
-  { name: "HORIZON", number: "8120", finish: "GLOSS BLACK", size: "18x9 | 20x9 | 22x10", image: cdn + "Mayhem8120-6GB1.png?v=1789750229&width=1200", href: "/products/8120-horizon" },
-  { name: "CYCLONE", number: "8121", finish: "GLOSS BLACK", size: "20x9 | 22x10", image: cdn + "Mayhem8121-6GB1.png?v=1789750230&width=1200", href: "/products/8121-cyclone" },
-  { name: "BLIZZARD", number: "8122", finish: "GLOSS BLACK", size: "17x8.5 | 18x9 | 20x9", image: cdn + "Mayhem8122-6GB1-CAN.png?v=1791917407&width=1200", href: "/products/8122-blizzard" },
-  { name: "VECTOR", number: "8310", finish: "GLOSS BLACK", size: "17x9 | 20x9", image: cdn + "Mayhem8310-6GB1.png?v=1789751560&width=1200", href: "/products/8310-vector" },
+  { name: "HORIZON", number: "8120", finish: "GLOSS BLACK", image: cdn + "Mayhem8120-6GB1.png?v=1789750229&width=1200", href: "/products/8120-horizon" },
+  { name: "CYCLONE", number: "8121", finish: "GLOSS BLACK", image: cdn + "Mayhem8121-6GB1.png?v=1789750230&width=1200", href: "/products/8121-cyclone" },
+  { name: "BLIZZARD", number: "8122", finish: "GLOSS BLACK", image: cdn + "Mayhem8122-6GB1-CAN.png?v=1791917407&width=1200", href: "/products/8122-blizzard" },
+  { name: "VECTOR", number: "8310", finish: "GLOSS BLACK", image: cdn + "Mayhem8310-6GB1.png?v=1789751560&width=1200", href: "/products/8310-vector" },
 ];
 const directions = [
-  { number: "01", title: "STREET", copy: "Make a statement on the street.", image: cdn + "Mayhem_Street_8119_Vanquish_1.jpg?v=1793656266&width=1800", href: "/wheels?category=street" },
-  { number: "02", title: "TRAIL", copy: "Take your style beyond the pavement.", image: cdn + "Mayhem_Trail_8306_Ridgeline.jpg?v=1791914224&width=1800", href: "/wheels?category=trail" },
-  { number: "03", title: "DUALLY", copy: "A bold look for your dually.", image: cdn + "Mayhem_Dually_8107D_CogentDually.jpg?v=1791914232&width=1800", href: "/wheels?category=dually" },
+  { label: "STREET", description: "Purposeful design for the everyday drive.", image: cdn + "Mayhem_Street_8119_Vanquish_1.jpg?v=1793656266&width=1800", href: "/wheels?category=street" },
+  { label: "TRAIL", description: "Take your build beyond the pavement.", image: cdn + "Mayhem_Trail_8306_Ridgeline.jpg?v=1791914224&width=1800", href: "/wheels?category=trail" },
 ];
 
 export default function HomePage() {
   return (
-    <main className="mw-home">
-      <section className="mw-hero">
-        <img className="mw-hero-image" src="https://mayhemwheels.com/cdn/shop/files/preview_images/8afaf56dea5c4eb3973c46668df55d16.thumbnail.0000000000.jpg?v=1793395054&width=2400" alt="Mayhem Wheels hero campaign" />
-        <div className="mw-hero-shade" />
-        <div className="mw-hero-copy">
-          <p className="mw-kicker">URANUS / BUILT FOR YOUR DRIVE</p>
-          <h1>HORIZON</h1>
-          <p className="mw-hero-subtitle">CONCAVE &amp; VENTED STYLE</p>
-          <a href="/products/8120-horizon" className="mw-button mw-button-light">EXPLORE FITMENTS <span>↗</span></a>
+    <main className="uranus-landing">
+      <section className="uranus-landing-hero" aria-labelledby="home-heading">
+        <img src={heroImage} alt="Uranus wheel campaign" fetchPriority="high" />
+        <div className="uranus-landing-hero-shade" />
+        <div className="uranus-landing-hero-copy">
+          <p className="uranus-eyebrow">URANUS / BUILT FOR YOUR DRIVE</p>
+          <h1 id="home-heading">Designed to<br />stand apart.</h1>
+          <p>Distinctive wheel design. Engineered fitment.</p>
+          <a className="uranus-hero-action" href="/wheels">EXPLORE THE COLLECTION <span>↗</span></a>
         </div>
-        <div className="mw-hero-bottom"><span>01 / 04</span><span>SCROLL TO EXPLORE ↓</span><HeroVideoButton/></div>
+        <span className="uranus-hero-index">01 / 04</span>
       </section>
 
-      <section className="mw-featured">
-        <div className="mw-section-top"><div><p className="mw-kicker">A CLOSER LOOK</p><h2>Break the ordinary.</h2></div><a href="/wheels" className="mw-text-link">VIEW ALL WHEELS ↗</a></div>
-        <div className="mw-product-grid">
-          {wheels.map((wheel) => <a href={wheel.href} className="mw-product-card" key={wheel.number}>
-            <div className="mw-product-image"><img src={wheel.image} alt={wheel.number + " " + wheel.name + " " + wheel.finish} loading="lazy" /><span className="mw-product-arrow">↗</span></div>
-            <div className="mw-product-meta"><span>{wheel.name}</span><span>{wheel.finish}</span></div>
-            <h3>{wheel.number} {wheel.name}</h3>
-            <p>{wheel.finish}</p>
-            <span className="mw-product-cta">EXPLORE THIS STYLE <b>→</b></span>
-          </a>)}
-        </div>
-        <div className="mw-featured-footer"><span>8120 HORIZON</span><span>8121 CYCLONE</span><span>8122 BLIZZARD</span><span>8310 VECTOR</span></div>
-      </section>
-
-      <section className="mw-directions">
-        <div className="mw-section-top"><div><p className="mw-kicker">FIND YOUR STYLE</p><h2>Choose your direction.</h2></div><p className="mw-section-note">Purpose-built wheel styles for every kind of drive.</p></div>
-        <div className="mw-direction-grid">
-          {directions.map((item) => <a href={item.href} className="mw-direction-card" key={item.number}>
-            <img src={item.image} alt={item.title + " Mayhem Wheels collection"} loading="lazy" />
-            <div className="mw-direction-overlay"><span>{item.number}</span><b>+</b><h3>{item.title}<i>+</i></h3><p>{item.copy}</p><span className="mw-direction-link">EXPLORE {item.title} ↗</span></div>
-          </a>)}
+      <section className="uranus-landing-feature-pair" aria-label="Explore Uranus wheels">
+        <div className="uranus-feature-pair-inner">
+          {directions.map((item) => (
+            <PLinkTile key={item.label} href={item.href} label={item.label} description={item.description} compact weight="regular" aspectRatio={{ base: "4/3", xs: "16/9", s: "3/4", m: "1/1" }}>
+              <img src={item.image} alt={item.label + " wheel collection"} loading="lazy" />
+            </PLinkTile>
+          ))}
         </div>
       </section>
 
-      <section className="mw-brand-story">
-        <div className="mw-brand-image"><img src={cdn + "Mayhem_Street_8119_Vanquish_1.jpg?v=1793656266&width=1800"} alt="Mayhem wheel fitted on a truck" loading="lazy" /></div>
-        <div className="mw-brand-copy"><p className="mw-kicker">MAYHEM / WHEEL CULTURE</p><h2>Built to stand apart.</h2><p>Mayhem Wheels has a mission to create a brand that provides unique styling, precision and quality with solid functionality. Targeted for trucks, Jeep and SUV fitments, we deploy a wide variety of sizes and fitments which supply a custom look that’s unmistakable.</p><a href="/wheels" className="mw-text-link">EXPLORE THE COLLECTION ↗</a></div>
+      <section className="uranus-wheel-carousel" aria-label="Featured wheel collection">
+        <div className="uranus-section-heading">
+          <p className="uranus-eyebrow">THE URANUS COLLECTION</p>
+          <h2>Find your signature.</h2>
+          <p>Explore the details, finishes and fitments behind each design.</p>
+        </div>
+        <PCarousel heading="Featured wheels" slidesPerPage={{ base: 1, xs: 1, m: 2 }}>
+          {wheels.map((wheel) => (
+            <PLinkTile key={wheel.number} href={wheel.href} label={wheel.number + " " + wheel.name} description={wheel.finish + " · " + wheel.number} compact weight="regular" aspectRatio="1/1">
+              <img src={wheel.image} alt={wheel.number + " " + wheel.name + " wheel in " + wheel.finish} loading="lazy" />
+            </PLinkTile>
+          ))}
+        </PCarousel>
       </section>
 
-      <section className="mw-fitment-cta">
-        <div><p className="mw-kicker">YOUR VEHICLE / YOUR SETUP</p><h2>Find your fit.</h2><p>Start with your vehicle and discover wheels made for your build.</p></div>
-        <a href="/wheels" className="mw-button mw-button-light">SELECT YOUR VEHICLE ↗</a>
+      <section className="uranus-editorial">
+        <div className="uranus-editorial-row">
+          <img src={cdn + "Mayhem_Street_8119_Vanquish_1.jpg?v=1793656266&width=1800"} alt="Uranus street wheel fitment" loading="lazy" />
+          <div>
+            <p className="uranus-eyebrow">FORM / FUNCTION</p>
+            <h2>Made to move you.</h2>
+            <p>Explore distinctive wheel designs developed for trucks, Jeep and SUVs. Every detail is considered — from spoke geometry and finish to the fitment that brings the complete setup together.</p>
+            <a className="uranus-text-link" href="/wheels">DISCOVER THE WHEELS <span>↗</span></a>
+          </div>
+        </div>
+        <div className="uranus-editorial-row uranus-editorial-row-reverse">
+          <img src={cdn + "Mayhem_Trail_8306_Ridgeline.jpg?v=1791914224&width=1800"} alt="Uranus wheel on an off-road vehicle" loading="lazy" />
+          <div>
+            <p className="uranus-eyebrow">PRECISION FITMENT</p>
+            <h2>Your vehicle.<br />Your setup.</h2>
+            <p>Start with your vehicle to explore wheel sizes and specifications designed around your build.</p>
+            <a className="uranus-text-link" href="/wheels">FIND YOUR FIT <span>↗</span></a>
+          </div>
+        </div>
       </section>
-
+      <section className="uranus-fitment-banner">
+        <div><p className="uranus-eyebrow">START WITH YOUR VEHICLE</p><h2>Find your fit.</h2><p>Check vehicle compatibility before choosing your wheels.</p></div>
+        <a className="uranus-hero-action" href="/wheels">SELECT YOUR VEHICLE <span>↗</span></a>
+      </section>
     </main>
   );
 }
