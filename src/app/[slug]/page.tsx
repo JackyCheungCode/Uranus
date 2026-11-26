@@ -13,8 +13,8 @@ const faqs=[
  ["Where can I buy Mayhem wheels?","Mayhem wheels are sold through retailers. Use Find a Dealer to locate a nearby retailer or online dealer. The website is a product catalog and does not offer wheel checkout."],
  ["How should I clean my wheels?","Clean wheels when cool using mild car-wash soap and water, then dry with a soft cloth. Avoid harsh household chemicals and automatic car washes."]
 ];
-export default function InformationPage({params}:{params:{slug:string}}){
- const slug=params.slug;
+export default function InformationPage(){
+ const {slug}=useParams<{slug:string}>();
  const [zip,setZip]=useState("");
  const [email,setEmail]=useState("");
  const [message,setMessage]=useState("");
