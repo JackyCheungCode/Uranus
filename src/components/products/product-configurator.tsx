@@ -3,15 +3,16 @@ import { useMemo, useState } from "react";
 import type { WheelItem } from "@/data/wheels";
 import { wheelSpecs } from "@/data/wheel-specs";
 export function ProductConfigurator({items}:{items:WheelItem[]}){
- const [activeId,setActiveId]=useState(items[0]?.id||"");
+ const initialItem=items.find(x=>x.slug===items[0]?.slug&&x.allWheels===false)||items[0];
+ const [activeId,setActiveId]=useState(initialItem?.id||"");
  const current=items.find(x=>x.id===activeId)||items[0];
  const [size,setSize]=useState(current?.sizes.split(" | ")[0]||"");
- const [activeImage,setActiveImage]=useState(items[0]?.image||"");
+ const [activeImage,setActiveImage]=useState(initialItem?.image||"");
  const galleryImages=Array.from(new Set(items.flatMap(item=>[item.image,...(item.gallery||[])])));
  const sizes=current?.sizes.split(" | ")||[];
  const specRows=(wheelSpecs[current.slug]||[]).filter(spec=>spec.size===size&&current.lugs.split(/[ /]+/).includes(spec.lugCount));
  const finishes=Array.from(new Set(items.map(x=>x.finish)));
- const variantsByFinish=useMemo(()=>items.filter(x=>x.finish===current.finish),[items,current.finish]);
+ const variantsByFinish=useMemo(()=>{const matches=items.filter(x=>x.finish===current.finish);const exact=matches.filter(x=>x.allWheels===false);return exact.length?exact:matches;},[items,current.finish]);
  const chooseVariant=(item:WheelItem)=>{setActiveId(item.id);setActiveImage(item.image);const next=item.sizes.split(" | ");if(!next.includes(size))setSize(next[0]);};
  const diameter=size.split("x")[0]||"—",width=size.split("x")[1]||"—";
  return <main className="mw-product-page">
