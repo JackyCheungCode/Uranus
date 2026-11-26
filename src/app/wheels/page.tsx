@@ -2,7 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { wheels, wheelFilters } from "@/data/wheels";
 import { wheelSpecs } from "@/data/wheel-specs";
-import { PCheckbox, PInputSearch, PRadioGroup, PRadioGroupOption, PSelect, PSelectOption } from "@porsche-design-system/components-react";
+import { PCheckbox, PInputSearch, PRadioGroup, PRadioGroupOption, PSelect, PSelectOption } from "@porsche-design-system/components-react/ssr";
 const categories=["ALL WHEELS","STREET","TRAIL","DUALLY","COLOR SERIES","NEW ARRIVALS"];
 export default function WheelsPage(){
  const [category,setCategory]=useState("ALL WHEELS"),[search,setSearch]=useState(""),[finish,setFinish]=useState("ALL"),[diameters,setDiameters]=useState<string[]>([]),[widths,setWidths]=useState<string[]>([]),[lugs,setLugs]=useState<string[]>([]),[boltPatterns,setBoltPatterns]=useState<string[]>([]),[sort,setSort]=useState("FEATURED"),[compare,setCompare]=useState<string[]>([]),[compareOpen,setCompareOpen]=useState(false),[filterOpen,setFilterOpen]=useState(false);
