@@ -42,6 +42,8 @@ npm run build
 
 ## Deployment
 
+Production promotion is gated on a green TypeScript check and a successful Next.js production build.
+
 - The reconstruction is isolated on `rebuild/mayhem-reference-replica`.
 - `main` and the production Worker remain unchanged pending review.
 - Cloudflare Preview deployments remain disabled.
